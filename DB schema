@@ -1,0 +1,59 @@
+-- 사용자 기본 정보
+CREATE TABLE user (
+    user_no INT PRIMARY KEY,
+    user_id VARCHAR(100) NOT NULL,
+    user_pw VARCHAR(100) NOT NULL
+);
+
+-- 사용자 프로필 (1:1)
+CREATE TABLE user_profile (
+    user_no INT PRIMARY KEY,
+    user_name VARCHAR(100),
+    user_birthdate DATE,
+    user_email VARCHAR(100),
+    user_phone_no VARCHAR(100),
+    FOREIGN KEY (user_no) REFERENCES user(user_no)
+);
+
+-- 사용자 직업 정보 (1:1)
+CREATE TABLE user_job_info (
+    user_no INT PRIMARY KEY,
+    user_job VARCHAR(100),
+    user_classification VARCHAR(100),
+    user_income DOUBLE NOT NULL,
+    FOREIGN KEY (user_no) REFERENCES user(user_no)
+);
+
+-- 복지 제도 정보
+CREATE TABLE welfare_program (
+    w_no INT PRIMARY KEY,
+    w_name VARCHAR(100) NOT NULL
+);
+
+-- 복지 수혜 조건 (1:1)
+CREATE TABLE welfare_criteria (
+    w_no INT PRIMARY KEY,
+    income_eligibility DOUBLE NOT NULL,
+    age_eligibility INT,
+    classification_eligibility VARCHAR(100),
+    FOREIGN KEY (w_no) REFERENCES welfare_program(w_no)
+);
+
+-- 복지 시행 기간 (1:1)
+CREATE TABLE welfare_period (
+    w_no INT PRIMARY KEY,
+    p_issuance DATE NOT NULL,
+    p_end DATE NOT NULL,
+    FOREIGN KEY (w_no) REFERENCES welfare_program(w_no)
+);
+
+-- 추천 결과 (중복 제거, 복지기간은 welfare_period에서 참조)
+CREATE TABLE recommendation_result (
+    user_no INT,
+    w_no INT,
+    match_point INT,
+    is_eligible BOOLEAN,
+    PRIMARY KEY (user_no, w_no),
+    FOREIGN KEY (user_no) REFERENCES user(user_no),
+    FOREIGN KEY (w_no) REFERENCES welfare_program(w_no)
+);
