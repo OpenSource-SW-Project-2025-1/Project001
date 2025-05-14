@@ -3,7 +3,7 @@
   <img src="https://capsule-render.vercel.app/api?type=waving&color=c2f4fe&height=200&text=BokMani&fontColor=4da9bb&fontAlignY=40&fontSize=40"/>
 </p>
 
-# 🐶BokMani - 청년 복지 추천 서비스
+# 🐶BokMani - 청년 복지 추천 서비스🐶
 
 ---
 
@@ -65,7 +65,7 @@
 | 기존 복지로   | BokMani        |
 | -------- | -------------- |
 | 국가 정책 중심 | 민간 정보까지 포함     |
-| 단순 정보 제공 | AI 추천 + 후기 시스템 |
+| 단순 정보 제공 | AI 맞춤 추천 |
 | 정보 파편화   | 통합 검색/필터링 기능   |
 
 ---
