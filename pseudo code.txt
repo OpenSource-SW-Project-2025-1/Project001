@@ -1,0 +1,143 @@
+SignUp
+
+Class MemberRegistration:
+    Method __init__():
+        # 초기화 (빈 값 세팅)
+        self.username = ""
+        self.password = ""
+        self.name = ""
+        self.birthdate = None
+        self.phone = ""
+        self.address = ""
+        self.email = ""
+        self.income = 0.0
+        self.job = ""
+        self.affiliation = ""
+        self.tag = False
+
+    Method validate_input():
+        # 아이디는 5~24자, 알파벳+숫자만 허용
+        If not valid_username(self.username):
+            Raise Error("아이디 형식이 올바르지 않음")
+
+        # 비밀번호는 9~24자, 알파벳+숫자
+        If not valid_password(self.password):
+            Raise Error("비밀번호 형식이 올바르지 않음")
+
+        # 이메일 형식 확인
+        If not is_valid_email(self.email):
+            Raise Error("이메일이 유효하지 않음")
+
+        # 생년월일이 미래일 수 없음
+        If self.birthdate > 오늘날짜:
+            Raise Error("생년월일이 잘못됨")
+
+        # 소득이 음수일 수 없음
+        If self.income < 0:
+            Raise Error("소득 값이 음수입니다")
+
+    Method register():
+        # 입력 검증
+        self.validate_input()
+
+        # 이미 존재하는 아이디인지 확인
+        If username_exists_in_database(self.username):
+            Raise Error("이미 존재하는 사용자 아이디입니다")
+
+        # DB에 저장
+        SaveToDatabase({
+            "username": self.username,
+            "password": hash(self.password),
+            "name": self.name,
+            "birthdate": self.birthdate,
+            "phone": self.phone,
+            "address": self.address,
+            "email": self.email,
+            "income": self.income,
+            "job": self.job,
+            "affiliation": self.affiliation,
+            "tag": self.tag
+        })
+
+        Return "회원가입 성공"
+
+
+Login
+
+Class LoginSystem:
+    Method login(username, password, security_key):
+        user = FindUserByUsername(username)
+
+        If user is None:
+            Raise Error("존재하지 않는 사용자입니다")
+
+        If not check_password(password, user.password_hash):
+            Raise Error("비밀번호가 올바르지 않습니다")
+
+        If security_key != user.security_key:
+            Raise Error("보안 키가 올바르지 않습니다")
+
+        Return "로그인 성공"
+
+
+Homepage
+
+Class Homepage:
+    Method search_welfare_programs(keyword):
+        results = QueryWelfareProgramsWhereNameContains(keyword)
+        Return results
+
+    Method view_program_detail(program_id):
+        program = FindProgramByID(program_id)
+        If program is None:
+            Raise Error("해당 제도가 존재하지 않습니다")
+        Return program
+
+
+Welfare program
+
+Class WelfareProgram:
+    Method is_user_eligible(user):
+        If user.income > self.eligible_income:
+            Return False
+
+        If user.age < self.eligible_age:
+            Return False
+
+        If user.affiliation != self.eligible_affiliation:
+            Return False
+
+        Return True
+
+RecommendationSystem
+
+Class RecommendationSystem:
+    Method recommend(user):
+        all_programs = GetAllWelfarePrograms()
+        recommended = []
+
+        For program in all_programs:
+            If program.is_user_eligible(user):
+                recommended.append(program)
+
+        Sort recommended by program.popularity DESCENDING
+        Return recommended
+
+DB
+
+Class Database:
+    Method save_user(user_data):
+        INSERT INTO member_table VALUES (...)
+
+    Method save_program(program_data):
+        INSERT INTO welfare_program_table VALUES (...)
+
+    Method fetch_user_by_id(username):
+        SELECT * FROM member_table WHERE username = ?
+
+    Method fetch_program_by_id(program_id):
+        SELECT * FROM welfare_program_table WHERE program_id = ?
+
+
+
+
