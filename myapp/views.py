@@ -4,4 +4,4 @@ from django.http import HttpResponse
 # Create your views here.
 
 def home(request):
-    return HttpResponse("Hello! First page")
+    return HttpResponse("복많이 프로젝트 메인 화면")
