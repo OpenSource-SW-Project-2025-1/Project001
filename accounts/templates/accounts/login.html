@@ -6,6 +6,18 @@
 </head>
 <body>
     <h2>로그인</h2>
+
+    <!-- messages 출력 -->
+    {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li style="color: {% if message.tags == 'error' %}red{% else %}green{% endif %};">
+                {{ message }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}

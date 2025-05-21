@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <title>계정 삭제</title>
+</head>
+<body>
+    <h2>계정 삭제</h2>
+    <p>정말로 계정을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">계정 삭제</button>
+    </form>
+    <a href="{% url 'accounts:profile' %}">취소</a>
+</body>
+</html>

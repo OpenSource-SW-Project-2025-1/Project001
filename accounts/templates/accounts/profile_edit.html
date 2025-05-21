@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <title>내 정보 수정</title>
+</head>
+<body>
+    <h2>내 정보 수정</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">저장</button>
+    </form>
+    <a href="{% url 'accounts:profile' %}">내 정보로 돌아가기</a>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <title>내 정보</title>
+</head>
+<body>
+    <h2>내 정보</h2>
+    <p>아이디: {{ user.username }}</p>
+    <p>이메일: {{ user.email }}</p>
+    <p>이름: {{ user.first_name }} {{ user.last_name }}</p>
+    <a href="{% url 'accounts:profile_edit' %}">정보 수정하기</a>
+</body>
+</html>
