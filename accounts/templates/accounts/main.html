@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<header>
+    <h1 style="color: #2a5bd7;">복마니</h1>
+    <nav style="float: right;">
+        <a href="#">Menu</a> |
+        <a href="{% url 'login' %}">Log In</a>
+    </nav>
+    <div style="clear: both;"></div>
+</header>
+
+<div class="search-box" style="text-align:center; margin: 30px;">
+    <input type="text" placeholder="Search..." style="padding: 10px; width: 300px;">
+</div>
+
+<div class="tags" style="text-align:center; margin-bottom: 30px;">
+    <span style="background: #2a5bd7; color: white; padding: 6px 12px; border-radius: 20px; margin: 0 5px;"># 집</span>
+    <span style="background: #2a5bd7; color: white; padding: 6px 12px; border-radius: 20px; margin: 0 5px;"># 생활비</span>
+    <span style="background: #2a5bd7; color: white; padding: 6px 12px; border-radius: 20px; margin: 0 5px;"># 취업</span>
+</div>
+
+<h2 style="margin-left: 30px; color: #2a5bd7;">New Benefits</h2>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+    {% for benefit in new_benefits %}
+    <div style="background: white; width: 250px; padding: 16px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 12px;">
+        <h4>{{ benefit.title }}</h4>
+        <p>{{ benefit.description }}</p>
+        <p>D - {{ benefit.d_day }}</p>
+        <button>+ 자세히보기</button>
+    </div>
+    {% empty %}
+    <p>새 혜택이 없습니다.</p>
+    {% endfor %}
+</div>
+
+<h2 style="margin-left: 30px; color: #2a5bd7;">Popularity Benefits</h2>
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+    {% for benefit in popular_benefits %}
+    <div style="background: white; width: 250px; padding: 16px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 12px;">
+        <h4>{{ benefit.title }}</h4>
+        <p>{{ benefit.description }}</p>
+        <p>D - {{ benefit.d_day }}</p>
+        <button>+ 자세히보기</button>
+    </div>
+    {% empty %}
+    <p>인기 혜택이 없습니다.</p>
+    {% endfor %}
+</div>
+
+<footer style="margin-top: 50px; text-align:center; color:#888; font-size:13px;">
+    Team BokMANI | 윤수진 김재훈 송태양 이인수 엄희찬 <br>
+    Instagram | KakaoTalk | Line | Customer Service Center
+</footer>
+
+{% endblock %}
