@@ -1,0 +1,98 @@
+<style>
+    .menu-container {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 30px;
+        right: 0;
+        background-color: white;
+        min-width: 600px;
+        padding: 15px;
+        border: 1px solid #ccc;
+        z-index: 1000;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown-content table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .dropdown-content th,
+    .dropdown-content td {
+        text-align: left;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        font-size: 14px;
+    }
+
+    .dropdown-content th {
+        background-color: #f0f0f0;
+    }
+
+    .menu-link {
+        text-decoration: none;
+        color: #2a5bd7;
+        cursor: pointer;
+    }
+
+    .menu-link:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="menu-container">
+    <div class="dropdown">
+        <span class="menu-link">Menu</span>
+        <div class="dropdown-content">
+            <table>
+                <tr>
+                    <th>복지 서비스</th>
+                    <th>AI 챗봇 서비스</th>
+                    <th>소개</th>
+                    <th>추가 정보</th>
+                </tr>
+                <tr>
+                    <td>맞춤 추천 서비스</td>
+                    <td>복마니</td>
+                    <td>팀 적재적장 프로그래밍</td>
+                    <td>복지로</td>
+                </tr>
+                <tr>
+                    <td>자주 찾는 복지</td>
+                    <td></td>
+                    <td>복마니 프로젝트</td>
+                    <td>은둔청년</td>
+                </tr>
+                <tr>
+                    <td>새로 나온 복지</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- 로그인 링크 -->
+    <a href="{% url 'login' %}" class="menu-link">Log In</a>
+</div>
