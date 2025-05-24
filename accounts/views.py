@@ -27,3 +27,22 @@ def main_page(request):
         'new_benefits': new_benefits,
         'popular_benefits': popular_benefits
     })
+
+
+def custom_welfare(request):
+    return render(request, 'accounts/custom_welfare.html')
+
+def frequent_welfare(request):
+    return render(request, 'accounts/frequent_welfare.html')
+
+def new_welfare(request):
+    return render(request, 'accounts/new_welfare.html')
+
+def chatbot_home(request):
+    return render(request, 'accounts/chatbot.html')
+
+def team_programming(request):
+    return render(request, 'accounts/team_programming.html')
+
+def project_info(request):
+    return render(request, 'accounts/project_info.html')

@@ -2,14 +2,116 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>로그인</title>
+    <title>복만이 로그인</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            display: flex;
+            height: 100vh;
+        }
+
+        .left-panel {
+            width: 50%;
+            background-color: #a7dfff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .left-panel img {
+            width: 70%;
+            max-width: 400px;
+        }
+
+        .right-panel {
+            width: 50%;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .right-panel h1 {
+            font-size: 48px;
+            margin-bottom: 40px;
+            font-family: 'Arial Black', sans-serif;
+        }
+
+        form {
+            width: 100%;
+            max-width: 300px;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 20px;
+            display: block;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: none;
+            border-bottom: 2px solid black;
+            background: transparent;
+            font-size: 16px;
+        }
+
+        .signup-link {
+            font-size: 12px;
+            margin-top: 10px;
+            color: #333;
+        }
+
+        button {
+            margin-top: 30px;
+            width: 100%;
+            padding: 12px;
+            background-color: black;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #333;
+        }
+    </style>
 </head>
 <body>
-    <h2>로그인</h2>
+
+<div class="left-panel">
+    <img src="{% static 'images/bokmani_dog.png' %}" alt="복만이 강아지 이미지">
+</div>
+
+<div class="right-panel">
+    <h1>복만이</h1>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">로그인</button>
+        <label for="id_username">ID</label>
+        {{ form.username }}
+
+        <label for="id_password">PASSWORD</label>
+        {{ form.password }}
+
+        <div class="signup-link">회원가입</div>
+        <button type="submit">Log In</button>
     </form>
+</div>
+
 </body>
 </html>
+
