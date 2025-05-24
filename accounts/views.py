@@ -27,3 +27,7 @@ def main_page(request):
         'new_benefits': new_benefits,
         'popular_benefits': popular_benefits
     })
+
+# signup 뷰
+def signup(request):
+    return render(request, 'accounts/signup.html')

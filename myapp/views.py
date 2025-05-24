@@ -1,7 +1,3 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-
-# Create your views here.
-
+from accounts.views import main_page  # accounts 앱에서 메인 화면을 가져와서
 def home(request):
-    return HttpResponse("Hello! First page")
+    return main_page(request)         # 메인화면을 그대로 띄움

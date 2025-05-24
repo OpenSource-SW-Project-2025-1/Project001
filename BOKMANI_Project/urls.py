@@ -3,7 +3,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('accounts.urls')),  # 메인 페이지는 accounts에서 처리
-    path('accounts/', include('accounts.urls')),  # 로그인 등은 accounts에서 처리
-    # path('myapp/', include('myapp.urls')), ← 필요하면 추가
+    path('', include('myapp.urls')),             # 메인 페이지는 myapp에서 처리
+    path('accounts/', include('accounts.urls')),  # 로그인 등 계정 관련 URL은 accounts에서 처리
 ]
