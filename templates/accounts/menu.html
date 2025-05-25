@@ -1,81 +1,28 @@
-<style>
-    .menu-container {
-        position: absolute;
-        top: 20px;
-        right: 30px;
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        font-weight: bold;
-        font-size: 14px;
-    }
-
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        top: 30px;
-        right: 0;
-        background-color: white;
-        min-width: 600px;
-        padding: 15px;
-        border: 1px solid #ccc;
-        z-index: 1000;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-
-    .dropdown-content table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    .dropdown-content th,
-    .dropdown-content td {
-        text-align: left;
-        padding: 10px;
-        border-bottom: 1px solid #ddd;
-        font-size: 14px;
-    }
-
-    .dropdown-content th {
-        background-color: #f0f0f0;
-    }
-
-    .menu-link {
-        text-decoration: none;
-        color: #2a5bd7;
-        cursor: pointer;
-    }
-
-    .menu-link:hover {
-        text-decoration: underline;
-    }
-</style>
-
 <div class="menu-container">
     <div class="dropdown">
         <span class="menu-link" onclick="toggleDropdown()">Menu</span>
         <div class="dropdown-content" id="dropdownMenu">
             <table>
                 <tr>
-                    <th>복지 서비스</th>
-                    <th>AI 챗봇 서비스</th>
-                    <th>소개</th>
-                    <th>추가 정보</th>
+                    <th>복지 정보</th>
+                    <th>AI 상담</th>
+                    <th>서비스 소개</th>
+                    <th>외부 링크</th>
                 </tr>
                 <tr>
-                    <td><a href="{% url 'custom_welfare' %}">맞춤 추천 서비스</a></td>
-                    <td><a href="{% url 'chatbot_home' %}">복마니</a></td>
-                    <td><a href="{% url 'team_programming' %}">팀 적재적장 프로그래밍</a></td>
-                    <td><a href="https://www.bokjiro.go.kr" target="_blank">복지로</a></td>
+                    <td><a href="{% url 'custom_welfare' %}">맞춤형 복지 추천</a></td>
+                    <td><a href="{% url 'chatbot_home' %}">챗봇 상담 - 복만이</a></td>
+                    <td><a href="{% url 'team_programming' %}">우리 팀 소개</a></td>
+                    <td><a href="https://www.bokjiro.go.kr" target="_blank">복지로 공식 사이트</a></td>
                 </tr>
                 <tr>
                     <td><a href="{% url 'frequent_welfare' %}">자주 찾는 복지</a></td>
                     <td></td>
-                    <td><a href="{% url 'project_info' %}">복마니 프로젝트</a></td>
-                    <td><a href="https://www.youthcenter.go.kr" target="_blank">은둔청년</a></td>
+                    <td><a href="{% url 'project_info' %}">복만이 프로젝트</a></td>
+                    <td><a href="https://www.youthcenter.go.kr" target="_blank">온통청년</a></td>
                 </tr>
                 <tr>
-                    <td><a href="{% url 'new_welfare' %}">새로 나온 복지</a></td>
+                    <td><a href="{% url 'new_welfare' %}">최신 복지 소식</a></td>
                     <td></td>
                     <td></td>
                     <td></td>
