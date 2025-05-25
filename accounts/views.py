@@ -1,7 +1,9 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login
 from django.views.generic.edit import FormView
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .forms import SignUpForm
+from .models import User, UserProfile, UserJobInfo
 
 class UserLoginView(FormView):
     template_name = 'accounts/login.html'
@@ -49,3 +51,29 @@ def project_info(request):
 # signup 뷰
 def signup(request):
     return render(request, 'accounts/signup.html')
+
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = User.objects.create(
+                user_id=form.cleaned_data['user_id'],
+                user_pw=form.cleaned_data['user_pw'],
+            )
+            UserProfile.objects.create(
+                user=user,
+                user_name=form.cleaned_data['user_name'],
+                user_birthdate=form.cleaned_data['user_birthdate'],
+                user_email=form.cleaned_data['user_email'],
+                user_phone_no=form.cleaned_data['user_phone_no']
+            )
+            UserJobInfo.objects.create(
+                user=user,
+                user_job=form.cleaned_data['user_job'],
+                user_classification=form.cleaned_data['user_classification'],
+                user_income=form.cleaned_data['user_income']
+            )
+            return redirect('login')
+    else:
+        form = SignUpForm()
+    return render(request, 'accounts/signup.html', {'form': form})
