@@ -46,3 +46,6 @@ def team_programming(request):
 
 def project_info(request):
     return render(request, 'accounts/project_info.html')
+# signup 뷰
+def signup(request):
+    return render(request, 'accounts/signup.html')

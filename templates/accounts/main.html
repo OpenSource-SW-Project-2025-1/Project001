@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<main class="main">
+  <h1 class="main-title">BOKMANI</h1>
+
+  <!-- 검색창 -->
+  <div class="search-box">
+    <div class="search-field">
+      <input type="text" id="search" placeholder="복지제도 검색">
+      <span class="search-icon">🔍</span>
+    </div>
+  </div>
+
+  <!-- Suggestion 버튼 -->
+  <div class="suggestion-area">
+    <button class="suggestion-button">✨ Suggestion</button>
+  </div>
+
+  <!-- 해시태그 -->
+  <div class="hashtag-area">
+    <span class="hashtag"># 집</span>
+    <span class="hashtag"># 생활비</span>
+    <span class="hashtag"># 취업</span>
+  </div>
+
+  <!-- New Benefits -->
+<section class="section section-new">
+  <div class="section-header">
+    <h2 class="section-title">New Benefits</h2>
+    <a href="#" class="more-btn">more</a>
+  </div>
+  <div class="card-container">
+    {% for benefit in new_benefits %}
+    <div class="card">
+      <div class="card-header">
+        <span class="tag">여성가족부</span>
+        <span class="d-day">D - {{ benefit.d_day }}</span>
+      </div>
+      <div class="title">{{ benefit.title }}</div>
+      <div class="desc">정책 내용 : {{ benefit.description }}</div>
+      <div class="apply">신청 기간 : {{ benefit.period }}</div>
+      <a href="#" class="detail-btn">+ 자세히보기</a>
+      <div class="keywords">#키워드 #키워드 #키워드</div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- Popularity Benefits -->
+<section class="section section-popular">
+  <div class="section-header">
+    <h2 class="section-title">Popularity Benefits</h2>
+    <a href="#" class="more-btn">more</a>
+  </div>
+  <div class="card-container">
+    {% for benefit in popular_benefits %}
+    <div class="card">
+      <div class="card-header">
+        <span class="tag">여성가족부</span>
+        <span class="d-day">D - {{ benefit.d_day }}</span>
+      </div>
+      <div class="title">{{ benefit.title }}</div>
+      <div class="desc">정책 내용 : {{ benefit.description }}</div>
+      <div class="apply">신청 기간 : {{ benefit.period }}</div>
+      <a href="#" class="detail-btn">+ 자세히보기</a>
+      <div class="keywords">#키워드 #키워드 #키워드</div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+</main>
+{% endblock %}

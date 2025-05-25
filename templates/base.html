@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Bokmani{% endblock %}</title>
+
+    <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
+  <!-- Pretendard 폰트 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.8/dist/web/static/pretendard.css">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<!-- 상단 헤더 영역 -->
+<header class="header">
+  <a href="{% url 'main' %}" class="logo-area">
+    <img src="{% static 'img/bokmani-icon.png' %}" alt="Bokmani 로고" class="logo-img">
+    <span class="logo-text">BOKMANI</span>
+  </a>
+  <nav class="nav">
+    <a href="#" class="nav-btn">Menu</a>
+    <a href="{% url 'login' %}" class="nav-btn">Log In</a>
+  </nav>
+</header>
+
+
+
+  <!-- 페이지별 내용 삽입 -->
+  {% block content %}{% endblock %}
+
+<footer class="footer">
+  <div class="team">
+    Team BokMANI<br>
+    윤수진 김재훈 송태양 이인수 엄희찬
+  </div>
+  <div class="social">
+    Instagram<br>Kakao Talk<br>Line
+  </div>
+  <div class="service">
+    Customer Service Center<br>
+    <a href="#">문의하기</a>
+  </div>
+</footer>
+
+
+</body>
+</html>
