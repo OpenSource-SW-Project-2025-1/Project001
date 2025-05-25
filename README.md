@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=c2f4fe&height=200&text=BokMani&fontColor=4da9bb&fontAlignY=40&fontSize=40"/>
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0037ff&height=200&text=BokMani&fontColor=f3f6fb&fontAlignY=40&fontSize=40"/>
 </p>
 
 # 🐶BokMani - 청년 복지 추천 서비스🐶
