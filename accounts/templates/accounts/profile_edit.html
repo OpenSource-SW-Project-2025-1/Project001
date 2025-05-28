@@ -6,11 +6,12 @@
 </head>
 <body>
     <h2>내 정보 수정</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">저장</button>
-    </form>
-    <a href="{% url 'accounts:profile' %}">내 정보로 돌아가기</a>
+    <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ u_form.as_p }}
+    {{ p_form.as_p }}
+    <button type="submit">프로필 저장</button>
+</form>
+    <a href="{% url 'accounts:profile' pk=pk %}">내 정보로 돌아가기</a>
 </body>
 </html>

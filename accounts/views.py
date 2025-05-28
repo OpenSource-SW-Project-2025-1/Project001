@@ -2,7 +2,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
-from .forms import SignUpForm, UserUpdateForm
+from .forms import SignUpForm, UserUpdateForm, ProfileUpdateForm
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.views.generic.detail import DetailView
@@ -38,16 +38,32 @@ def custom_logout(request):
     messages.success(request, "로그아웃 되었습니다.")
     return redirect('home')  # 또는 다른 URL
 
+    def dispatch(self, request, *args, **kwargs):
+        messages.info(request, "로그아웃되었습니다.")
+        return super().dispatch(request, *args, **kwargs)
+
+
 @login_required
 def profile_edit(request):
     if request.method == 'POST':
-        form = UserUpdateForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-            return redirect('profile')
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            return redirect('accounts:profile', pk=request.user.pk)
     else:
-        form = UserUpdateForm(instance=request.user)
-    return render(request, 'accounts/profile_edit.html', {'form': form})
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+
+    context = {
+        'u_form': u_form,
+        'p_form': p_form,
+        'pk': request.user.pk
+    }
+
+    return render(request, 'accounts/profile_edit.html', context)
 
 @login_required
 def profile_view(request):

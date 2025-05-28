@@ -51,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
 ]
 
 ROOT_URLCONF = 'BOKMANI_Project.urls'
@@ -131,3 +132,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/home/'
 LOGOUT_REDIRECT_URL = '/home/'
+
+# settings.py
+
+# 로그인 후 세션 유지 시간 (초 단위) - 15분 = 900초
+SESSION_COOKIE_AGE = 900
+
+# 브라우저를 닫으면 세션 만료 (선택사항)
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# 사용자의 요청마다 세션 만료 시간 갱신 (False여야 활동 없을 때만 만료됨)
+SESSION_SAVE_EVERY_REQUEST = False

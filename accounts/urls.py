@@ -12,7 +12,7 @@ urlpatterns = [
     path('signup/', UserSignUpView.as_view(), name='signup'),
     path('home/', include('myapp.urls')),
     path('logout/', custom_logout, name='logout'),
-    path('profile/', profile_view, name='profile'),
+    #path('profile/', profile_view, name='profile'),
     path('profile/edit/', profile_edit, name='profile_edit'),
     path('profile/delete/', profile_delete, name='profile_delete'),
     path('profile/<int:pk>/', views.UserProfileView.as_view(), name='profile'),
