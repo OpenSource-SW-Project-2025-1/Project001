@@ -70,6 +70,16 @@
   </div>
 </footer>
 
+ {% if messages %}
+    <script>
+      {% for message in messages %}
+        alert("{{ message|escapejs }}");
+      {% endfor %}
+    </script>
+  {% endif %}
 
+<script>
+  console.log("messages 객체 확인: {{ messages }}");
+</script>
 </body>
 </html>

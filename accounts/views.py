@@ -1,9 +1,12 @@
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
+from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.shortcuts import render, redirect
 from .forms import SignUpForm
 from .models import User, UserProfile, UserJobInfo
+from django.contrib import messages
+from django.views import View
 
 class UserLoginView(FormView):
     template_name = 'accounts/login.html'
@@ -13,6 +16,19 @@ class UserLoginView(FormView):
     def form_valid(self, form):
         login(self.request, form.get_user())
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "회원정보가 존재하지 않습니다.")
+        return super().form_invalid(form)
+
+class UserLogoutView(View):
+
+
+    def post(self, request, *args, **kwargs):
+        messages.success(request, "로그아웃 되었습니다.")
+        logout(request)
+        return redirect('main')
+
 
 def main_page(request):
     new_benefits = [
@@ -48,9 +64,6 @@ def team_programming(request):
 
 def project_info(request):
     return render(request, 'accounts/project_info.html')
-# signup 뷰
-def signup(request):
-    return render(request, 'accounts/signup.html')
 
 def signup(request):
     if request.method == 'POST':

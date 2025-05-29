@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
@@ -19,6 +20,14 @@
 
       <button type="submit" class="login-btn">Log In</button>
     </form>
+
+    {% if messages %}
+      <script>
+        {% for message in messages %}
+          alert("{{ message|escapejs }}");
+        {% endfor %}
+      </script>
+    {% endif %}
 
     <p class="login-helper">계정이 없으신가요?
       <a href="{% url 'signup' %}" class="signup-link">회원가입</a>
