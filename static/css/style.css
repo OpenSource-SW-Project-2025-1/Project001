@@ -688,9 +688,11 @@ body {
 }
 
 .dropdown-content table {
+  table-layout: auto;
   width: 100%;
   border-collapse: collapse;
   text-align: center;
+  white-space: nowrap;
 }
 
 .dropdown-content th {
@@ -701,6 +703,7 @@ body {
   padding: 12px;
   border-bottom: 1px solid #e5eaf3;
   letter-spacing: 0.4px;
+  vertical-align: middle;
 }
 
 .dropdown-content td {
@@ -708,6 +711,7 @@ body {
   font-size: 0.95rem;
   color: #333;
   border-bottom: 1px solid #f1f3f6;
+  vertical-align: middle;
 }
 
 .dropdown-content a {
@@ -718,6 +722,8 @@ body {
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease, background-color 0.2s ease;
+  writing-mode: horizontal-tb !important;
+  transform: none !important;
 }
 
 .dropdown-content a:hover {
