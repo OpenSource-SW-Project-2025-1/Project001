@@ -287,5 +287,10 @@
                 </script>
             </div>
         </form>
+        <form method="POST" action="{% url 'signup' %}" class="signup-form">
+            {% csrf_token %}
+            <!-- 기존 입력 필드들 -->
+            <button type="submit" class="submit-btn">회원가입</button>
+        </form>
     </main>
 {% endblock %}
