@@ -83,7 +83,11 @@
   {% endif %}
 
 <script>
-  console.log("messages 객체 확인: {{ messages }}");
+  // 10분간 안움직이면 로그아웃
+  setTimeout(function() {
+    window.location.href = "{% url 'logout' %}";
+  }, 600000); 
+</script>
 </script>
 </body>
 </html>
