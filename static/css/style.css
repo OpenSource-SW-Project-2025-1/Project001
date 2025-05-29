@@ -24,6 +24,7 @@ body {
 
 /* 로고 영역 링크 스타일 */
 .logo-area {
+  user-select: none;
   display: flex;
   align-items: center;
   text-decoration: none;  /* 밑줄 제거 */
@@ -39,6 +40,12 @@ body {
 
 /* 로고 텍스트 */
 .logo-text {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
   font-family: 'Jua', sans-serif;
   font-size: 1.6rem;
   font-weight: 700;
@@ -72,6 +79,7 @@ body {
 }
 
 .main-title {
+  user-select: none;
   font-family: 'Jua', sans-serif;
   font-size: 4rem;
   background: linear-gradient(270deg, #00f, #6af, #0cf, #00f);
