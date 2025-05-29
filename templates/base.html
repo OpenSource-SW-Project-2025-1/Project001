@@ -62,7 +62,11 @@
     윤수진 김재훈 송태양 이인수 엄희찬
   </div>
   <div class="social">
-    Instagram<br>Kakao Talk<br>Line
+    <!-- 나중에 링크 바꾸기 -->
+    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">Instagram</a><br>
+    <a href="https://www.kakaocorp.com/page/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">Kakao Talk</a><br>
+    <a href="https://www.line.me/ko/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">Line</a>
+
   </div>
   <div class="service">
     Customer Service Center<br>
@@ -70,6 +74,16 @@
   </div>
 </footer>
 
+ {% if messages %}
+    <script>
+      {% for message in messages %}
+        alert("{{ message|escapejs }}");
+      {% endfor %}
+    </script>
+  {% endif %}
 
+<script>
+  console.log("messages 객체 확인: {{ messages }}");
+</script>
 </body>
 </html>
