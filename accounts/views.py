@@ -127,3 +127,31 @@ def search_result_mock(request):
         'page_range': range(1, 4),
         'current_page': 1,
     })
+
+def ai_recommend_result(request):
+    # 추후 AI 추천 데이터로 대체 가능
+    ai_results = [
+        {
+            "id": 101,
+            "title": "AI 추천 - 청년 취업 지원금",
+            "description": "청년을 위한 맞춤형 취업 장려금 제공",
+            "category": "고용",
+            "d_day": 15,
+            "keywords": ["청년", "AI추천", "취업"]
+        },
+        {
+            "id": 102,
+            "title": "AI 추천 - 주거 급여 확대",
+            "description": "AI가 추천한 최근 주거 정책",
+            "category": "주거",
+            "d_day": 30,
+            "keywords": ["주거", "맞춤형"]
+        },
+    ]
+
+    return render(request, 'accounts/ai_recommend_result.html', {
+        'results': ai_results,
+        'query': "AI 추천 결과",
+        'page_range': range(1, 2),
+        'current_page': 1,
+    })
