@@ -247,7 +247,6 @@
                     <label>연 평균 소득 (단위 : 만 원)</label>
                     <div class="with-unit">
                         <input type="text" name='user_income' min='0' max='10000000' oninput="checkInteger(this)">
-                        <span>만원</span>
                     </div>
                     <!-- 연 평균 소득 script -->
                     <script>
@@ -260,37 +259,19 @@
                     </script>
                 </div>
 
-                <!-- 개인정보 이용 동의/submit html -->
-                <div>
-                    <div class="input-group checkbox-group">
-                        <strong>개인정보 이용 동의</strong>
-                        <input type="checkbox">
-                    </div>
-                    <div><small>개인정보 이용 동의서 확인</small></div>
-                    <div class="submit-area">
-                        <button type="submit" class="submit-btn">Submit</button>
-                    </div>
+                <div class="input-group checkbox-group">
+                    <label class="agreement-label">
+                        개인정보 이용에 동의합니다 <span class="required">*</span>
+                        <input type="checkbox" required style="margin-left: 8px;" />
+                    </label>
+                    <a href="#" class="agreement-btn">개인정보 이용 동의서 보기</a>
                 </div>
 
-                <!--  submit 활성화 script -->
-                <script>
-                    console.log(valid_location);
-                    console.log(valid_pw);
-                    console.log(valid_id);
-                    console.log(valid_birthdate);
-                    console.log(valid_phone);
-                    console.log(valid_email);
-
-                    if (valid_location && valid_birthdate && valid_phone && valid_email && valid_pw && valid_id) {
-                        document.getElementById('submit-btn').disabled = true;
-                    }
-                </script>
+                <!-- 회원가입 버튼 -->
+                <div class="submit-area">
+                    <button type="submit" class="signup-btn" id="submit-btn">회원가입</button>
+                </div>
             </div>
-        </form>
-        <form method="POST" action="{% url 'signup' %}" class="signup-form">
-            {% csrf_token %}
-            <!-- 기존 입력 필드들 -->
-            <button type="submit" class="submit-btn">회원가입</button>
         </form>
     </main>
 {% endblock %}
