@@ -5,13 +5,14 @@
 <main class="main">
   <h1 class="main-title">BOKMANI</h1>
 
-  <!-- 검색창 -->
-  <div class="search-box">
-    <div class="search-field">
-      <input type="text" id="search" placeholder="복지제도 검색">
-      <span class="search-icon">🔍</span>
-    </div>
-  </div>
+<!-- 검색창 -->
+<div class="search-container">
+  <form action="/searchresult/" method="get" class="search-form">
+    <input type="text" id="search" name="query" class="search-input" placeholder="복지제도 검색" value="{{ request.GET.query }}" required>
+    <button type="submit" class="search-btn">🔍</button>
+  </form>
+</div>
+
 
   <!-- Suggestion 버튼 -->
   <div class="suggestion-area">

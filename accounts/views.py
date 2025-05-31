@@ -90,3 +90,40 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'accounts/signup.html', {'form': form})
+
+def search_result_mock(request):
+    query = request.GET.get('query', '')  # 검색어 가져오기
+
+    mock_results = [
+        {
+            "id": 1,
+            "title": "주거급여 지원",
+            "description": "저소득층 대상 주거급여를 지원합니다.",
+            "category": "주거",
+            "d_day": 10,
+            "keywords": ["주거", "저소득층", "정부지원"]
+        },
+        {
+            "id": 2,
+            "title": "청년내일채움공제",
+            "description": "청년 장기근속 장려금 제공",
+            "category": "고용",
+            "d_day": 20,
+            "keywords": ["청년", "취업", "장려금"]
+        },
+        {
+            "id": 3,
+            "title": "기초연금 지급",
+            "description": "65세 이상 어르신 대상",
+            "category": "연금",
+            "d_day": 5,
+            "keywords": []
+        }
+    ]
+
+    return render(request, 'accounts/searchresult.html', {
+        'results': mock_results,
+        'query': query,
+        'page_range': range(1, 4),
+        'current_page': 1,
+    })
