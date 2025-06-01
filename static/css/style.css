@@ -170,6 +170,7 @@ body {
   box-shadow: 0 4px 12px rgba(0, 55, 255, 0.3);
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none; /* ← 밑줄 제거 */
 }
 
 .suggestion-button:hover {
