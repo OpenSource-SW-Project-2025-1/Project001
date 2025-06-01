@@ -689,6 +689,11 @@ body {
 }
 
 /* ---------------- 메뉴 드롭다운 ---------------- */
+
+.dropdown-content.show {
+  display: block;
+}
+
 .menu-container {
   position: absolute;
   top: 20px;
@@ -716,6 +721,22 @@ body {
   margin-top: 8px; /* 버튼과 간격 */
   z-index: 1000; /* 충분히 앞에 위치하도록 */
   animation: fadeIn 0.25s ease;
+}
+
+.dropdown-content.show {
+  display: block;
+}
+
+.menu-container {
+  position: absolute;
+  top: 20px;
+  right: 32px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  z-index: 1001;
 }
 
 @keyframes fadeIn {

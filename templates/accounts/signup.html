@@ -164,7 +164,7 @@
                     <label>거주지역 <span class="required">*</span></label>
                     <div class="inline-group">
                         <input type="text" name='location' id='location' placeholder="거주지 입력">
-                        <button class="check-btn" type="button">지역 찾기</button>
+                        <button class="check-btn" id="dropdownButton" onclick="toggleDropdown()" type="button">지역 찾기</button>
                         <div id="myDropdown" class="dropdown-content">
                             <a href="#">메뉴 1</a>
                             <a href="#">메뉴 2</a>
@@ -181,7 +181,7 @@
 
                     // 바깥 클릭 시 드롭다운 닫기
                     window.onclick = function (event) {
-                        if (!event.target.matches('button')) {
+                        if (!event.target.matches('#dropdownButton')) {
                             const dropdowns = document.getElementsByClassName("dropdown-content");
                             for (let i = 0; i < dropdowns.length; i++) {
                                 dropdowns[i].classList.remove('show');
