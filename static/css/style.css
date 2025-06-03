@@ -992,3 +992,63 @@ body {
   background: #0037ff;
   color: white;
 }
+
+/*복만이 ai챗봇*/
+.chat_area_ai {
+  padding: 20px;
+}
+
+.message_ai {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.message_bot_ai {
+  justify-content: flex-start;
+}
+
+.message_user_ai {
+  justify-content: flex-end;
+}
+
+.emoji_ai {
+  font-size: 30px;
+  margin-right: 10px;
+}
+
+.bubble_ai {
+  background-color: #ddd;
+  padding: 10px 15px;
+  border-radius: 10px;
+  max-width: 300px;
+}
+
+.input_area_ai {
+  padding: 10px 20px;
+  background-color: #a5dff6;
+  display: flex;
+  justify-content: center;
+}
+
+.input_form_ai {
+  display: flex;
+  width: 90%;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.input_form_ai input {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  outline: none;
+}
+
+.input_form_ai button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  padding: 0 15px;
+  cursor: pointer;
+}

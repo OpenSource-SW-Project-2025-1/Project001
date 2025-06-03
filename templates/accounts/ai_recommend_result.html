@@ -2,62 +2,25 @@
 {% load static %}
 {% block content %}
 {% include 'accounts/menu.html' %}
-
 <main class="main">
 
-
-  <!-- 키워드 정렬 선택 -->
-  <section class="section-new">
-    <div class="section-header">
-      <h3 class="section-title">맞춤 추천 결과</h3>
-      <div class="dropdown">
-        <button class="more-btn">정렬 ▾</button>
-        <!-- 정렬 드롭다운 옵션 추가 예정 -->
+    <!-- 메시지 영역 -->
+    <section class="chat_area_ai">
+      <div class="message_bot_ai">
+        <span class="emoji_ai">🎓</span>
+        <div class="bubble_ai">원하는 복지가 있어?</div>
       </div>
-    </div>
-
-    <!-- 카드 목록 -->
-    <div class="card-container">
-      {% for item in results %}
-      <div class="card">
-        <div class="card-header">
-          <span class="tag">{{ item.category|default:"분류 없음" }}</span>
-          {% if item.d_day %}
-            <span class="d-day">D - {{ item.d_day }}</span>
-          {% endif %}
-        </div>
-        <div class="title">{{ item.title }}</div>
-        <div class="desc">{{ item.description }}</div>
-
-        <!-- detail 링크 임시 처리 -->
-        <a href="#" class="detail-btn">+ 자세히보기</a>
-
-        <div class="keywords">
-          {% if item.keywords %}
-            {% for keyword in item.keywords %}
-              <span>#{{ keyword }}</span>
-            {% endfor %}
-          {% else %}
-            <span style="color:#888;">#추천 없음</span>
-          {% endif %}
-        </div>
+      <div class="message_user_ai">
+        <div class="bubble_ai">20대 대상 취업관련 정보 알려줘</div>
       </div>
-      {% empty %}
-      <p style="text-align:center; color:#555;">검색 결과가 없습니다.</p>
-      {% endfor %}
-    </div>
-  </section>
+    </section>
 
-  <!-- 페이지네이션 -->
-  {% if page_range %}
-  <div class="pagination" style="margin-top: 40px; text-align: center;">
-    <span class="page-link">처음</span>
-    {% for i in page_range %}
-      <span class="page-link {% if i == current_page %}active{% endif %}">{{ i }}</span>
-    {% endfor %}
-    <span class="page-link">마지막</span>
-  </div>
-  {% endif %}
-</main>
-
+    <!-- 입력창 -->
+    <footer class="input_area_ai">
+      <form class="input_form_ai">
+        <input type="text" placeholder="메시지를 입력하세요" />
+        <button type="submit">🔍</button>
+      </form>
+    </footer>
+  </main>
 {% endblock %}

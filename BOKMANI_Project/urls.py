@@ -9,7 +9,7 @@ urlpatterns = [
     path('', include('myapp.urls')),             # 메인 페이지는 myapp에서 처리
     path('accounts/', include('accounts.urls')),  # 로그인 등 계정 관련 URL은 accounts에서 처리
 
-    path('searchresult/', search_result_mock, name='searchresult'),
+    path('search_result/', search_result_mock, name='search_result'),
 
     path('recommend/', ai_recommend_result, name='ai-recommend'),  # 추천 결과 직접 등록
 
