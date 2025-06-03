@@ -13,55 +13,6 @@ from datetime import datetime
 
 
 
-# 아이디 유효성 검사
-def check_id(request):
-    user_id = request.GET.get('user', '')
-    exists = User.objects.filter(user_id=user_id).exists()
-    return JsonResponse({'exists': exists})
-
-# 암호화 코드
-def signup_view(request):
-
-    if request.method == 'POST':
-        user_id = request.POST.get('user_id')
-        raw_pw = request.POST.get('user_pw')
-        hashed_pw = make_password(raw_pw)  # 비밀번호 암호화
-
-        if User.objects.filter(user_id=user_id).exists():
-            return render(request, 'accounts/signup.html', {'error': '이미 존재하는 아이디입니다.'})
-
-        birth_str = request.POST.get('user_birthdate')
-        try:
-            birth_date = datetime.strptime(birth_str, '%Y-%m-%d').date()
-        except ValueError:
-            return render(request, 'accounts/signup.html', {'error': '올바른 생년월일을 입력하세요.'})
-        user = User(
-            user_id=user_id,
-            user_pw=hashed_pw,  # 암호화된 비밀번호 저장
-        )
-        user.save()
-
-        profile = UserProfile(
-            user=user,
-            email=request.POST.get('email'),
-            user_phone_no=request.POST.get('user_phone_no'),
-            location=request.POST.get('location'),
-            user_birthdate=birth_date,
-        )
-        profile.save()
-
-        jobInfo = UserJobInfo(
-            user=user,
-            user_job=request.POST.get('user_job'),
-            user_classification=request.POST.get('user_classification'),
-            user_income=request.POST.get('user_income'),
-        )
-        jobInfo.save()
-
-
-        return redirect('login')
-
-    return render(request,'accounts/signup.html')
 
 
 class UserLoginView(FormView):
@@ -121,6 +72,63 @@ def team_programming(request):
 def project_info(request):
     return render(request, 'accounts/project_info.html')
 
+
+# 아이디 유효성 검사
+def check_id(request):
+    user_id = request.GET.get('user', '')
+    exists = User.objects.filter(user_id=user_id).exists()
+    return JsonResponse({'exists': exists})
+
+# 암호화 코드
+def signup_view(request):
+
+    if request.method == 'POST':
+        user_id = request.POST.get('user_id')
+        raw_pw = request.POST.get('user_pw')
+        hashed_pw = make_password(raw_pw)  # 비밀번호 암호화
+
+        if User.objects.filter(user_id=user_id).exists():
+            return render(request, 'accounts/signup.html', {'error': '이미 존재하는 아이디입니다.'})
+
+        birth_str = request.POST.get('user_birthdate')
+        try:
+            birth_date = datetime.strptime(birth_str, '%Y-%m-%d').date()
+        except ValueError:
+            return render(request, 'accounts/signup.html', {'error': '올바른 생년월일을 입력하세요.'})
+        user = User(
+            user_id=user_id,
+            user_pw=hashed_pw,  # 암호화된 비밀번호 저장
+        )
+        user.save()
+
+        profile = UserProfile(
+            user=user,
+            user_email=request.POST.get('email'),
+            user_phone_no=request.POST.get('user_phone_no'),
+            location=None, #request.POST.get('location'), -> 일단 에러나서 추후 드롭다운 만들고 수정
+            user_birthdate=birth_date,
+        )
+        profile.save()
+
+        income_str = request.POST.get('user_income')  # 문자열로 입력받음
+        try:
+            income_int = int(income_str)  # 문자열 → 정수 변환
+        except (TypeError, ValueError):
+            return render(request, 'accounts/signup.html', {'error': '수입을 정수로 입력하세요.'})
+
+        jobInfo = UserJobInfo(
+            user=user,
+            user_job=request.POST.get('user_job'),
+            user_classification=request.POST.get('user_classification'),
+            user_income=income_int,
+        )
+        jobInfo.save()
+
+
+        return redirect('login')
+
+    return render(request,'accounts/signup.html')
+
 # 회원가입 데이터 입력
 def signup(request):
     if request.method == 'POST':
@@ -152,6 +160,24 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'accounts/signup.html', {'form': form})
+
+# 로그인 확인코드
+def user_login(request):
+    if request.method == 'POST':
+        user_id = request.POST.get('user_id')
+        user_pw = request.POST.get('user_pw')
+
+        try:
+            user = User.objects.get(user_id=user_id)
+            if user.check_password(user_pw):
+                # 일치하는 사용자 존재
+                return render(request, 'accounts/main.html', {'user': user})
+        except User.DoesNotExist:
+            # 사용자 없음
+            messages.error(request, "아이디 또는 비밀번호가 일치하지 않습니다.")
+            return redirect('login')
+
+    return render(request, 'accounts/login.html')
 
 def search_result_mock(request):
     query = request.GET.get('query', '')  # 검색어 가져오기

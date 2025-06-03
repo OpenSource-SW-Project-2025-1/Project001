@@ -1,4 +1,20 @@
+# from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
+
+ ## 사용자 지정 user모델 사용
+# class CustomUserManager(BaseUserManager):
+#     def create_user(self, user_id, password=None, **extra_fields):
+#         if not user_id:
+#             raise ValueError("The user_id must be set")
+#         user = self.model(user_id=user_id, **extra_fields)
+#         user.set_password(password)
+#         user.save(using=self._db)
+#         return user
+#
+#     def create_superuser(self, user_id, password=None, **extra_fields):
+#         extra_fields.setdefault('is_staff', True)
+#         extra_fields.setdefault('is_superuser', True)
+#         return self.create_user(user_id, password, **extra_fields)
 
 # 지역 정보 (먼저 정의해야 함)
 class Location(models.Model):
@@ -10,6 +26,21 @@ class Location(models.Model):
         return f"{self.sido} {self.sigungu}".strip()
 
 # 사용자 기본 정보
+ ## 사용자 지정 user모델 사용 - > 코드 바꾼 이후 마이그레이션 초기화해야함.
+# class User(AbstractBaseUser, PermissionsMixin):
+#     user_id = models.CharField(max_length=100, unique=True)
+#     user_pw = models.CharField(max_length=100)
+#     is_active = models.BooleanField(default=True)
+#     is_staff = models.BooleanField(default=False)
+#
+#     objects = CustomUserManager()
+#
+#     USERNAME_FIELD = 'user_id'
+#     REQUIRED_FIELDS = []  # 여기에 필수 필드 추가 가능 (예: email)
+#
+#     def __str__(self):
+#         return self.user_id
+
 class User(models.Model):
     user_no = models.AutoField(primary_key=True)
     user_id = models.CharField(max_length=100)
@@ -32,7 +63,8 @@ class UserJobInfo(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     user_job = models.CharField(max_length=100, blank=True, null=True)
     user_classification = models.CharField(max_length=100, blank=True, null=True)
-    user_income = models.FloatField()
+    user_income = models.IntegerField()
+    #user_income = models.FloatField() -> 일단 편의를 위해 int로 바꿨는데, 회의후 결정예정.
 
 # 복지 제도 정보
 class WelfareProgram(models.Model):
