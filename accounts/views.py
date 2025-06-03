@@ -115,8 +115,8 @@ def new_welfare(request):
 def chatbot_home(request):
     return render(request, 'accounts/ai_recommend_result.html')
 
-def team_programing(request):
-    return render(request, 'accounts/team_programing.html')
+def team_programming(request):
+    return render(request, 'accounts/team_programming.html')
 
 def project_info(request):
     return render(request, 'accounts/project_info.html')

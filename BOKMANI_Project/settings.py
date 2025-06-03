@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    AUTH_USER_MODEL = 'accounts.User'
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,6 +41,9 @@ INSTALLED_APPS = [
     'myapp',
     'accounts',
 ]
+
+# 사용자정의 user모델 사용
+#AUTH_USER_MODEL = 'accounts.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
