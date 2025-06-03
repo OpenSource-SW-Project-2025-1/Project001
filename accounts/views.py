@@ -63,6 +63,9 @@ def frequent_welfare(request):
 def new_welfare(request):
     return render(request, 'accounts/search_result.html')
 
+def welfare_info(request):
+    return render(request, 'accounts/welfare_info.html')
+
 def chatbot_home(request):
     return render(request, 'accounts/ai_recommend_result.html')
 
@@ -237,7 +240,7 @@ def ai_recommend_result(request):
         },
     ]
 
-    return render(request, 'accounts/ai_recommend_result.html', {
+    return render(request, 'accounts/ai_result.html', {
         'results': ai_results,
         'query': "AI 추천 결과",
         'page_range': range(1, 2),
