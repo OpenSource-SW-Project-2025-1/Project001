@@ -4,7 +4,10 @@ from . import views
 from .views import main_page, signup, UserLogoutView
 from .views import UserLoginView
 
+
 urlpatterns = [
+
+    path('check_id/', views.check_id, name='check_id'), # 아이디 중복확인
     path('login/', UserLoginView.as_view(), name='login'),  # 로그인 뷰
     #path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
     path('logout/', UserLogoutView.as_view(), name='logout'),
@@ -15,6 +18,6 @@ urlpatterns = [
     path('frequent-welfare/', views.frequent_welfare, name='frequent_welfare'),
     path('new-welfare/', views.new_welfare, name='new_welfare'),
     path('chatbot/', views.chatbot_home, name='chatbot_home'),
-    path('team-programming/', views.team_programming, name='team_programming'),
+    path('team-programing/', views.team_programing, name='team_programing'),
     path('project-info/', views.project_info, name='project_info'),
 ]

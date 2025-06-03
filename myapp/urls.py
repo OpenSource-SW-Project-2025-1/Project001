@@ -15,3 +15,4 @@ urlpatterns = [
     path('welfare/', welfare_view, name='welfare'),
 ]
 # accounts/urls.py
+
