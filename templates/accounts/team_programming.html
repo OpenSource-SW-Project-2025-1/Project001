@@ -1,10 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
 
-</body>
-</html>
+{% block title %}팀 소개 - BokMANI{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/team.css' %}">
+
+<section class="team-section">
+  <h2 class="team-title">INTRODUCING<br>TEAM OBJECT-ORIENTED PROGRAMMING</h2>
+
+  <!-- 첫 줄: 윤수진, 송태양 -->
+  <div class="team-row">
+    <div class="team-card">
+      <img src="{% static 'img/Sujin_Yoon.png' %}" alt="윤수진" class="team-photo">
+      <div class="team-name">윤수진</div>
+      <div class="team-role">프론트엔드</div>
+      <ul class="team-desc">
+        <li>UX, UI 디자인</li>
+        <li>화면 구현</li>
+      </ul>
+    </div>
+
+    <div class="team-card">
+      <img src="{% static 'img/Taeyang_Song.png' %}" alt="송태양" class="team-photo">
+      <div class="team-name">송태양</div>
+      <div class="team-role">프론트엔드</div>
+      <ul class="team-desc">
+        <li>화면 설계</li>
+        <li>JavaScript 구현</li>
+        <li>DB 연동</li>
+        <li>Hash 암호 설계</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 두 번째 줄: 이인수, 엄희찬, 김재훈 -->
+  <div class="team-row">
+    <div class="team-card">
+      <img src="{% static 'img/Insu_Lee.png' %}" alt="이인수" class="team-photo">
+      <div class="team-name">이인수</div>
+      <div class="team-role">백엔드</div>
+      <ul class="team-desc">
+        <li>&nbsp;</li>
+      </ul>
+    </div>
+
+    <div class="team-card">
+      <img src="{% static 'img/Heechan_Eom.png' %}" alt="엄희찬" class="team-photo">
+      <div class="team-name">엄희찬</div>
+      <div class="team-role">백엔드</div>
+      <ul class="team-desc">
+        <li>API 관리</li>
+      </ul>
+    </div>
+
+    <div class="team-card">
+      <img src="{% static 'img/Jaehoon_Kim.png' %}" alt="김재훈" class="team-photo">
+      <div class="team-name">김재훈</div>
+      <div class="team-role">데이터베이스</div>
+      <ul class="team-desc">
+        <li>DB 설계</li>
+        <li>추천 시스템 구현</li>
+        <li>전체적인 기능 연동</li>
+        <li>점검 및 충돌 오류 해결</li>
+      </ul>
+    </div>
+  </div>
+</section>
+{% endblock %}
