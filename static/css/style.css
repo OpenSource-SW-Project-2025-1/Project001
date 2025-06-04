@@ -114,7 +114,7 @@ body {
 .search-container {
   display: flex;
   justify-content: center;
-  margin: 40px 0;
+  margin: 30px 0;
 }
 
 .search-form {
@@ -124,7 +124,7 @@ body {
   max-width: 600px;
   background: #fff;
   border-radius: 999px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
   padding: 10px 20px;
 }
 
@@ -162,7 +162,7 @@ body {
 /* ---------------- Suggestion ---------------- */
 .suggestion-area {
   text-align: center;
-  margin: 40px 0 20px 0;
+  margin: 60px 0 40px 0;
 }
 
 .suggestion-button {
