@@ -42,9 +42,6 @@ INSTALLED_APPS = [
     'accounts',
 ]
 
-# 사용자정의 user모델 사용
-AUTH_USER_MODEL = 'accounts.User'
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
