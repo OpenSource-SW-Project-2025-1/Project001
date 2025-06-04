@@ -159,7 +159,7 @@
                 <script>
                     let valid_phone = false;
                     document.getElementById("phone_no").addEventListener("input", function () {
-                        const x = document.getElementById('phone').value;
+                        const x = document.getElementById('phone_no').value;
                         if (x) {
                             valid_phone = true;
                         }
@@ -271,14 +271,29 @@
                 </div>
 
                 <!--데이터 유효성 확인-->
-                <script type="text/javascript">
-                    document.querySelector('.signup-form').addEventListener('submit', function(e) {
-                        if (!valid_id || !valid_pw || !valid_email || !valid_phone || !valid_location || !valid_birthdate) {
-                            alert("모든 입력값을 다시 확인해주세요.");
-                            e.preventDefault();
-                        }
-                    });
-                </script>
+                <script>
+  const validation = {
+    id: false,
+    pw: false,
+    email: false,
+    phone: false,
+    location: false,
+    birthdate: false
+  };
+
+  // 예시: ID 유효성 검사
+  document.querySelector('#id-input').addEventListener('blur', function () {
+    validation.id = this.value.length >= 5;
+  });
+
+  document.querySelector('.signup-form').addEventListener('submit', function(e) {
+    const allValid = Object.values(validation).every(Boolean);
+    if (!allValid) {
+      alert("모든 입력값을 다시 확인해주세요.");
+      e.preventDefault();
+    }
+  });
+</script>
 
                 <!-- 회원가입 버튼 -->
                 <div class="submit-area">

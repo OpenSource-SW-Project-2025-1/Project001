@@ -84,57 +84,61 @@ def check_id(request):
 
 # 암호화 코드
 def signup_view(request):
+    form = SignUpForm(request.POST or None)
 
     if request.method == 'POST':
-        user_id = request.POST.get('user_id')
-        raw_pw = request.POST.get('user_pw')
-        hashed_pw = make_password(raw_pw)  # 비밀번호 암호화
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)  # 아직 DB 저장은 안함
+            raw_pw = form.cleaned_data.get('user_pw')
+            user.user_pw = make_password(raw_pw)  # 비밀번호 암호화
 
-        if User.objects.filter(user_id=user_id).exists():
-            return render(request, 'accounts/signup.html', {'error': '이미 존재하는 아이디입니다.'})
+            if User.objects.filter(user_id=user.user_id).exists():
+                return render(request, 'accounts/signup.html', {'form': form, 'error': '이미 존재하는 아이디입니다.'})
 
-        birth_str = request.POST.get('user_birthdate')
-        try:
-            birth_date = datetime.strptime(birth_str, '%Y-%m-%d').date()
-        except ValueError:
-            return render(request, 'accounts/signup.html', {'error': '올바른 생년월일을 입력하세요.'})
-        user = User(
-            user_id=user_id,
-            user_pw=hashed_pw,  # 암호화된 비밀번호 저장
-        )
-        user.save()
+            # 생년월일, 수입 등 UserProfile과 UserJobInfo는 폼에 없으니 따로 처리
+            birth_str = request.POST.get('user_birthdate')
+            try:
+                birth_date = datetime.strptime(birth_str, '%Y-%m-%d').date()
+            except ValueError:
+                return render(request, 'accounts/signup.html', {'form': form, 'error': '올바른 생년월일을 입력하세요.'})
 
-        profile = UserProfile(
-            user=user,
-            user_email=request.POST.get('email'),
-            user_phone_no=request.POST.get('user_phone_no'),
-            location=None, #request.POST.get('location'), -> 일단 에러나서 추후 드롭다운 만들고 수정
-            user_birthdate=birth_date,
-        )
-        profile.save()
+            income_str = request.POST.get('user_income')
+            try:
+                income_int = int(income_str)
+            except (TypeError, ValueError):
+                return render(request, 'accounts/signup.html', {'form': form, 'error': '수입을 정수로 입력하세요.'})
 
-        income_str = request.POST.get('user_income')  # 문자열로 입력받음
-        try:
-            income_int = int(income_str)  # 문자열 → 정수 변환
-        except (TypeError, ValueError):
-            return render(request, 'accounts/signup.html', {'error': '수입을 정수로 입력하세요.'})
+            user.save()  # User 저장
 
-        jobInfo = UserJobInfo(
-            user=user,
-            user_job=request.POST.get('user_job'),
-            user_classification=request.POST.get('user_classification'),
-            user_income=income_int,
-        )
-        jobInfo.save()
+            profile = UserProfile(
+                user=user,
+                user_email=request.POST.get('email'),
+                user_phone_no=request.POST.get('user_phone_no'),
+                location=None,  # 추후 수정
+                user_birthdate=birth_date,
+            )
+            profile.save()
 
+            job_info = UserJobInfo(
+                user=user,
+                user_job=request.POST.get('user_job'),
+                user_classification=request.POST.get('user_classification'),
+                user_income=income_int,
+            )
+            job_info.save()
 
-        return redirect('login')
-
-    return render(request,'accounts/signup.html')
-
+            return redirect('login')
+        else:
+            # form.is_valid() 실패 시
+            return render(request, 'accounts/signup.html', {'form': form})
+    else:
+        form = SignUpForm()
+        return render(request, 'accounts/signup.html', {'form': form})
 # 회원가입 데이터 입력
 def signup(request):
     if request.method == 'POST':
+        form = SignUpForm(request.POST)
         user_form = SignUpForm(request.POST)
         profile_form = UserProfileForm(request.POST)
         job_form = UserJobInfoForm(request.POST)
