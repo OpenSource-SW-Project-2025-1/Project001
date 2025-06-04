@@ -1,7 +1,5 @@
 from accounts.views import main_page  # accounts 앱에서 메인 화면을 가져와서
 from django.shortcuts import render, redirect
-
-
 import os
 import sys
 import subprocess

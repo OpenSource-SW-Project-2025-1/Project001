@@ -5,15 +5,109 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.shortcuts import render, redirect
 from .forms import SignUpForm,UserProfileForm,UserJobInfoForm
-from .models import User, UserProfile, UserJobInfo
+from .models import UserID, UserProfile, UserJobInfo
 from django.contrib import messages
 from django.views import View
 from django.http import JsonResponse
 from datetime import datetime
+from .models import Location
 
+def signup(request):
+    if request.method == 'POST':
+        user_form = SignUpForm(request.POST)
+        profile_form = UserProfileForm(request.POST)
+        job_form = UserJobInfoForm(request.POST)
 
+        if user_form.is_valid() and profile_form.is_valid() and job_form.is_valid():
+            try:
+                # 아이디 중복 확인
+                if UserID.objects.filter(user_id=user_form.cleaned_data['user_id']).exists():
+                    raise ValueError('이미 존재하는 아이디입니다.')
 
+                # 비밀번호 암호화
+                raw_pw = user_form.cleaned_data['user_pw']
+                hashed_pw = make_password(raw_pw)
 
+                # 생년월일
+                birth_date = profile_form.cleaned_data['user_birthdate']
+
+                # 소득 처리
+                income_raw = job_form.cleaned_data.get('user_income')
+                income = int(income_raw) if income_raw not in [None, ''] else 0
+
+                # location 처리
+                location_id = request.POST.get('location')
+                location_instance = Location.objects.get(id=location_id) if location_id else None
+
+                # 유저 생성
+                user = UserID.objects.create(
+                    user_id=user_form.cleaned_data['user_id'],
+                    user_pw=hashed_pw,
+                )
+
+                # 프로필 생성
+                UserProfile.objects.create(
+                    user=user,
+                    user_name=profile_form.cleaned_data['user_name'],
+                    user_email=profile_form.cleaned_data['user_email'],
+                    user_phone_no=profile_form.cleaned_data['user_phone_no'],
+                    user_birthdate=birth_date,
+                    location=location_instance,
+                )
+
+                # 직업 정보 생성
+                UserJobInfo.objects.create(
+                    user=user,
+                    user_job=job_form.cleaned_data['user_job'],
+                    user_classification=job_form.cleaned_data['user_classification'],
+                    user_income=income,
+                )
+
+                return redirect('login')
+
+            except Exception as e:
+                return render(request, 'accounts/signup.html', {
+                    'user_form': user_form,
+                    'profile_form': profile_form,
+                    'job_form': job_form,
+                    'locations': Location.objects.all(),  # ← 추가!
+                    'error': f'회원가입 중 오류가 발생했습니다: {e}'
+                })
+    else:
+        user_form = SignUpForm()
+        profile_form = UserProfileForm()
+        job_form = UserJobInfoForm()
+
+    return render(request, 'accounts/signup.html', {
+        'user_form': user_form,
+        'profile_form': profile_form,
+        'job_form': job_form,
+        'locations': Location.objects.all()  # ← 추가!
+    })
+
+# # 아이디 유효성 검사
+# def check_id(request):
+#     user_id = request.GET.get('user', '')
+#     exists = UserID.objects.filter(user_id=user_id).exists()
+#     return JsonResponse({'exists': exists})
+# 
+# # 로그인 확인코드
+# def user_login(request):
+#     if request.method == 'POST':
+#         user_id = request.POST.get('user_id')
+#         user_pw = request.POST.get('user_pw')
+#
+#         try:
+#             user = UserID.objects.get(user_id=user_id)
+#             if user.check_password(user_pw):
+#                 # 일치하는 사용자 존재
+#                 return render(request, 'accounts/main.html', {'user': user})
+#         except UserID.DoesNotExist:
+#             # 사용자 없음
+#             messages.error(request, "아이디 또는 비밀번호가 일치하지 않습니다.")
+#             return redirect('login')
+#
+#     return render(request, 'accounts/login.html')
 
 class UserLoginView(FormView):
     template_name = 'accounts/login.html'
@@ -30,7 +124,6 @@ class UserLoginView(FormView):
 
 class UserLogoutView(View):
 
-
     def post(self, request, *args, **kwargs):
         messages.success(request, "로그아웃 되었습니다.")
         logout(request)
@@ -38,6 +131,7 @@ class UserLogoutView(View):
 
 
 def main_page(request):
+
     new_benefits = [
         {"title": "다문화가족 교육비 지원", "description": "전자 바우처 제공", "d_day": 30},
         {"title": "청년 월세 지원", "description": "1년간 최대 월 20만원", "d_day": 12},
@@ -76,115 +170,7 @@ def project_info(request):
     return render(request, 'accounts/project_info.html')
 
 
-# 아이디 유효성 검사
-def check_id(request):
-    user_id = request.GET.get('user', '')
-    exists = User.objects.filter(user_id=user_id).exists()
-    return JsonResponse({'exists': exists})
 
-# 암호화 코드
-def signup_view(request):
-    form = SignUpForm(request.POST or None)
-
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)  # 아직 DB 저장은 안함
-            raw_pw = form.cleaned_data.get('user_pw')
-            user.user_pw = make_password(raw_pw)  # 비밀번호 암호화
-
-            if User.objects.filter(user_id=user.user_id).exists():
-                return render(request, 'accounts/signup.html', {'form': form, 'error': '이미 존재하는 아이디입니다.'})
-
-            # 생년월일, 수입 등 UserProfile과 UserJobInfo는 폼에 없으니 따로 처리
-            birth_str = request.POST.get('user_birthdate')
-            try:
-                birth_date = datetime.strptime(birth_str, '%Y-%m-%d').date()
-            except ValueError:
-                return render(request, 'accounts/signup.html', {'form': form, 'error': '올바른 생년월일을 입력하세요.'})
-
-            income_str = request.POST.get('user_income')
-            try:
-                income_int = int(income_str)
-            except (TypeError, ValueError):
-                return render(request, 'accounts/signup.html', {'form': form, 'error': '수입을 정수로 입력하세요.'})
-
-            user.save()  # User 저장
-
-            profile = UserProfile(
-                user=user,
-                user_email=request.POST.get('email'),
-                user_phone_no=request.POST.get('user_phone_no'),
-                location=None,  # 추후 수정
-                user_birthdate=birth_date,
-            )
-            profile.save()
-
-            job_info = UserJobInfo(
-                user=user,
-                user_job=request.POST.get('user_job'),
-                user_classification=request.POST.get('user_classification'),
-                user_income=income_int,
-            )
-            job_info.save()
-
-            return redirect('login')
-        else:
-            # form.is_valid() 실패 시
-            return render(request, 'accounts/signup.html', {'form': form})
-    else:
-        form = SignUpForm()
-        return render(request, 'accounts/signup.html', {'form': form})
-# 회원가입 데이터 입력
-def signup(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        user_form = SignUpForm(request.POST)
-        profile_form = UserProfileForm(request.POST)
-        job_form = UserJobInfoForm(request.POST)
-
-        if user_form.is_valid() and profile_form.is_valid() and job_form.is_valid():
-            user = User.objects.create(
-                user_id=user_form.cleaned_data['user_id'],
-                user_pw=make_password(user_form.cleaned_data['user_pw']),
-            )
-
-            UserProfile.objects.create(
-                user=user,
-                user_name=profile_form.cleaned_data['user_name'],
-                user_birthdate=profile_form.cleaned_data['user_birthdate'],
-                user_email=profile_form.cleaned_data['user_email'],
-                user_phone_no=profile_form.cleaned_data['user_phone_no'],
-            )
-
-            UserJobInfo.objects.create(
-                user=user,
-                user_job=job_form.cleaned_data['user_job'],
-                user_classification=job_form.cleaned_data['user_classification'],
-                user_income=job_form.cleaned_data['user_income'],
-            )
-            return redirect('login')
-    else:
-        form = SignUpForm()
-    return render(request, 'accounts/signup.html', {'form': form})
-
-# 로그인 확인코드
-def user_login(request):
-    if request.method == 'POST':
-        user_id = request.POST.get('user_id')
-        user_pw = request.POST.get('user_pw')
-
-        try:
-            user = User.objects.get(user_id=user_id)
-            if user.check_password(user_pw):
-                # 일치하는 사용자 존재
-                return render(request, 'accounts/main.html', {'user': user})
-        except User.DoesNotExist:
-            # 사용자 없음
-            messages.error(request, "아이디 또는 비밀번호가 일치하지 않습니다.")
-            return redirect('login')
-
-    return render(request, 'accounts/login.html')
 
 def search_result_mock(request):
     query = request.GET.get('query', '')  # 검색어 가져오기
