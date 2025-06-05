@@ -4,7 +4,7 @@ from django.contrib.auth import login, logout
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.shortcuts import render, redirect
-from .forms import SignUpForm,UserProfileForm,UserJobInfoForm
+from .forms import SignUpForm,UserProfileForm,UserJobInfoForm,UserLoginForm
 from .models import UserID, UserProfile, UserJobInfo
 from django.contrib import messages
 from django.views import View
@@ -85,41 +85,25 @@ def signup(request):
         'locations': Location.objects.all()  # ← 추가!
     })
 
-# # 아이디 유효성 검사
+# 아이디 유효성 검사
 def check_id(request):
     user_id = request.GET.get('user', '')
     exists = UserID.objects.filter(user_id=user_id).exists()
     return JsonResponse({'exists': exists})
-# 
-# # 로그인 확인코드
-# def user_login(request):
-#     if request.method == 'POST':
-#         user_id = request.POST.get('user_id')
-#         user_pw = request.POST.get('user_pw')
-#
-#         try:
-#             user = UserID.objects.get(user_id=user_id)
-#             if user.check_password(user_pw):
-#                 # 일치하는 사용자 존재
-#                 return render(request, 'accounts/main.html', {'user': user})
-#         except UserID.DoesNotExist:
-#             # 사용자 없음
-#             messages.error(request, "아이디 또는 비밀번호가 일치하지 않습니다.")
-#             return redirect('login')
-#
-#     return render(request, 'accounts/login.html')
 
+# # 로그인 확인코드
 class UserLoginView(FormView):
     template_name = 'accounts/login.html'
-    form_class = AuthenticationForm
+    form_class = UserLoginForm
     success_url = '/'
 
     def form_valid(self, form):
-        login(self.request, form.get_user())
+        user = form.cleaned_data['user']
+        self.request.session['user_id'] = user.user_id  # 세션에 저장하거나 직접 로그인 처리
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        messages.error(self.request, "회원정보가 존재하지 않습니다.")
+        messages.error(self.request, "아이디 또는 비밀번호가 일치하지 않습니다.")
         return super().form_invalid(form)
 
 class UserLogoutView(View):
