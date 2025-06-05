@@ -247,35 +247,60 @@ def ai_recommend_result(request):
     })
 
 
+# 챗봇 모델 설정을 위한 함수 (중복 코드를 줄이고 관리 용이하게)
+def get_gemini_model_configured():
+    return genai.GenerativeModel(
+        'gemini-1.5-flash',
+        system_instruction="""
+        너는 사용자에게 친절하고 간결하게 복지정보에 대해 답변하는 AI 챗봇이야.
+        답변은 항상 3~4문장 이내로 요약해서 제공해야 해.
+        사용자의 질문에 직접적으로 답변하고, 불필요한 서론이나 미사여구는 사용하지 마.
+        글씨체를 두껍게 하는 표시 등은 일체 사용하지마.
+        복지에 대해서는 이름, 장소, 날짜, 시간 등을 명확히 대답해줘.
+        관련 웹사이트나 링크가 있다면 하이퍼링크 형식으로 제공해줘.
+        """,
+        # 답변 길이를 제어
+        generation_config=genai.GenerationConfig(
+            max_output_tokens=150, # 최대 출력 토큰 수 (대략 70~100단어. 3~4문장에 맞게 조절)
+            temperature=0.7,      # 답변의 창의성 (0.0~1.0, 낮을수록 보수적)
+        )
+    )
 
 def chatbot(request):
     # 만약 menu.html이 이 페이지에 필요 없다고 판단되면 include를 제거합니다.
     return render(request, 'accounts/chatbot.html')
+
+
 @csrf_exempt
 def chatbot_reply(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         user_message = data.get('message', '')
+        # *** 클라이언트(JS)에서 보낸 대화 이력 받기 ***
+        chat_history = data.get('history', [])
 
         try:
-            # 쿼터 문제가 발생했던 gemini-1.5-pro 대신 gemini-1.0-pro 또는 gemini-1.5-flash 권장
-            # 모델 이름은 ListModels로 확인한 정확한 이름으로 교체해야 함
-            model = genai.GenerativeModel('gemini-1.5-flash') # 또는 'gemini-1.5-flash' 등
+            # 설정이 적용된 모델 객체 가져오기
+            model = get_gemini_model_configured()
+            chat = model.start_chat(history=chat_history)
 
-            # 이전 대화 내용을 포함하는 경우 (context) 처리 로직 필요
-            # 지금은 단순히 메시지만 전달하는 방식
-            response = model.generate_content(f"복지정보를 알려줘: {user_message}")
+            # 새 메시지 전송 (chat 객체를 통해)
+            response = chat.send_message(user_message)
             reply_text = response.text
 
         except Exception as e:
             # 에러 발생 시 처리
             print(f"Gemini API Error: {e}")
             reply_text = "죄송합니다. 현재 시스템에 문제가 발생했습니다. 다시 시도해 주세요."
-            # 할당량 초과 시 특정 메시지를 보여주고 싶다면 e의 타입을 체크하여 분기 처리 가능
             if "ResourceExhausted" in str(e):
                 reply_text = "죄송합니다. 현재 요청이 너무 많아 잠시 후 다시 시도해 주세요. (API 사용량 초과)"
             elif "NotFound" in str(e):
                 reply_text = "죄송합니다. 챗봇 모델을 찾을 수 없습니다. 관리자에게 문의하세요."
+            # 토큰 길이 초과 오류 처리 (긴 대화 시 발생 가능)
+            elif "Quota exceeded for model" in str(e) or "Too many tokens" in str(e) or "context length" in str(e).lower():
+                 reply_text = "대화 내용이 너무 길어져 이전 내용을 모두 기억하기 어렵습니다. 대화를 새로 시작해 주세요."
+            else: # 그 외 예상치 못한 오류
+                reply_text = "알 수 없는 오류가 발생했습니다: " + str(e)
 
 
         return JsonResponse({'reply': reply_text})
