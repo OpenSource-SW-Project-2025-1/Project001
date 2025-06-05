@@ -86,10 +86,10 @@ def signup(request):
     })
 
 # # 아이디 유효성 검사
-# def check_id(request):
-#     user_id = request.GET.get('user', '')
-#     exists = UserID.objects.filter(user_id=user_id).exists()
-#     return JsonResponse({'exists': exists})
+def check_id(request):
+    user_id = request.GET.get('user', '')
+    exists = UserID.objects.filter(user_id=user_id).exists()
+    return JsonResponse({'exists': exists})
 # 
 # # 로그인 확인코드
 # def user_login(request):

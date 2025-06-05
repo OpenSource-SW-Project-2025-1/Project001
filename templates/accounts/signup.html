@@ -19,7 +19,7 @@
 
         <!-- 회원가입 form -->
         <form method="POST" class="signup-form">
-             {% csrf_token %}
+            {% csrf_token %}
 
             <!-- 아이디 / 비밀번호 박스 -->
             <div class="form-box">
@@ -59,166 +59,408 @@
                 <!-- 사용자 번호 html -->
                 <div class="input-group">
                     <label for="user_phone_no">사용자 번호 <span class="required">*</span></label>
-                    <input type="text" name='user_phone_no' id='user_phone_no' placeholder="숫자만 입력" oninput="checkInteger(this)" required>
+                    <input type="text" name='user_phone_no' id='user_phone_no' placeholder="숫자만 입력"
+                           oninput="checkInteger(this)" required>
                 </div>
             </div>
 
 
             <!-- 거주 정보 박스 -->
-            <div class="form-box">
+            <div class="location-wrapper">
+                <div class="location-box" id="sido-box">
+                    <label for="sido">시/도</label>
+                    <select id="sido">
+                        <option value="">선택하세요</option>
+                    </select>
+                </div>
 
-            <!-- 거주지역 html -->
-            <div class="input-group">
-              <label for="location">거주지역 <span class="required">*</span></label>
-              <select name="location" id="location" required>
-                <option value="">지역을 선택하세요</option>
-                {% for loc in locations %}
-                  <option value="{{ loc.id }}">{{ loc.sido }} {{ loc.sigungu }}</option>
-                {% endfor %}
-              </select>
+                <div class="location-box hidden" id="sigungu-box">
+                    <label for="sigungu">시/군/구</label>
+                    <select id="sigungu">
+                        <option value="">선택하세요</option>
+                    </select>
+                </div>
+
+                <div class="location-box hidden" id="town-box">
+                    <label for="town">읍/면/동</label>
+                    <select id="town">
+                        <option value="">선택하세요</option>
+                    </select>
+                </div>
             </div>
 
-                <!-- 생년월일 html -->
-                <div class="input-group">
-                    <label for="user_birthdate">생년월일 <span class="required">*</span></label>
-                    <input type="date" name='user_birthdate' id='user_birthdate' required>
-                </div>
+            <style>
+                .location-wrapper {
+                    display: flex;
+                    gap: 20px;
+                }
 
-                <!-- 혼인여부/형제자매 수 html -->
-                <div class="inline-pair">
-                    <div class="input-group">
-                        <label for="merry">혼인 여부</label>
-                        <input type="text" id='merry'placeholder="기혼/미혼">
-                    </div>
-                    <div class="input-group">
-                        <label for='bro'>형제자매 수</label>
-                        <div class="with-unit">
-                            <input type="number" id="bro" min="0">
-                            <span>명</span>
-                        </div>
-                    </div>
-                </div>
+                /* flex-direction: column 적용을 위해 display: flex로 변경 */
+                .location-box {
+                    display: flex;
+                    flex-direction: column;
+                    transition: opacity 0.3s ease, transform 0.3s ease;
+                }
 
-                <!-- 취업상태 html -->
-                <div class="input-group">
-                    <label for="user_job">취업 상태</label>
-                    <input type="text" name='user_job' id='user_job' placeholder="예: 미취업, 재직 중">
-                </div>
+                .hidden {
+                    opacity: 0;
+                    transform: translateX(20px);
+                    pointer-events: none;
+                }
 
-                <!-- 소속 html -->
-                <div class="input-group">
-                    <label for="user_classification">소속</label>
-                    <input type="text" name='user_classification' id='user_classification' placeholder="학교, 회사 등">
-                </div>
+                .location-box:not(.hidden) {
+                    opacity: 1;
+                    transform: translateX(0);
+                    pointer-events: auto;
+                }
+            </style>
 
-                <!-- 연 평균 소득 html -->
-                <div class="input-group">
-                    <label for="user_income">연 평균 소득 (단위 : 만 원)</label>
-                    <div class="with-unit">
-                        <input type="text" name='user_income' min='0' max='10000000' id='user_income' oninput="checkInteger(this)">
-                    </div>
-                </div>
+            <script>
+                const locationData = {
+                    "서울특별시": {
+                        "강남구": ["삼성동", "역삼동", "대치동"],
+                        "서초구": ["서초동", "반포동", "잠원동"],
+                        "송파구": ["잠실동", "신천동"]
+                    },
+                    "부산광역시": {
+                        "해운대구": ["중동", "우동", "좌동"],
+                        "수영구": ["광안동", "남천동"]
+                    },
+                    "대구광역시": {
+                        "수성구": ["범어동", "만촌동"],
+                        "달서구": ["상인동", "진천동"]
+                    },
+                    "인천광역시": {
+                        "연수구": ["송도동", "연수동"],
+                        "남동구": ["구월동", "간석동"]
+                    },
+                    "광주광역시": {
+                        "서구": ["치평동", "금호동"]
+                    },
+                    "대전광역시": {
+                        "유성구": ["궁동", "어은동"]
+                    },
+                    "울산광역시": {
+                        "남구": ["삼산동", "달동"]
+                    },
+                    "세종특별자치시": {
+                        "나성동": [], // 세종시는 바로 읍/면/동이 옴. 값은 비워두거나 필요에 따라 채울 수 있음
+                        "어진동": []
+                    },
+                    "경기도": {
+                        "수원시": {
+                            "팔달구": ["인계동", "매산로"],
+                            "영통구": ["영통동", "매탄동"]
+                        },
+                        "고양시": {
+                            "일산동구": ["장항동", "정발산동"],
+                            "덕양구": ["화정동", "행신동"]
+                        },
+                        "성남시": {
+                            "분당구": ["정자동", "서현동"]
+                        }
+                    },
+                    "강원특별자치도": {
+                        "춘천시": ["효자동", "퇴계동"],
+                        "강릉시": ["교동", "포남동"]
+                    },
+                    "충청북도": {
+                        "청주시 흥덕구": ["복대동", "가경동", "봉명동"],
+                        "청주시 서원구" : ["분평동", "모충동", "사창동"],
+                        "충주시": ["칠금동", "연수동"],
+                        "제천시": ["중앙동", "하소동"]
+                    },
+                    "충청남도": {
+                        "천안시": {
+                            "동남구": ["신부동", "봉명동"]
+                        },
+                        "아산시": ["배방읍", "온천동"]
+                    },
+                    "전북특별자치도": {
+                        "전주시": {
+                            "완산구": ["효자동", "중화산동"]
+                        },
+                        "군산시": ["수송동", "나운동"]
+                    },
+                    "전라남도": {
+                        "목포시": ["상동", "하당동"],
+                        "여수시": ["여서동", "웅천동"]
+                    },
+                    "경상북도": {
+                        "포항시": {
+                            "남구": ["대잠동", "효자동"]
+                        },
+                        "구미시": ["인동동", "원평동"]
+                    },
+                    "경상남도": {
+                        "창원시": {
+                            "성산구": ["상남동", "중앙동"]
+                        },
+                        "김해시": ["내외동", "삼계동"]
+                    },
+                    "제주특별자치도": {
+                        "제주시": ["연동", "노형동", "애월읍"],
+                        "서귀포시": ["동홍동", "서홍동", "성산읍"]
+                    }
+                };
 
-                <div class="input-group checkbox-group">
-                    <label class="agreement-label" for="agree">
-                        개인정보 이용에 동의합니다 <span class="required">*</span>
-                        <input type="checkbox" id="agree" required style="margin-left: 8px;" />
-                    </label>
-                    <a href="#" class="agreement-btn">개인정보 이용 동의서 보기</a>
-                </div>
+                // DOM 요소 가져오기
+                const sidoSelect = document.getElementById('sido');
+                const sigunguSelect = document.getElementById('sigungu');
+                const townSelect = document.getElementById('town');
 
+                const sigunguBox = document.getElementById('sigungu-box');
+                const townBox = document.getElementById('town-box');
 
+                // 옵션 채우기 함수
+                function populateOptions(selectElement, options) {
+                    // 기존 옵션 제거 (첫 번째 "선택하세요" 옵션은 남겨둠)
+                    while (selectElement.children.length > 1) {
+                        selectElement.removeChild(selectElement.lastChild);
+                    }
+                    // 새로운 옵션 추가
+                    options.forEach(option => {
+                        const opt = document.createElement('option');
+                        opt.value = option;
+                        opt.textContent = option;
+                        selectElement.appendChild(opt);
+                    });
+                }
 
-                <!-- 회원가입 버튼 -->
-                <div class="submit-area">
-                    <button type="submit" class="signup-btn" id="submit-btn" >회원가입</button>
-                </div>
+                // 초기 시/도 옵션 채우기
+                window.onload = () => {
+                    populateOptions(sidoSelect, Object.keys(locationData));
+                };
 
+                // 시/도 선택 변경 시 이벤트 리스너
+                sidoSelect.addEventListener('change', () => {
+                    const selectedSido = sidoSelect.value;
+                    // 하위 드롭다운 및 박스 초기화
+                    sigunguSelect.value = '';
+                    townSelect.value = '';
+                    sigunguBox.classList.add('hidden');
+                    townBox.classList.add('hidden');
 
+                    if (selectedSido) {
+                        const sigunguData = locationData[selectedSido];
 
-                <script>
-                    function checkInteger(elem) {
-                        const value = elem.value;
-                        if (!/^[-]?\d*$/.test(value)) {
-                            elem.value = value.slice(0, -1); // 마지막 문자를 제거
+                        // 세종특별자치시처럼 시/군/구가 없는 경우 처리
+                        if (selectedSido === "세종특별자치시") {
+                            // 시/군/구 박스를 숨기고 바로 읍/면/동 박스를 보여주며 데이터 채움
+                            sigunguBox.classList.add('hidden');
+                            populateOptions(townSelect, Object.keys(sigunguData)); // 세종시의 동들로 채움
+                            townBox.classList.remove('hidden');
+                        } else {
+                            // 일반적인 시/군/구 데이터 채움
+                            populateOptions(sigunguSelect, Object.keys(sigunguData));
+                            sigunguBox.classList.remove('hidden');
                         }
                     }
-                      const submitBtn = document.getElementById('submit-btn');
+                });
 
-                    function updateSubmitButton() {
-                        const allValid = Object.values(validation).every(Boolean);
-                        submitBtn.disabled = !allValid;
-                    }
+                // 시/군/구 선택 변경 시 이벤트 리스너
+                sigunguSelect.addEventListener('change', () => {
+                    const selectedSido = sidoSelect.value;
+                    const selectedSigungu = sigunguSelect.value;
+                    // 읍/면/동 드롭다운 초기화
+                    townSelect.value = '';
+                    townBox.classList.add('hidden');
 
-                    function checkDuplicate() {
-                        const user_id = document.getElementById('user_id').value;
+                    if (selectedSigungu) {
+                        const currentLevelData = locationData[selectedSido][selectedSigungu];
 
-                        if (!/^[a-z0-9]{3,5}$/.test(user_id)) {
-                            alert("아이디는 소문자+숫자 조합 3~5자여야 합니다.");
-                            return;
+                        // 현재 선택된 시/군/구 아래가 바로 읍/면/동 리스트(배열)인지 확인
+                        if (Array.isArray(currentLevelData)) {
+                            populateOptions(townSelect, currentLevelData);
+                            townBox.classList.remove('hidden');
                         }
+                            // 현재 선택된 시/군/구 아래에 다시 구(區) 객체가 있는지 확인
+                        // (예: 충청북도 청주시, 경기도 수원시)
+                        else if (typeof currentLevelData === 'object') {
+                            // 읍/면/동 드롭다운에 해당 구(區) 목록을 채움
+                            populateOptions(townSelect, Object.keys(currentLevelData));
+                            townBox.classList.remove('hidden');
 
-                        fetch(`/accounts/check_id/?user=${user_id}`)
-                            .then(response => response.json())
-                            .then(data => {
+                            // UX: '읍/면/동' 레이블을 '구/읍/면/동' 등으로 변경하는 것도 고려해볼 수 있습니다.
+                            // 또는 새로운 '구' 드롭다운을 추가하는 것도 좋은 방법입니다.
+                        }
+                    }
+                });
 
-                                if (data.exists) {
-                                    alert("이미 존재하는 아이디입니다.");
-                                } else {
-                                    alert("사용 가능한 아이디입니다.");
-                                    validation.id = true; updateSubmitButton();
+                // 읍/면/동 선택 변경 시 이벤트 리스너 (선택된 '읍/면/동'이 다시 '구'인 경우 실제 '동' 로드)
+                townSelect.addEventListener('change', () => {
+                    const selectedSido = sidoSelect.value;
+                    const selectedSigungu = sigunguSelect.value;
+                    const selectedTownOrDistrict = townSelect.value; // 선택된 값이 '동'일 수도, '구'일 수도 있음
+
+                    if (selectedSido && selectedSigungu && selectedTownOrDistrict) {
+                        // 시/군/구 선택 후 현재 데이터가 객체(즉, 구 목록)인지 다시 확인
+                        const dataUnderSigungu = locationData[selectedSido][selectedSigungu];
+
+                        if (typeof dataUnderSigungu === 'object' && !Array.isArray(dataUnderSigungu)) {
+                            // dataUnderSigungu가 객체이고, 선택된 'town'이 실제로는 '구' 이름일 때
+                            const finalTowns = dataUnderSigungu[selectedTownOrDistrict];
+                            if (Array.isArray(finalTowns)) {
+                                // '읍/면/동' 드롭다운에 실제 동(洞) 목록을 다시 채움
+                                // 기존 옵션을 모두 제거하고, 첫 번째 '선택하세요'만 남긴 후 채워야 합니다.
+                                while (townSelect.children.length > 1) {
+                                    townSelect.removeChild(townSelect.lastChild);
                                 }
-                            });
-                    }
-
-                    // 비밀번호 확인 script
-                    function validatePassword() {
-                        const pw = document.getElementById('user_pw').value;
-                        const confirm = document.getElementById('confirm_pw').value;
-
-                        const pwError = document.getElementById('pw-error');
-                        const confirmError = document.getElementById('confirm-error');
-                        const pwSuccess = document.getElementById('pw-success');
-
-                        const pwRule = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{9,24}$/;
-
-                        // 메시지 초기화
-                        pwError.style.display = 'none';
-                        confirmError.style.display = 'none';
-                        pwSuccess.style.display = 'none';
-                        pwError.textContent = '';
-                        confirmError.textContent = '';
-                        pwSuccess.textContent = '';
-
-                        // 1. 비밀번호 형식 체크
-                        if (!pwRule.test(pw)) {
-                            pwError.textContent = '비밀번호는 9~24자, 대/소문자 및 숫자를 포함해야 합니다.';
-                            pwError.style.display = 'block';
-                            return;
-                        }
-
-                        // 2. 비밀번호 확인이 비어있지 않으면 일치 여부 검사
-                        if (confirm !== '') {
-                            if (pw !== confirm) {
-                                confirmError.textContent = '비밀번호가 일치하지 않습니다.';
-                                confirmError.style.display = 'block';
-                                return;
+                                finalTowns.forEach(townName => {
+                                    const opt = document.createElement('option');
+                                    opt.value = townName;
+                                    opt.textContent = townName;
+                                    townSelect.appendChild(opt);
+                                });
                             }
                         }
+                    }
+                });
+            </script>
 
-                        // 3. 모두 통과한 경우 성공 메시지
-                        if (pw === confirm && confirm !== '') {
-                            pwSuccess.textContent = '사용 가능한 비밀번호입니다.';
-                            pwSuccess.style.display = 'block';
-                            validation.pw = true; updateSubmitButton();
+            <!-- 생년월일 html -->
+            <div class="input-group">
+                <label for="user_birthdate">생년월일 <span class="required">*</span></label>
+                <input type="date" name='user_birthdate' id='user_birthdate' required>
+            </div>
+
+            <!-- 혼인여부/형제자매 수 html -->
+            <div class="inline-pair">
+                <div class="input-group">
+                    <label for="merry">혼인 여부</label>
+                    <input type="text" id='merry' placeholder="기혼/미혼">
+                </div>
+                <div class="input-group">
+                    <label for='bro'>형제자매 수</label>
+                    <div class="with-unit">
+                        <input type="number" id="bro" min="0">
+                        <span>명</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 취업상태 html -->
+            <div class="input-group">
+                <label for="user_job">취업 상태</label>
+                <input type="text" name='user_job' id='user_job' placeholder="예: 미취업, 재직 중">
+            </div>
+
+            <!-- 소속 html -->
+            <div class="input-group">
+                <label for="user_classification">소속</label>
+                <input type="text" name='user_classification' id='user_classification' placeholder="학교, 회사 등">
+            </div>
+
+            <!-- 연 평균 소득 html -->
+            <div class="input-group">
+                <label for="user_income">연 평균 소득 (단위 : 만 원)</label>
+                <div class="with-unit">
+                    <input type="text" name='user_income' min='0' max='10000000' id='user_income'
+                           oninput="checkInteger(this)">
+                </div>
+            </div>
+
+            <div class="input-group checkbox-group">
+                <label class="agreement-label" for="agree">
+                    개인정보 이용에 동의합니다 <span class="required">*</span>
+                    <input type="checkbox" id="agree" required style="margin-left: 8px;"/>
+                </label>
+                <a href="#" class="agreement-btn">개인정보 이용 동의서 보기</a>
+            </div>
+
+
+            <!-- 회원가입 버튼 -->
+            <div class="submit-area">
+                <button type="submit" class="signup-btn" id="submit-btn">회원가입</button>
+            </div>
+
+
+            <script>
+                function checkInteger(elem) {
+                    const value = elem.value;
+                    if (!/^[-]?\d*$/.test(value)) {
+                        elem.value = value.slice(0, -1); // 마지막 문자를 제거
+                    }
+                }
+
+                const submitBtn = document.getElementById('submit-btn');
+
+                function updateSubmitButton() {
+                    const allValid = Object.values(validation).every(Boolean);
+                    submitBtn.disabled = !allValid;
+                }
+
+                function checkDuplicate() {
+                    const user_id = document.getElementById('user_id').value;
+
+                    if (!/^[a-z0-9]{3,5}$/.test(user_id)) {
+                        alert("아이디는 소문자+숫자 조합 3~5자여야 합니다.");
+                        return;
+                    }
+
+                    fetch(`/accounts/check_id/?user=${user_id}`)
+                        .then(response => response.json())
+                        .then(data => {
+
+                            if (data.exists) {
+                                alert("이미 존재하는 아이디입니다.");
+                            } else {
+                                alert("사용 가능한 아이디입니다.");
+                                validation.id = true;
+                                updateSubmitButton();
+                            }
+                        });
+                }
+
+                // 비밀번호 확인 script
+                function validatePassword() {
+                    const pw = document.getElementById('user_pw').value;
+                    const confirm = document.getElementById('confirm_pw').value;
+
+                    const pwError = document.getElementById('pw-error');
+                    const confirmError = document.getElementById('confirm-error');
+                    const pwSuccess = document.getElementById('pw-success');
+
+                    const pwRule = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{9,24}$/;
+
+                    // 메시지 초기화
+                    pwError.style.display = 'none';
+                    confirmError.style.display = 'none';
+                    pwSuccess.style.display = 'none';
+                    pwError.textContent = '';
+                    confirmError.textContent = '';
+                    pwSuccess.textContent = '';
+
+                    // 1. 비밀번호 형식 체크
+                    if (!pwRule.test(pw)) {
+                        pwError.textContent = '비밀번호는 9~24자, 대/소문자 및 숫자를 포함해야 합니다.';
+                        pwError.style.display = 'block';
+                        return;
+                    }
+
+                    // 2. 비밀번호 확인이 비어있지 않으면 일치 여부 검사
+                    if (confirm !== '') {
+                        if (pw !== confirm) {
+                            confirmError.textContent = '비밀번호가 일치하지 않습니다.';
+                            confirmError.style.display = 'block';
+                            return;
                         }
                     }
 
-                    // 이벤트 연결
-                    document.getElementById('user_pw').addEventListener('input', validatePassword);
-                    document.getElementById('confirm_pw').addEventListener('input', validatePassword);
+                    // 3. 모두 통과한 경우 성공 메시지
+                    if (pw === confirm && confirm !== '') {
+                        pwSuccess.textContent = '사용 가능한 비밀번호입니다.';
+                        pwSuccess.style.display = 'block';
+                        validation.pw = true;
+                        updateSubmitButton();
+                    }
+                }
 
-                </script>
+                // 이벤트 연결
+                document.getElementById('user_pw').addEventListener('input', validatePassword);
+                document.getElementById('confirm_pw').addEventListener('input', validatePassword);
+
+            </script>
             </div>
         </form>
     </main>
