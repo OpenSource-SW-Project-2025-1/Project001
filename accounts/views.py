@@ -100,6 +100,7 @@ class UserLoginView(FormView):
     def form_valid(self, form):
         user = form.cleaned_data['user']
         self.request.session['user_id'] = user.user_id  # 세션에 저장하거나 직접 로그인 처리
+        #login(self.request, user)
         messages.success(self.request, f"환영합니다, {user.user_id}님!")
         return super().form_valid(form)
 

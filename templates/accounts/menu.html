@@ -32,13 +32,15 @@
         </div>
     </div>
 
-    {% if user.is_authenticated %}
-    <form method="POST" action="{% url 'logout' %}" style="display:inline;">
-        {% csrf_token %}
-        <button type="submit" class="menu-link" style="border:none; cursor:pointer;">Log Out</button>
-    </form>
+    {% if request.session.user_id %}
+        <form method="POST" action="{% url 'logout' %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="menu-link" style="border:none; cursor:pointer;">
+                Log Out
+            </button>
+        </form>
     {% else %}
-    <a href="{% url 'login' %}" class="menu-link">Log In</a>
+        <a href="{% url 'login' %}" class="menu-link">Log In</a>
     {% endif %}
 
 </div>
@@ -51,7 +53,7 @@
     }
 
     // 메뉴 밖 클릭 시 닫기
-    document.addEventListener("click", function(event) {
+    document.addEventListener("click", function (event) {
         const dropdown = document.getElementById("dropdownMenu");
         const menuButton = event.target.closest(".menu-link");
         const insideMenu = event.target.closest("#dropdownMenu");
