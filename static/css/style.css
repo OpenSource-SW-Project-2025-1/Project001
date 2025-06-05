@@ -1149,3 +1149,145 @@ body {
   margin-bottom: 4px;
   list-style: disc;
 }
+
+/* chat_styles.css */
+
+/* 전체적인 챗 영역 */
+.chat_area_ai {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    height: calc(100vh - 120px); /* 헤더, 푸터 높이에 따라 조절 */
+    overflow-y: auto; /* 메시지 많아지면 스크롤 */
+    background-color: #f2f2f2; /* 카톡 배경색과 유사하게 */
+}
+
+/* 메시지 공통 스타일 */
+.message_wrapper {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+/* 봇 메시지 */
+.message_bot_ai {
+    justify-content: flex-start; /* 왼쪽 정렬 */
+}
+
+.message_bot_ai .bubble_ai {
+    background-color: #ffffff; /* 흰색 배경 */
+    color: #333;
+    border-radius: 15px;
+    padding: 10px 15px;
+    max-width: 70%; /* 메시지 버블 최대 너비 */
+    word-break: break-word; /* 긴 단어 줄바꿈 */
+    box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13); /* 그림자 효과 */
+    position: relative;
+    margin-left: 10px; /* 이모지와의 간격 */
+}
+
+/* 사용자 메시지 */
+.message_user_ai {
+    justify-content: flex-end; /* 오른쪽 정렬 */
+}
+
+.message_user_ai .bubble_ai {
+    background-color: #fee500; /* 카톡 전송 메시지 색상 (노란색) */
+    color: #333;
+    border-radius: 15px;
+    padding: 10px 15px;
+    max-width: 70%;
+    word-break: break-word;
+    box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
+    position: relative;
+}
+
+/* 이모지 (봇 메시지에만 적용) */
+.emoji_ai {
+    font-size: 24px;
+    margin-right: 5px;
+    align-self: flex-start; /* 버블 상단에 정렬 */
+    min-width: 30px; /* 이모지 공간 확보 */
+    text-align: center;
+    padding-top: 5px; /* 버블 높이에 맞춰 조정 */
+}
+
+/* 입력창 */
+.input_area_ai {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #f9f9f9;
+    padding: 10px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input_form_ai {
+    display: flex;
+    width: 100%;
+    max-width: 700px; /* 입력창 최대 너비 */
+    background-color: #fff;
+    border-radius: 25px;
+    border: 1px solid #ddd;
+    overflow: hidden;
+}
+
+.input_form_ai input[type="text"] {
+    flex-grow: 1;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    outline: none;
+}
+
+.input_form_ai button[type="submit"] {
+    background-color: #000; /* 전송 버튼 색상 */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+
+.input_form_ai button[type="submit"]:hover {
+    background-color: #333;
+}
+
+/* 로딩 점들 스타일 */
+.loading-dot {
+    display: inline-block; /* 각 점을 인라인 블록으로 만들어 위치 조정 가능 */
+    width: 6px;
+    height: 6px;
+    background-color: #333; /* 점 색상 */
+    border-radius: 50%; /* 원형 */
+    margin: 0 1px; /* 점들 사이 간격 */
+    animation: wave 1.2s infinite ease-in-out; /* wave 애니메이션 적용 */
+}
+
+/* 각 점에 애니메이션 지연 시간 다르게 적용 */
+.loading-dot:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.loading-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.loading-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+/* 파도 물결 애니메이션 (keyframes) */
+@keyframes wave {
+    0%, 100% {
+        transform: translateY(0); /* 시작과 끝은 제자리 */
+    }
+    50% {
+        transform: translateY(-5px); /* 중간에 위로 이동 (파도 효과) */
+    }
+}

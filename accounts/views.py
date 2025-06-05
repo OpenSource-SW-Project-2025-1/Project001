@@ -247,17 +247,36 @@ def ai_recommend_result(request):
     })
 
 
+
+def chatbot(request):
+    # 만약 menu.html이 이 페이지에 필요 없다고 판단되면 include를 제거합니다.
+    return render(request, 'accounts/chatbot.html')
 @csrf_exempt
 def chatbot_reply(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         data = json.loads(request.body)
-        user_message = data.get("message")
+        user_message = data.get('message', '')
 
-        model = genai.GenerativeModel(model_name="gemini-1.5-flash")
+        try:
+            # 쿼터 문제가 발생했던 gemini-1.5-pro 대신 gemini-1.0-pro 또는 gemini-1.5-flash 권장
+            # 모델 이름은 ListModels로 확인한 정확한 이름으로 교체해야 함
+            model = genai.GenerativeModel('gemini-1.5-flash') # 또는 'gemini-1.5-flash' 등
 
-        response = model.generate_content(f"복지정보를 알려줘: {user_message}")
-        reply = response.text.strip()
+            # 이전 대화 내용을 포함하는 경우 (context) 처리 로직 필요
+            # 지금은 단순히 메시지만 전달하는 방식
+            response = model.generate_content(f"복지정보를 알려줘: {user_message}")
+            reply_text = response.text
 
-        return JsonResponse({"reply": reply})
+        except Exception as e:
+            # 에러 발생 시 처리
+            print(f"Gemini API Error: {e}")
+            reply_text = "죄송합니다. 현재 시스템에 문제가 발생했습니다. 다시 시도해 주세요."
+            # 할당량 초과 시 특정 메시지를 보여주고 싶다면 e의 타입을 체크하여 분기 처리 가능
+            if "ResourceExhausted" in str(e):
+                reply_text = "죄송합니다. 현재 요청이 너무 많아 잠시 후 다시 시도해 주세요. (API 사용량 초과)"
+            elif "NotFound" in str(e):
+                reply_text = "죄송합니다. 챗봇 모델을 찾을 수 없습니다. 관리자에게 문의하세요."
 
-    return JsonResponse({"error": "Invalid request"}, status=400)
+
+        return JsonResponse({'reply': reply_text})
+    return JsonResponse({'error': 'Invalid request method'}, status=400)

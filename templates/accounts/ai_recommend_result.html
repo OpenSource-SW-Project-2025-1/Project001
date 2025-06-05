@@ -1,25 +1,21 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    {% include 'accounts/menu.html' %}
-    <main class="main">
+    {# 챗봇 페이지에서는 상단 메뉴바가 필요 없다고 판단되면 이 줄을 제거하세요 #}
+    {# {% include 'accounts/menu.html' %} #}
 
-        <!-- 메시지 영역 -->
+    <main class="main">
         <section class="chat_area_ai">
-            <div class="message_bot_ai">
+            <div class="message_wrapper message_bot_ai">
                 <span class="emoji_ai">🎓</span>
                 <div class="bubble_ai">원하는 복지가 있어?</div>
             </div>
-            <div class="message_user_ai">
-                <div class="bubble_ai">20대 대상 취업관련 정보 알려줘</div>
-            </div>
         </section>
 
-        <!-- 입력창 -->
         <footer class="input_area_ai">
             <form class="input_form_ai">
                 <input type="text" placeholder="메시지를 입력하세요"/>
-                <button type="submit">🔍</button>
+                <button type="submit">전송</button>
             </form>
         </footer>
     </main>
@@ -33,16 +29,29 @@
             const message = input.value.trim();
             if (!message) return;
 
-            // 사용자 메시지 추가
+            // 1. 사용자 메시지 추가
             chatArea.innerHTML += `
-      <div class="message_user_ai">
-        <div class="bubble_ai">${message}</div>
-      </div>
-    `;
-
+            <div class="message_wrapper message_user_ai">
+                <div class="bubble_ai">${message}</div>
+            </div>
+            `;
             input.value = "";
+            chatArea.scrollTop = chatArea.scrollHeight;
 
-            // Gemini API 호출
+            // 2. 챗봇 로딩 표시 추가
+            // 로딩 메시지에 고유한 ID를 부여하여 나중에 쉽게 찾아서 제거/업데이트할 수 있게 합니다.
+            const loadingMessageId = `loading-message-${Date.now()}`;
+            chatArea.innerHTML += `
+            <div class="message_wrapper message_bot_ai" id="${loadingMessageId}">
+                <span class="emoji_ai">🎓</span>
+                <div class="bubble_ai">
+                    <span class="loading-dot">.</span><span class="loading-dot">.</span><span class="loading-dot">.</span>
+                </div>
+            </div>
+            `;
+            chatArea.scrollTop = chatArea.scrollHeight; // 로딩 메시지 추가 후 스크롤 하단으로 이동
+
+            // 3. Gemini API 호출
             const res = await fetch("/chatbot/reply/", {
                 method: "POST",
                 headers: {
@@ -54,16 +63,25 @@
 
             const data = await res.json();
 
-            // 챗봇 응답 추가
-            chatArea.innerHTML += `
-      <div class="message_bot_ai">
-        <span class="emoji_ai">🎓</span>
-        <div class="bubble_ai">${data.reply}</div>
-      </div>
-    `;
+            // 4. 로딩 표시 제거 및 챗봇 응답으로 대체
+            const loadingMessageElement = document.getElementById(loadingMessageId);
+            if (loadingMessageElement) {
+                // 로딩 메시지 버블의 내용을 실제 응답으로 변경
+                loadingMessageElement.querySelector('.bubble_ai').innerHTML = data.reply;
+                // 만약 이모지나 다른 구조를 바꿔야 한다면, loadingMessageElement.outerHTML = `...새로운 HTML...` 사용
+            } else {
+                // 혹시 로딩 엘리먼트를 못 찾으면 그냥 새로 추가
+                chatArea.innerHTML += `
+                <div class="message_wrapper message_bot_ai">
+                    <span class="emoji_ai">🎓</span>
+                    <div class="bubble_ai">${data.reply}</div>
+                </div>
+                `;
+            }
+            chatArea.scrollTop = chatArea.scrollHeight; // 최종 메시지 추가/업데이트 후 스크롤 하단으로 이동
         });
 
-        // CSRF 토큰 가져오기 함수
+        // CSRF 토큰 가져오기 함수 (기존과 동일)
         function getCookie(name) {
             let cookieValue = null;
             if (document.cookie && document.cookie !== "") {
@@ -79,5 +97,4 @@
             return cookieValue;
         }
     </script>
-
 {% endblock %}
