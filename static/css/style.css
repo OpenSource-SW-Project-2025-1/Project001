@@ -392,6 +392,14 @@ body {
   color: #0037ff;
 }
 
+/*이인수 6.05 멤버들 이름 조금 작게*/
+.footer .team .member-names {
+  font-size: 0.8em;
+  display: block;
+  margin-top: 5px;
+  color: #777;
+}
+
 .footer .social,
 .footer .service {
   font-weight: 500;
