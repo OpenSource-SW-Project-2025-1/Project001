@@ -97,6 +97,14 @@ class UserLoginView(FormView):
     form_class = UserLoginForm
     success_url = '/'
 
+    def dispatch(self, request, *args, **kwargs):
+        # request.session에 'user_id'가 존재하면 (로그인 상태로 간주)
+        if request.session.get('user_id'):
+            # 로그인 페이지 대신 success_url (홈 페이지)로 리다이렉션
+            return redirect(self.success_url)
+        # 로그인 상태가 아니면, 원래의 로그인 뷰 로직을 계속 진행
+        return super().dispatch(request, *args, **kwargs)
+
     def form_valid(self, form):
         user = form.cleaned_data['user']
         self.request.session['user_id'] = user.user_id  # 세션에 저장하거나 직접 로그인 처리
