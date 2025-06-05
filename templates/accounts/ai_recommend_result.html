@@ -1,26 +1,83 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-{% include 'accounts/menu.html' %}
-<main class="main">
+    {% include 'accounts/menu.html' %}
+    <main class="main">
 
-    <!-- 메시지 영역 -->
-    <section class="chat_area_ai">
+        <!-- 메시지 영역 -->
+        <section class="chat_area_ai">
+            <div class="message_bot_ai">
+                <span class="emoji_ai">🎓</span>
+                <div class="bubble_ai">원하는 복지가 있어?</div>
+            </div>
+            <div class="message_user_ai">
+                <div class="bubble_ai">20대 대상 취업관련 정보 알려줘</div>
+            </div>
+        </section>
+
+        <!-- 입력창 -->
+        <footer class="input_area_ai">
+            <form class="input_form_ai">
+                <input type="text" placeholder="메시지를 입력하세요"/>
+                <button type="submit">🔍</button>
+            </form>
+        </footer>
+    </main>
+    <script>
+        const form = document.querySelector('.input_form_ai');
+        const input = form.querySelector('input');
+        const chatArea = document.querySelector('.chat_area_ai');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const message = input.value.trim();
+            if (!message) return;
+
+            // 사용자 메시지 추가
+            chatArea.innerHTML += `
+      <div class="message_user_ai">
+        <div class="bubble_ai">${message}</div>
+      </div>
+    `;
+
+            input.value = "";
+
+            // Gemini API 호출
+            const res = await fetch("/chatbot/reply/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken")
+                },
+                body: JSON.stringify({message})
+            });
+
+            const data = await res.json();
+
+            // 챗봇 응답 추가
+            chatArea.innerHTML += `
       <div class="message_bot_ai">
         <span class="emoji_ai">🎓</span>
-        <div class="bubble_ai">원하는 복지가 있어?</div>
+        <div class="bubble_ai">${data.reply}</div>
       </div>
-      <div class="message_user_ai">
-        <div class="bubble_ai">20대 대상 취업관련 정보 알려줘</div>
-      </div>
-    </section>
+    `;
+        });
 
-    <!-- 입력창 -->
-    <footer class="input_area_ai">
-      <form class="input_form_ai">
-        <input type="text" placeholder="메시지를 입력하세요" />
-        <button type="submit">🔍</button>
-      </form>
-    </footer>
-  </main>
+        // CSRF 토큰 가져오기 함수
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== "") {
+                const cookies = document.cookie.split(';');
+                for (let cookie of cookies) {
+                    const trimmed = cookie.trim();
+                    if (trimmed.startsWith(name + "=")) {
+                        cookieValue = decodeURIComponent(trimmed.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+
 {% endblock %}

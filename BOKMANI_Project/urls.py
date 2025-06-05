@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 
+from accounts import views
 from accounts.views import search_result_mock
 from accounts.views import ai_recommend_result
 
@@ -13,4 +14,5 @@ urlpatterns = [
 
     path('recommend/', ai_recommend_result, name='ai-recommend'),  # 추천 결과 직접 등록
 
+    path('chatbot/reply/', views.chatbot_reply, name='chatbot_reply'),
 ]

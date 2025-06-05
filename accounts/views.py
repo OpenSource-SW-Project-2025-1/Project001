@@ -4,13 +4,21 @@ from django.contrib.auth import login, logout
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.shortcuts import render, redirect
-from .forms import SignUpForm,UserProfileForm,UserJobInfoForm,UserLoginForm
+
+from BOKMANI_Project.settings import genai_API_KEY
+from .forms import SignUpForm, UserProfileForm, UserJobInfoForm, UserLoginForm
 from .models import UserID, UserProfile, UserJobInfo
 from django.contrib import messages
 from django.views import View
 from django.http import JsonResponse
 from datetime import datetime
 from .models import Location
+import google.generativeai as genai
+from django.views.decorators.csrf import csrf_exempt
+import json
+
+genai.configure(api_key=genai_API_KEY)
+
 
 def signup(request):
     if request.method == 'POST':
@@ -85,11 +93,13 @@ def signup(request):
         'locations': Location.objects.all()  # ← 추가!
     })
 
+
 # 아이디 유효성 검사
 def check_id(request):
     user_id = request.GET.get('user', '')
     exists = UserID.objects.filter(user_id=user_id).exists()
     return JsonResponse({'exists': exists})
+
 
 # # 로그인 확인코드
 class UserLoginView(FormView):
@@ -108,13 +118,14 @@ class UserLoginView(FormView):
     def form_valid(self, form):
         user = form.cleaned_data['user']
         self.request.session['user_id'] = user.user_id  # 세션에 저장하거나 직접 로그인 처리
-        #login(self.request, user)
+        # login(self.request, user)
         messages.success(self.request, f"환영합니다, {user.user_id}님!")
         return super().form_valid(form)
 
     def form_invalid(self, form):
         messages.error(self.request, "아이디 또는 비밀번호가 일치하지 않습니다.")
         return super().form_invalid(form)
+
 
 class UserLogoutView(View):
 
@@ -125,7 +136,6 @@ class UserLogoutView(View):
 
 
 def main_page(request):
-
     new_benefits = [
         {"title": "다문화가족 교육비 지원", "description": "전자 바우처 제공", "d_day": 30},
         {"title": "청년 월세 지원", "description": "1년간 최대 월 20만원", "d_day": 12},
@@ -145,25 +155,29 @@ def main_page(request):
 def custom_welfare(request):
     return render(request, 'accounts/search_result.html')
 
+
 def frequent_welfare(request):
     return render(request, 'accounts/search_result.html')
+
 
 def new_welfare(request):
     return render(request, 'accounts/search_result.html')
 
+
 def welfare_info(request):
     return render(request, 'accounts/welfare_info.html')
+
 
 def chatbot_home(request):
     return render(request, 'accounts/ai_recommend_result.html')
 
+
 def team_programming(request):
     return render(request, 'accounts/team_programming.html')
 
+
 def project_info(request):
     return render(request, 'accounts/project_info.html')
-
-
 
 
 def search_result_mock(request):
@@ -203,6 +217,7 @@ def search_result_mock(request):
         'current_page': 1,
     })
 
+
 def ai_recommend_result(request):
     # 추후 AI 추천 데이터로 대체 가능
     ai_results = [
@@ -230,3 +245,19 @@ def ai_recommend_result(request):
         'page_range': range(1, 2),
         'current_page': 1,
     })
+
+
+@csrf_exempt
+def chatbot_reply(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        user_message = data.get("message")
+
+        model = genai.GenerativeModel(model_name="gemini-1.5-flash")
+
+        response = model.generate_content(f"복지정보를 알려줘: {user_message}")
+        reply = response.text.strip()
+
+        return JsonResponse({"reply": reply})
+
+    return JsonResponse({"error": "Invalid request"}, status=400)
