@@ -1073,6 +1073,14 @@ body {
 
 /* 팀 소개 타이틀 */
 .team-title {
+  user-select: none !important;         /* 모든 브라우저에 적용 */
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+
+  pointer-events: none; /* 클릭/드래그 차단용 추가 옵션 */
+  cursor: default;
+
   font-family: 'Jua', sans-serif;
   font-size: 3rem;
   text-align: center;
@@ -1083,6 +1091,7 @@ body {
   -webkit-text-fill-color: transparent;
   animation: gradientMove 6s ease infinite;
   text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
+
 }
 
 /* 각 줄(행) 정렬용 */
