@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
     {# 챗봇 페이지에서는 상단 메뉴바가 필요 없다고 판단되면 이 줄을 제거하세요 #}
-    {% include 'accounts/menu.html' %}
+    {# {% include 'accounts/menu.html' %} #}
 
     <main class="main">
         <section class="chat_area_ai">
@@ -22,13 +22,22 @@
     <script>
         const form = document.querySelector('.input_form_ai');
         const input = form.querySelector('input');
+        const sendButton = form.querySelector('button[type="submit"]'); // 전송 버튼을 선택
+
         const chatArea = document.querySelector('.chat_area_ai');
 
         let chatHistory = [];
 
-        // *** 타임아웃 설정 (밀리초 단위) ***
-        // 10초로 설정했습니다. 필요에 따라 조절하세요.
         const API_TIMEOUT_MS = 10000; // 10초
+
+        // *** 입력 필드와 버튼 활성화/비활성화 함수 ***
+        function setInputEnabled(enabled) {
+            input.disabled = !enabled; // input 필드 활성화/비활성화
+            sendButton.disabled = !enabled; // 전송 버튼 활성화/비활성화
+            if (enabled) {
+                input.focus(); // 활성화되면 입력 필드에 포커스
+            }
+        }
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -50,6 +59,9 @@
                 "parts": [{ "text": userMessage }]
             });
 
+            //  입력 필드와 버튼 비활성화 
+            setInputEnabled(false);
+
             // 챗봇 로딩 표시 추가
             const loadingMessageId = `loading-message-${Date.now()}`;
             chatArea.innerHTML += `
@@ -62,11 +74,11 @@
             `;
             chatArea.scrollTop = chatArea.scrollHeight;
 
-            let botReply = "죄송합니다. 답변을 받아오는데 너무 오래 걸립니다. 잠시 후 다시 시도해 주세요."; 
+            let botReply = "죄송합니다. 답변을 받아오는데 너무 오래 걸립니다. 잠시 후 다시 시도해 주세요."; // 타임아웃 기본 메시지
 
-            // fetch 요청에 타임아웃 
+            // fetch 요청에 타임아웃 적용
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS); // 지정된 시간 후 요청 취소
+            const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
 
             try {
                 const res = await fetch("/chatbot/reply/", {
@@ -79,13 +91,12 @@
                         message: userMessage,
                         history: chatHistory
                     }),
-                    signal: controller.signal // AbortController의 signal을 fetch에 전달
+                    signal: controller.signal
                 });
 
-                clearTimeout(timeoutId); // 요청이 성공하면 타임아웃 타이머 제거
+                clearTimeout(timeoutId);
 
                 if (!res.ok) {
-                    // HTTP 에러 상태 (4xx, 5xx) 처리
                     const errorData = await res.json();
                     botReply = `오류: ${errorData.error || '알 수 없는 서버 오류'}`;
                 } else {
@@ -94,23 +105,19 @@
                 }
 
             } catch (error) {
-                clearTimeout(timeoutId); // 오류 발생 시에도 타이머 제거
+                clearTimeout(timeoutId);
                 if (error.name === 'AbortError') {
-                    // 타임아웃으로 인한 AbortError
                     console.error("API 요청 시간 초과:", error);
-                    // botReply는 이미 위에 정의된 기본 타임아웃 메시지를 사용
                 } else {
-                    // 네트워크 오류 또는 기타 예외
                     console.error("API 요청 중 오류 발생:", error);
                     botReply = "네트워크 오류 또는 기타 문제가 발생했습니다. 다시 시도해 주세요.";
                 }
             } finally {
-                // 로딩 표시 제거 및 챗봇 응답으로 대체 (성공/실패 여부와 관계없이 실행)
+                // 로딩 표시 제거 및 챗봇 응답으로 대체
                 const loadingMessageElement = document.getElementById(loadingMessageId);
                 if (loadingMessageElement) {
                     loadingMessageElement.querySelector('.bubble_ai').innerHTML = botReply;
                 } else {
-                    // 혹시 로딩 엘리먼트를 못 찾으면 그냥 새로 추가
                     chatArea.innerHTML += `
                     <div class="message_wrapper message_bot_ai">
                         <span class="emoji_ai">🎓</span>
@@ -121,7 +128,6 @@
                 chatArea.scrollTop = chatArea.scrollHeight;
 
                 // 챗봇 응답을 chatHistory에 추가 (타임아웃 메시지는 추가하지 않음)
-                // 만약 타임아웃 메시지를 다음 대화 맥락에 포함시키고 싶다면 이 if 문을 제거하세요.
                 if (botReply !== "죄송합니다. 답변을 받아오는데 너무 오래 걸립니다. 잠시 후 다시 시도해 주세요." &&
                     !botReply.startsWith("오류:") && !botReply.startsWith("네트워크 오류")) {
                     chatHistory.push({
@@ -129,10 +135,13 @@
                         "parts": [{ "text": botReply }]
                     });
                 }
+
+                // 입력 필드와 버튼 다시 활성화
+                setInputEnabled(true);
             }
         });
 
-        // CSRF 토큰 가져오기 함수 (기존과 동일)
+        // CSRF 토큰 가져오기
         function getCookie(name) {
             let cookieValue = null;
             if (document.cookie && document.cookie !== "") {
