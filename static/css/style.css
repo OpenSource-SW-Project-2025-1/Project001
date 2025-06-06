@@ -92,6 +92,32 @@ body {
   gap: 6px;  /* 버튼 간격 조정 (붙어 보이게) */
 }
 
+/* 버튼 옛날거
+.login-btn,
+.menu-link {
+    display: inline-block;
+    background: linear-gradient(135deg, #5d8eff, #6fa8ff);
+    color: white;
+    padding: 8px 18px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 55, 255, 0.15);
+    transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.nav-btn:hover,
+.login-btn:hover,
+.menu-link:hover {
+    background: #0037ff;
+    box-shadow: 0 4px 12px rgba(0, 55, 255, 0.25);
+    transform: translateY(-2px);
+}
+*/
+
 /* 버튼 스타일 (Menu, Login 공통) */
 .login-btn,
 .menu-link {
@@ -1117,31 +1143,6 @@ form {
 @keyframes slideIn {
     from { transform: translateY(50px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
-}
-
-/*-------- 공통 버튼 스타일 (로그인, 메뉴) -------*/
-.login-btn,
-.menu-link {
-    display: inline-block;
-    background: linear-gradient(135deg, #5d8eff, #6fa8ff);
-    color: white;
-    padding: 8px 18px;
-    border-radius: 12px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.95rem;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0, 55, 255, 0.15);
-    transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.nav-btn:hover,
-.login-btn:hover,
-.menu-link:hover {
-    background: #0037ff;
-    box-shadow: 0 4px 12px rgba(0, 55, 255, 0.25);
-    transform: translateY(-2px);
 }
 
 /* 회원가입 안내 */
