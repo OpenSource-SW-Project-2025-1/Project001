@@ -56,7 +56,7 @@
             // 사용자 메시지를 chatHistory에 추가
             chatHistory.push({
                 "role": "user",
-                "parts": [{ "text": userMessage }]
+                "parts": [{"text": userMessage}]
             });
 
             //  입력 필드와 버튼 비활성화 
@@ -113,10 +113,13 @@
                     botReply = "네트워크 오류 또는 기타 문제가 발생했습니다. 다시 시도해 주세요.";
                 }
             } finally {
+                let processedBotReply = botReply.replace(/\n/g, '<br>');
+                const urlRegex = /(https?:\/\/[^\s<>"'()]+)/g;
+                processedBotReply = processedBotReply.replace(urlRegex, '<a href="$&" target="_blank" rel="noopener noreferrer">$&</a>');
                 // 로딩 표시 제거 및 챗봇 응답으로 대체
                 const loadingMessageElement = document.getElementById(loadingMessageId);
                 if (loadingMessageElement) {
-                    loadingMessageElement.querySelector('.bubble_ai').innerHTML = botReply;
+                     loadingMessageElement.querySelector('.bubble_ai').innerHTML = processedBotReply; 
                 } else {
                     chatArea.innerHTML += `
                     <div class="message_wrapper message_bot_ai">
@@ -132,7 +135,7 @@
                     !botReply.startsWith("오류:") && !botReply.startsWith("네트워크 오류")) {
                     chatHistory.push({
                         "role": "model",
-                        "parts": [{ "text": botReply }]
+                        "parts": [{"text": botReply}]
                     });
                 }
 
