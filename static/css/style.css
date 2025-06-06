@@ -1610,18 +1610,29 @@ form {
     display: flex;
     flex-direction: column;
     padding: 10px;
-    height: calc(100vh - 120px); /* 헤더, 푸터 높이에 따라 조절 */
+    /* 수정: 입력창의 높이 (약 70px)를 고려하여 계산 */
+    /*height: calc(100vh - 120px - 70px); /* 헤더, 푸터, 그리고 입력창의 높이를 고려 */
     overflow-y: auto; /* 메시지 많아지면 스크롤 */
     background-color: #f2f2f2; /* 카톡 배경색과 유사하게 */
+    /* 메시지가 입력창에 가려지지 않도록 입력창 높이만큼 하단 마진 추가 */
+    margin-bottom: 70px; /* input_area_ai의 대략적인 높이 (padding+input+button 높이) */
+
+    max-width: 800px; /* 채팅 영역의 최대 너비를 800px로 제한 (원하는 값으로 조절) */
+    margin-left: auto; /* 좌우 자동 마진으로 중앙 정렬 */
+    margin-right: auto; /* 좌우 자동 마진으로 중앙 정렬 */
+    width: 100%; /* 부모 요소의 너비에 맞춰 100% 사용 (max-width와 함께 작동) */
+
+    max-height: 80vh;
+    min-height: 500px;
 }
 
-/* 메시지 공통 스타일 */
+/* 메시지 공통 스타일 - 변경 없음 */
 .message_wrapper {
     display: flex;
     margin-bottom: 10px;
 }
 
-/* 봇 메시지 */
+/* 봇 메시지 - 변경 없음 */
 .message_bot_ai {
     justify-content: flex-start; /* 왼쪽 정렬 */
 }
@@ -1638,7 +1649,7 @@ form {
     margin-left: 10px; /* 이모지와의 간격 */
 }
 
-/* 사용자 메시지 */
+/* 사용자 메시지 - 변경 없음 */
 .message_user_ai {
     justify-content: flex-end; /* 오른쪽 정렬 */
 }
@@ -1654,7 +1665,7 @@ form {
     position: relative;
 }
 
-/* 이모지 (봇 메시지에만 적용) */
+/* 이모지 (봇 메시지에만 적용) - 변경 없음 */
 .emoji_ai {
     font-size: 24px;
     margin-right: 5px;
@@ -1668,13 +1679,20 @@ form {
 .input_area_ai {
     position: fixed;
     bottom: 0;
-    width: 100%;
+    /* 이전: width: 100%; */
+    /* 수정: 뷰포트 너비 전체를 차지하도록 */
+    width: 100vw;
+    /* 좌우 패딩을 줬을 때 좌우 스크롤바가 생기는 문제 방지 (box-sizing: border-box가 적용되어 있다면 괜찮을 수 있음) */
+    left: 0; /* 화면 좌측 끝에 정렬 */
     background-color: #f9f9f9;
     padding: 10px;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: center;
     align-items: center;
+    /* 입력창 자체의 높이를 명시하여 .chat_area_ai의 margin-bottom과 높이 계산에 활용 */
+    /*height: 70px; /* padding과 input/button 높이 등을 고려한 대략적인 높이 */
+    box-sizing: border-box; /* 패딩이 너비에 포함되도록 설정 */
 }
 
 .input_form_ai {
@@ -1685,6 +1703,8 @@ form {
     border-radius: 25px;
     border: 1px solid #ddd;
     overflow: hidden;
+    /* input_area_ai에 height가 명시되어 있어 input_form_ai는 높이 조절 필요 없음 */
+    align-items: center; /* 내부 요소 수직 중앙 정렬 */
 }
 
 .input_form_ai input[type="text"] {
@@ -1693,6 +1713,7 @@ form {
     padding: 10px 15px;
     font-size: 16px;
     outline: none;
+    /* height: 40px; /* 필요시 높이 명시 */
 }
 
 .input_form_ai button[type="submit"] {
@@ -1705,6 +1726,7 @@ form {
     transition: background-color 0.2s;
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
+    /* height: 40px; /* 필요시 높이 명시 */
 }
 
 .input_form_ai button[type="submit"]:hover {
