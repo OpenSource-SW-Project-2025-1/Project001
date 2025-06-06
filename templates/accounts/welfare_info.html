@@ -3,9 +3,9 @@
 
 <div class="container">
     <div class="title">
-        <span style="background-color: #4a90e2; color: white; padding: 2px 8px; border-radius: 6px; font-size: 13px;">전라남도청</span>
+        <span style="background-color: #2563eb; color: white; padding: 2px 8px; border-radius: 6px; font-size: 13px;">전라남도청</span>
         <h2>전남 청년 문화복지 카드</h2>
-        <p style="margin: 0; color: #555; font-size: 14px;">삶의 질을 올려주는 복지혜택</p>
+        <p style="margin: 0;">삶의 질을 올려주는 복지혜택</p>
     </div>
 
     <div class="section">
@@ -42,51 +42,59 @@
             <tr><td>제출 서류</td><td>11111111111111111111111111111111111</td></tr>
         </table>
     </div>
+
+    <div class="section back-section">
+        <a href="javascript:history.back();" class="back-button">← 뒤로가기</a>
+    </div>
 </div>
 
-    <style>
+<style>
     body {
-        background-color: #eaf6fd;
+        background-color: #f4f8fc;
         font-family: 'Noto Sans KR', sans-serif;
+        margin: 0;
+        padding: 0;
     }
 
     .container {
         max-width: 800px;
         margin: 40px auto;
         background-color: #ffffff;
-        padding: 30px;
+        padding: 30px 24px;
         border-radius: 16px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     .title {
-        background-color: #d9ecff;
-        padding: 20px;
+        background-color: #e3f0ff;
+        padding: 28px;
         border-radius: 12px;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
     }
 
     .title h2 {
-        margin-top: 10px;
+        margin: 10px 0 6px;
         font-size: 24px;
-        color: #1a3a82;
+        color: #2563eb;
     }
 
     .title p {
         font-size: 14px;
-        color: #666;
+        color: #1f2937;
+        margin: 0;
     }
 
     .section {
-        margin-bottom: 32px;
+        margin-bottom: 20px;
     }
 
     .section h3 {
-        font-size: 20px;
-        margin-bottom: 16px;
-        border-left: 6px solid #007acc;
-        padding-left: 12px;
-        color: #003366;
+        font-size: 18px;
+        margin-top: 0;
+        margin-bottom: 12px;
+        border-left: 5px solid #1d4ed8;
+        padding-left: 10px;
+        color: #1f2937;
     }
 
     table {
@@ -96,19 +104,49 @@
         border-radius: 8px;
         overflow: hidden;
         box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        margin-bottom: 0;
     }
 
     table td {
-        padding: 12px 16px;
+        padding: 12px 14px;
         border-bottom: 1px solid #e0e0e0;
         font-size: 15px;
+        vertical-align: top;
+    }
+
+    table tr:last-child td {
+        border-bottom: none;
     }
 
     table td:first-child {
         background-color: #eef6fb;
-        font-weight: bold;
-        width: 35%;
-        color: #333;
+        font-weight: 600;
+        width: 34%;
+        color: #374151;
+    }
+
+    .back-section {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .back-button {
+        display: inline-block;
+        padding: 10px 20px;
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+        color: white;
+        text-decoration: none;
+        border: 1px solid #bfd7ff;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        box-shadow: 0 2px 6px rgba(100, 120, 200, 0.12);
+        transition: all 0.25s ease, transform 0.2s ease;
+    }
+
+    .back-button:hover {
+        transform: scale(1.03);
+        box-shadow: 0 4px 10px rgba(80, 100, 200, 0.15);
     }
 </style>
 
