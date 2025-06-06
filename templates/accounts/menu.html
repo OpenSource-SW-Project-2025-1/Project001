@@ -1,64 +1,28 @@
-<div class="menu-container">
-    <div class="dropdown">
-        <span class="menu-link" onclick="toggleDropdown()">Menu</span>
-        <div class="dropdown-content" id="dropdownMenu">
-            <table>
-                <tr>
-                    <th>복지 정보</th>
-                    <th>AI 상담</th>
-                    <th>서비스 소개</th>
-                    <th>외부 링크</th>
-                </tr>
-                <tr>
-                    <td><a href="{% url 'custom_welfare' %}">맞춤형 복지 추천</a></td>
-                    <td><a href="{% url 'chatbot_home' %}">챗봇 상담 - 복만이</a></td>
-                    <td><a href="{% url 'team_programming' %}">우리 팀 소개</a></td>
-                    <td><a href="https://www.bokjiro.go.kr" target="_blank">복지로 공식 사이트</a></td>
-                </tr>
-                <tr>
-                    <td><a href="{% url 'frequent_welfare' %}">자주 찾는 복지</a></td>
-                    <td></td>
-                    <td><a href="{% url 'project_info' %}">복만이 프로젝트</a></td>
-                    <td><a href="https://www.youthcenter.go.kr" target="_blank">온통청년</a></td>
-                </tr>
-                <tr>
-                    <td><a href="{% url 'new_welfare' %}">최신 복지 소식</a></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </table>
-
-        </div>
-    </div>
-
-    {% if request.session.user_id %}
-        <form method="POST" action="{% url 'logout' %}" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit" class="menu-link" style="border:none; cursor:pointer;">
-                Log Out
-            </button>
-        </form>
-    {% else %}
-        <a href="{% url 'login' %}" class="menu-link">Log In</a>
-    {% endif %}
-
-</div>
-
-<script>
-    function toggleDropdown() {
-        const menu = document.getElementById("dropdownMenu");
-        const isVisible = menu.style.display === "block";
-        menu.style.display = isVisible ? "none" : "block";
-    }
-
-    // 메뉴 밖 클릭 시 닫기
-    document.addEventListener("click", function (event) {
-        const dropdown = document.getElementById("dropdownMenu");
-        const menuButton = event.target.closest(".menu-link");
-        const insideMenu = event.target.closest("#dropdownMenu");
-        if (!menuButton && !insideMenu) {
-            dropdown.style.display = "none";
-        }
-    });
-</script>
+<div class="dropdown-content" id="dropdownMenu" style="display: none;">
+    <table>
+      <tr>
+        <th>복지 정보</th>
+        <th>AI 상담</th>
+        <th>서비스 소개</th>
+        <th>외부 링크</th>
+      </tr>
+      <tr>
+        <td><a href="{% url 'custom_welfare' %}">맞춤형 복지 추천</a></td>
+        <td><a href="{% url 'chatbot_home' %}">챗봇 상담 - 복만이</a></td>
+        <td><a href="{% url 'team_programming' %}">우리 팀 소개</a></td>
+        <td><a href="https://www.bokjiro.go.kr" target="_blank">복지로 공식 사이트</a></td>
+      </tr>
+      <tr>
+        <td><a href="{% url 'frequent_welfare' %}">자주 찾는 복지</a></td>
+        <td></td>
+        <td><a href="{% url 'project_info' %}">복만이 프로젝트</a></td>
+        <td><a href="https://www.youthcenter.go.kr" target="_blank">온통청년</a></td>
+      </tr>
+      <tr>
+        <td><a href="{% url 'new_welfare' %}">최신 복지 소식</a></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+  </div>
