@@ -250,7 +250,7 @@ def ai_recommend_result(request):
 # 챗봇 모델 설정을 위한 함수 (중복 코드를 줄이고 관리 용이하게)
 def get_gemini_model_configured():
     return genai.GenerativeModel(
-        'gemini-1.5-flash',
+        'gemini-2.0-flash',
         system_instruction="""
         너는 사용자에게 친절하고 간결하게 복지정보에 대해 답변하는 AI 챗봇이야.
         답변은 항상 3~4문장 이내로 요약해서 제공해야 해.
@@ -258,13 +258,21 @@ def get_gemini_model_configured():
         글씨체를 두껍게 하는 표시 등은 일체 사용하지마.
         복지에 대해서는 이름, 장소, 날짜, 시간 등을 명확히 대답해줘.
         관련 웹사이트의 URL을 텍스트 형식으로 제공해줘.
+        만약 특정 링크를 알지 못하더라도, '관련 정보를 찾아보시려면 충북대학교 공식 홈페이지를 방문하여 [어떤 메뉴]를 찾아보세요.' 와 같이 구체적인 안내를 텍스트로 제공해야 해
+        충북대학교 생활협동조합 링크 알려줘. -> 충북대학교 생활협동조합 홈페이지는 https://www.cbnucoop.com/ 입니다.
+        **매우 중요:**
+        관련 웹사이트 링크가 있다면 **반드시 웹사이트 URL 주소 텍스트를 그대로 출력해야 해. Markdown 하이퍼링크 ([텍스트](URL)) 형식은 절대 사용하지 마.**
+        너에게 받아온 텍스트를 그대로 출력하니 텍스트를 깔끔한 형태로 표현해. 링크를 제공한 후에는 줄바꿈을 적극적으로 활용해
+        링크를 제공하지 못할 경우, "링크를 제공할 수 없으나, 관련 정보를 찾아보시려면 [기관명] 공식 홈페이지를 검색해 주세요." 와 같이 설명해야 해.
+        절대 '개인정보보호를 위해 링크를 제공하지 않습니다' 와 같은 표현은 사용하지 마.
         """,
         # 답변 길이를 제어
         generation_config=genai.GenerationConfig(
-            max_output_tokens=300, # 최대 출력 토큰 수 (대략 140~200단어. 6~8문장에 맞게 조절)
-            temperature=0.7,      # 답변의 창의성 (0.0~1.0, 낮을수록 보수적)
+            max_output_tokens=300,  # 최대 출력 토큰 수 (대략 140~200단어. 6~8문장에 맞게 조절)
+            temperature=0.7,  # 답변의 창의성 (0.0~1.0, 낮을수록 보수적)
         )
     )
+
 
 def chatbot(request):
     # 만약 menu.html이 이 페이지에 필요 없다고 판단되면 include를 제거합니다.
@@ -297,11 +305,11 @@ def chatbot_reply(request):
             elif "NotFound" in str(e):
                 reply_text = "죄송합니다. 챗봇 모델을 찾을 수 없습니다. 관리자에게 문의하세요."
             # 토큰 길이 초과 오류 처리 (긴 대화 시 발생 가능)
-            elif "Quota exceeded for model" in str(e) or "Too many tokens" in str(e) or "context length" in str(e).lower():
-                 reply_text = "대화 내용이 너무 길어져 이전 내용을 모두 기억하기 어렵습니다. 대화를 새로 시작해 주세요."
-            else: # 그 외 예상치 못한 오류
+            elif "Quota exceeded for model" in str(e) or "Too many tokens" in str(e) or "context length" in str(
+                    e).lower():
+                reply_text = "대화 내용이 너무 길어져 이전 내용을 모두 기억하기 어렵습니다. 대화를 새로 시작해 주세요."
+            else:  # 그 외 예상치 못한 오류
                 reply_text = "알 수 없는 오류가 발생했습니다: " + str(e)
-
 
         return JsonResponse({'reply': reply_text})
     return JsonResponse({'error': 'Invalid request method'}, status=400)
