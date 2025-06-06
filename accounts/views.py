@@ -1,18 +1,15 @@
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import login, logout
-from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.shortcuts import render, redirect
+from collections import defaultdict
 
 from BOKMANI_Project.settings import genai_API_KEY
 from .forms import SignUpForm, UserProfileForm, UserJobInfoForm, UserLoginForm
-from .models import UserID, UserProfile, UserJobInfo
+from .models import UserID, UserProfile, UserJobInfo,Location
 from django.contrib import messages
 from django.views import View
 from django.http import JsonResponse
-from datetime import datetime
-from .models import Location
 import google.generativeai as genai
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -20,7 +17,10 @@ import json
 genai.configure(api_key=genai_API_KEY)
 
 
+
 def signup(request):
+    error_msg = None
+
     if request.method == 'POST':
         user_form = SignUpForm(request.POST)
         profile_form = UserProfileForm(request.POST)
@@ -28,32 +28,24 @@ def signup(request):
 
         if user_form.is_valid() and profile_form.is_valid() and job_form.is_valid():
             try:
-                # 아이디 중복 확인
                 if UserID.objects.filter(user_id=user_form.cleaned_data['user_id']).exists():
                     raise ValueError('이미 존재하는 아이디입니다.')
 
-                # 비밀번호 암호화
-                raw_pw = user_form.cleaned_data['user_pw']
-                hashed_pw = make_password(raw_pw)
-
-                # 생년월일
+                hashed_pw = make_password(user_form.cleaned_data['user_pw'])
                 birth_date = profile_form.cleaned_data['user_birthdate']
-
-                # 소득 처리
                 income_raw = job_form.cleaned_data.get('user_income')
                 income = int(income_raw) if income_raw not in [None, ''] else 0
 
-                # location 처리
-                location_id = request.POST.get('location')
-                location_instance = Location.objects.get(id=location_id) if location_id else None
+                # 시/도, 시군구 → location 객체 찾기
+                sido = request.POST.get('sido')
+                sigungu = request.POST.get('sigungu')
+                location_instance = Location.objects.filter(sido=sido, sigungu=sigungu).first()
 
-                # 유저 생성
                 user = UserID.objects.create(
                     user_id=user_form.cleaned_data['user_id'],
                     user_pw=hashed_pw,
                 )
 
-                # 프로필 생성
                 UserProfile.objects.create(
                     user=user,
                     user_name=profile_form.cleaned_data['user_name'],
@@ -63,34 +55,41 @@ def signup(request):
                     location=location_instance,
                 )
 
-                # 직업 정보 생성
                 UserJobInfo.objects.create(
                     user=user,
                     user_job=job_form.cleaned_data['user_job'],
                     user_classification=job_form.cleaned_data['user_classification'],
                     user_income=income,
                 )
+
                 messages.success(request, '회원가입이 성공적으로 완료되었습니다!')
                 return redirect('login')
 
             except Exception as e:
-                return render(request, 'accounts/signup.html', {
-                    'user_form': user_form,
-                    'profile_form': profile_form,
-                    'job_form': job_form,
-                    'locations': Location.objects.all(),  # ← 추가!
-                    'error': f'회원가입 중 오류가 발생했습니다: {e}'
-                })
+                error_msg = f'회원가입 중 오류가 발생했습니다: {e}'
+        else:
+            error_msg = '입력값이 유효하지 않습니다.'
     else:
         user_form = SignUpForm()
         profile_form = UserProfileForm()
         job_form = UserJobInfoForm()
 
+    # location_json 항상 계산
+    location_dict = defaultdict(set)
+    for loc in Location.objects.all():
+        location_dict[loc.sido].add(loc.sigungu)
+
+    location_data = {
+        sido: sorted(list(sigungu_set))
+        for sido, sigungu_set in location_dict.items()
+    }
+
     return render(request, 'accounts/signup.html', {
         'user_form': user_form,
         'profile_form': profile_form,
         'job_form': job_form,
-        'locations': Location.objects.all()  # ← 추가!
+        'location_json': location_data,
+        'error': error_msg
     })
 
 

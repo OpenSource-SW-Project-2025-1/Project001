@@ -57,24 +57,24 @@
             <div class="location-wrapper">
                 <div class="location-box" id="sido-box">
                     <label for="sido">거주지역 <span class="required">*</span></label>
-                    <select id="sido">
+                    <select id="sido" name="sido">
                         <option value="">선택하세요</option>
                     </select>
                 </div>
 
                 <div class="location-box hidden" id="sigungu-box">
                     <label for="sigungu">시/군/구</label>
-                    <select id="sigungu">
+                    <select id="sigungu" name="sigungu">
                         <option value="">선택하세요</option>
                     </select>
                 </div>
 
-                <div class="location-box hidden" id="town-box">
-                    <label for="town">읍/면/동</label>
-                    <select id="town">
-                        <option value="">선택하세요</option>
-                    </select>
-                </div>
+{#                <div class="location-box hidden" id="town-box">#}
+{#                    <label for="town">읍/면/동</label>#}
+{#                    <select id="town">#}
+{#                        <option value="">선택하세요</option>#}
+{#                    </select>#}
+{#                </div>#}
             </div>
 
             <div class="input-group">
@@ -339,105 +339,128 @@
         }
 
         // --- 위치 데이터 및 드롭다운 로직 (기존과 거의 동일, 일부 정리) ---
-        const locationData = {
-            "서울특별시": {
-                "강남구": ["삼성동", "역삼동", "대치동"],
-                "서초구": ["서초동", "반포동", "잠원동"],
-                "송파구": ["잠실동", "신천동"]
-            },
-            "부산광역시": {
-                "해운대구": ["중동", "우동", "좌동"],
-                "수영구": ["광안동", "남천동"]
-            },
-            "대구광역시": {
-                "수성구": ["범어동", "만촌동"],
-                "달서구": ["상인동", "진천동"]
-            },
-            "인천광역시": {
-                "연수구": ["송도동", "연수동"],
-                "남동구": ["구월동", "간석동"]
-            },
-            "광주광역시": {
-                "서구": ["치평동", "금호동"]
-            },
-            "대전광역시": {
-                "유성구": ["궁동", "어은동"]
-            },
-            "울산광역시": {
-                "남구": ["삼산동", "달동"]
-            },
-            "세종특별자치시": {
-                "나성동": ["나성동"], // 세종시는 바로 읍/면/동이 옴. 값은 비워두거나 필요에 따라 채울 수 있음
-                "어진동": ["어진동"]
-            },
-            "경기도": {
-                "수원시": {
-                    "팔달구": ["인계동", "매산로"],
-                    "영통구": ["영통동", "매탄동"]
-                },
-                "고양시": {
-                    "일산동구": ["장항동", "정발산동"],
-                    "덕양구": ["화정동", "행신동"]
-                },
-                "성남시": {
-                    "분당구": ["정자동", "서현동"]
-                }
-            },
-            "강원특별자치도": {
-                "춘천시": ["효자동", "퇴계동"],
-                "강릉시": ["교동", "포남동"]
-            },
-            "충청북도": {
-                "청주시 흥덕구": ["복대동", "가경동", "봉명동"],
-                "청주시 서원구": ["분평동", "모충동", "사창동"],
-                "충주시": ["칠금동", "연수동"],
-                "제천시": ["중앙동", "하소동"]
-            },
-            "충청남도": {
-                "천안시": {
-                    "동남구": ["신부동", "봉명동"]
-                },
-                "아산시": ["배방읍", "온천동"]
-            },
-            "전북특별자치도": {
-                "전주시": {
-                    "완산구": ["효자동", "중화산동"]
-                },
-                "군산시": ["수송동", "나운동"]
-            },
-            "전라남도": {
-                "목포시": ["상동", "하당동"],
-                "여수시": ["여서동", "웅천동"]
-            },
-            "경상북도": {
-                "포항시": {
-                    "남구": ["대잠동", "효자동"]
-                },
-                "구미시": ["인동동", "원평동"]
-            },
-            "경상남도": {
-                "창원시": {
-                    "성산구": ["상남동", "중앙동"]
-                },
-                "김해시": ["내외동", "삼계동"]
-            },
-            "제주특별자치도": {
-                "제주시": ["연동", "노형동", "애월읍"],
-                "서귀포시": ["동홍동", "서홍동", "성산읍"]
-            }
-        };
+        {#const locationData = {#}
+            {#"서울특별시": {#}
+            {#    "강남구": ["삼성동", "역삼동", "대치동"],#}
+            {#    "서초구": ["서초동", "반포동", "잠원동"],#}
+            {#    "송파구": ["잠실동", "신천동"]#}
+            {# },#}
+            {#"부산광역시": {#}
+            {#    "해운대구": ["중동", "우동", "좌동"],#}
+            {#    "수영구": ["광안동", "남천동"]#}
+            {# },#}
+            {#"대구광역시": {#}
+            {#    "수성구": ["범어동", "만촌동"],#}
+            {#    "달서구": ["상인동", "진천동"]#}
+            {# },#}
+            {#"인천광역시": {#}
+            {#    "연수구": ["송도동", "연수동"],#}
+            {#    "남동구": ["구월동", "간석동"]#}
+            {# },#}
+            {#"광주광역시": {#}
+            {#    "서구": ["치평동", "금호동"]#}
+            {# },#}
+            {#"대전광역시": {#}
+            {#    "유성구": ["궁동", "어은동"]#}
+            {# },#}
+            {#"울산광역시": {#}
+            {#    "남구": ["삼산동", "달동"]#}
+            {# },#}
+            {#"세종특별자치시": {#}
+            {#    "나성동": ["나성동"], // 세종시는 바로 읍/면/동이 옴. 값은 비워두거나 필요에 따라 채울 수 있음#}
+            {#    "어진동": ["어진동"]#}
+            {# },#}
+            {#"경기도": {#}
+            {#    "수원시": {#}
+            {#        "팔달구": ["인계동", "매산로"],#}
+            {#        "영통구": ["영통동", "매탄동"]#}
+            {#    },#}
+            {#    "고양시": {#}
+            {#        "일산동구": ["장항동", "정발산동"],#}
+            {#        "덕양구": ["화정동", "행신동"]#}
+            {#    },#}
+            {#    "성남시": {#}
+            {#        "분당구": ["정자동", "서현동"]#}
+            {#    }#}
+            {# },#}
+            {#"강원특별자치도": {#}
+            {#    "춘천시": ["효자동", "퇴계동"],#}
+            {#    "강릉시": ["교동", "포남동"]#}
+            {# },#}
+            {#"충청북도": {#}
+            {#    "청주시 흥덕구": ["복대동", "가경동", "봉명동"],#}
+            {#    "청주시 서원구": ["분평동", "모충동", "사창동"],#}
+            {#    "충주시": ["칠금동", "연수동"],#}
+            {#    "제천시": ["중앙동", "하소동"]#}
+            {# },#}
+            {#"충청남도": {#}
+            {#    "천안시": {#}
+            {#        "동남구": ["신부동", "봉명동"]#}
+            {#    },#}
+            {#    "아산시": ["배방읍", "온천동"]#}
+            {# },#}
+            {#"전북특별자치도": {#}
+            {#    "전주시": {#}
+            {#        "완산구": ["효자동", "중화산동"]#}
+            {#    },#}
+            {#    "군산시": ["수송동", "나운동"]#}
+            {# },#}
+            {#"전라남도": {#}
+            {#    "목포시": ["상동", "하당동"],#}
+            {#    "여수시": ["여서동", "웅천동"]#}
+            {# },#}
+            {#"경상북도": {#}
+            {#    "포항시": {#}
+            {#        "남구": ["대잠동", "효자동"]#}
+            {#    },#}
+            {#    "구미시": ["인동동", "원평동"]#}
+            {# },#}
+            {#"경상남도": {#}
+            {#    "창원시": {#}
+            {#        "성산구": ["상남동", "중앙동"]#}
+            {#    },#}
+            {#    "김해시": ["내외동", "삼계동"]#}
+            {# },#}
+            {#"제주특별자치도": {#}
+            {#    "제주시": ["연동", "노형동", "애월읍"],#}
+            {#    "서귀포시": ["동홍동", "서홍동", "성산읍"]#}
+            {# }#}
+        {# };#}
+        const locationData = {{ location_json|safe }};
 
         const sidoSelect = document.getElementById('sido');
         const sigunguSelect = document.getElementById('sigungu');
-        const townSelect = document.getElementById('town');
+        // const townSelect = document.getElementById('town');
 
-        const sigunguBox = document.getElementById('sigungu-box');
-        const townBox = document.getElementById('town-box');
+        // const sigunguBox = document.getElementById('sigungu-box');
+        // const townBox = document.getElementById('town-box');
+          Object.keys(locationData).forEach(sido => {
+            const option = document.createElement('option');
+            option.value = sido;
+            option.textContent = sido;
+            sidoSelect.appendChild(option);
+            document.getElementById('sigungu-box').classList.remove('hidden');
+          });
+
+          sidoSelect.addEventListener('change', () => {
+              const selectedSido = sidoSelect.value;
+              sigunguSelect.innerHTML = '<option value="">선택하세요</option>';
+
+              if (selectedSido && locationData[selectedSido]) {
+                    locationData[selectedSido].forEach(sigungu => {
+                        const option = document.createElement('option');
+                        option.value = sigungu;
+                        option.textContent = sigungu;
+                        sigunguSelect.appendChild(option);
+                    });
+              }
+          });
 
         function populateOptions(selectElement, options) {
             while (selectElement.children.length > 1) {
                 selectElement.removeChild(selectElement.lastChild);
             }
+
             options.forEach(option => {
                 const opt = document.createElement('option');
                 opt.value = option;
@@ -446,71 +469,71 @@
             });
         }
 
-        window.onload = () => {
-            populateOptions(sidoSelect, Object.keys(locationData));
-            updateSubmitButton(); // 페이지 로드 시 초기 버튼 상태 설정
-        };
+        {#window.onload = () => {#}
+        {#    populateOptions(sidoSelect, Object.keys(locationData));#}
+        {#    updateSubmitButton(); // 페이지 로드 시 초기 버튼 상태 설정#}
+        {# };#}
 
-        sidoSelect.addEventListener('change', () => {
-            const selectedSido = sidoSelect.value;
-            sigunguSelect.value = '';
-            townSelect.value = '';
-            sigunguBox.classList.add('hidden');
-            townBox.classList.add('hidden');
-
-            if (selectedSido) {
-                const sigunguData = locationData[selectedSido];
-
-                if (selectedSido === "세종특별자치시") {
-                    sigunguBox.classList.add('hidden');
-                    populateOptions(townSelect, sigunguData); // 세종시는 바로 동 리스트
-                    townBox.classList.remove('hidden');
-                } else {
-                    populateOptions(sigunguSelect, Object.keys(sigunguData));
-                    sigunguBox.classList.remove('hidden');
-                }
-            }
-            updateSubmitButton(); // 시/도 변경 시 버튼 상태 업데이트
-        });
-
-        sigunguSelect.addEventListener('change', () => {
-            const selectedSido = sidoSelect.value;
-            const selectedSigungu = sigunguSelect.value;
-            townSelect.value = '';
-            townBox.classList.add('hidden');
-
-            if (selectedSigungu && locationData[selectedSido]) {
-                const currentLevelData = locationData[selectedSido][selectedSigungu];
-
-                if (Array.isArray(currentLevelData)) {
-                    populateOptions(townSelect, currentLevelData);
-                    townBox.classList.remove('hidden');
-                } else if (typeof currentLevelData === 'object') {
-                    // 예: 경기도 수원시 -> 팔달구, 영통구
-                    populateOptions(townSelect, Object.keys(currentLevelData));
-                    townBox.classList.remove('hidden');
-                }
-            }
-            updateSubmitButton(); // 시/군/구 변경 시 버튼 상태 업데이트
-        });
-
-        townSelect.addEventListener('change', () => {
-            const selectedSido = sidoSelect.value;
-            const selectedSigungu = sigunguSelect.value;
-            const selectedTownOrDistrict = townSelect.value;
-
-            // 중복 채우기 방지 및 최종 읍/면/동 확정 로직 (계층이 복잡할 때)
-            if (selectedSido && selectedSigungu && selectedTownOrDistrict && selectedSido !== "세종특별자치시") {
-                const dataUnderSigungu = locationData[selectedSido][selectedSigungu];
-                if (typeof dataUnderSigungu === 'object' && !Array.isArray(dataUnderSigungu)) {
-                    const finalTowns = dataUnderSigungu[selectedTownOrDistrict];
-                    if (Array.isArray(finalTowns)) {
-                        populateOptions(townSelect, finalTowns);
-                    }
-                }
-            }
-            updateSubmitButton(); // 읍/면/동 변경 시 버튼 상태 업데이트
-        });
+        {#sidoSelect.addEventListener('change', () => {#}
+        {#    const selectedSido = sidoSelect.value;#}
+        {#    sigunguSelect.value = '';#}
+        {#    townSelect.value = '';#}
+        {#    sigunguBox.classList.add('hidden');#}
+        {#    townBox.classList.add('hidden');#}
+        {##}
+        {#    if (selectedSido) {#}
+        {#        const sigunguData = locationData[selectedSido];#}
+        {##}
+        {#        if (selectedSido === "세종특별자치시") {#}
+        {#            sigunguBox.classList.add('hidden');#}
+        {#            populateOptions(townSelect, sigunguData); // 세종시는 바로 동 리스트#}
+        {#            townBox.classList.remove('hidden');#}
+        {#        } else {#}
+        {#            populateOptions(sigunguSelect, Object.keys(sigunguData));#}
+        {#            sigunguBox.classList.remove('hidden');#}
+        {#        }#}
+        {#    }#}
+        {#    updateSubmitButton(); // 시/도 변경 시 버튼 상태 업데이트#}
+        {# });#}
+        {##}
+        {#sigunguSelect.addEventListener('change', () => {#}
+        {#    const selectedSido = sidoSelect.value;#}
+        {#    const selectedSigungu = sigunguSelect.value;#}
+        {#    townSelect.value = '';#}
+        {#    townBox.classList.add('hidden');#}
+        {##}
+        {#    if (selectedSigungu && locationData[selectedSido]) {#}
+        {#        const currentLevelData = locationData[selectedSido][selectedSigungu];#}
+        {##}
+        {#        if (Array.isArray(currentLevelData)) {#}
+        {#            populateOptions(townSelect, currentLevelData);#}
+        {#            townBox.classList.remove('hidden');#}
+        {#        } else if (typeof currentLevelData === 'object') {#}
+        {#            // 예: 경기도 수원시 -> 팔달구, 영통구#}
+        {#            populateOptions(townSelect, Object.keys(currentLevelData));#}
+        {#            townBox.classList.remove('hidden');#}
+        {#        }#}
+        {#    }#}
+        {#    updateSubmitButton(); // 시/군/구 변경 시 버튼 상태 업데이트#}
+        {# });#}
+        {##}
+        {#townSelect.addEventListener('change', () => {#}
+        {#    const selectedSido = sidoSelect.value;#}
+        {#    const selectedSigungu = sigunguSelect.value;#}
+        {#    const selectedTownOrDistrict = townSelect.value;#}
+        {##}
+        {#    // 중복 채우기 방지 및 최종 읍/면/동 확정 로직 (계층이 복잡할 때)#}
+        {#    if (selectedSido && selectedSigungu && selectedTownOrDistrict && selectedSido !== "세종특별자치시") {#}
+        {#        const dataUnderSigungu = locationData[selectedSido][selectedSigungu];#}
+        {#        if (typeof dataUnderSigungu === 'object' && !Array.isArray(dataUnderSigungu)) {#}
+        {#            const finalTowns = dataUnderSigungu[selectedTownOrDistrict];#}
+        {#            if (Array.isArray(finalTowns)) {#}
+        {#                populateOptions(townSelect, finalTowns);#}
+        {#            }#}
+        {#        }#}
+        {#    }#}
+        {#    updateSubmitButton(); // 읍/면/동 변경 시 버튼 상태 업데이트#}
+        {# });#}
         // --- 위치 데이터 및 드롭다운 로직 끝 ---
 
 

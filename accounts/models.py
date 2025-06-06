@@ -3,8 +3,9 @@ from django.contrib.auth.hashers import make_password, check_password
 
 # 지역 정보 (먼저 정의해야 함)
 class Location(models.Model):
-    sido = models.CharField(max_length=20, default='기타')     # 시/도
-    sigungu = models.CharField(max_length=50)    # 시/군/구
+    sido = models.CharField(max_length=100, default='기타')     # 시/도
+    sigungu = models.CharField(max_length=100)    # 시/군/구
+#   town = models.CharField(max_length=100)  # 읍면동
 
     def __str__(self):
         return f"{self.sido} {self.sigungu}"
