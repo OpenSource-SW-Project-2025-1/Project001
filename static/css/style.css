@@ -1,3 +1,18 @@
+button {
+    background: none; /* 브라우저 기본 배경색 제거 */
+    color: inherit; /* 부모로부터 글자색 상속 */
+    border: none; /* 브라우저 기본 테두리 제거 */
+    padding: 0; /* 브라우저 기본 패딩 제거 */
+    font: inherit; /* 부모로부터 폰트 스타일 상속 */
+    cursor: pointer; /* 마우스 커서를 포인터로 변경 */
+    outline: none; /* 클릭 시 나타나는 포커스 아웃라인 제거 */
+    margin: 0; /* 브라우저 기본 마진 제거 */
+    appearance: none; /* 표준 웹 요소의 브라우저 기본 렌더링 제거 */
+    -webkit-appearance: none; /* 웹킷 기반 브라우저 (Chrome, Safari) */
+    -moz-appearance: none; /* 모질라 기반 브라우저 (Firefox) */
+}
+
+
 /* ---------------- 기본 ---------------- */
 body {
     margin: 0;
@@ -124,6 +139,17 @@ body {
 .menu-link:active::after {
   transform: translate(-50%, -50%) scale(1);
   opacity: 1;
+}
+.login-btn:focus,
+.login-btn:focus-visible,
+.login-btn:active,
+.menu-link:focus,
+.menu-link:focus-visible,
+.menu-link:active {
+    outline: none;
+    border: 1px solid #cfd9ff; /* 기존 border 유지 */
+    box-shadow: 0 2px 6px rgba(100, 120, 200, 0.12); /* 기존 box-shadow 유지 */
+    background: linear-gradient(135deg, #5d8eff, #3f6bff); /* 기존 배경 유지 */
 }
 
 /* ---------------- 메뉴 드롭다운 ---------------- */
@@ -711,13 +737,17 @@ body {
 
 /* 기본 폼 스타일 */
 form {
-    max-width: 800px;
+    /*max-width: 800px;
     margin: auto;
     padding: 20px;
     border: 1px solid #eee;
     border-radius: 10px;
     background-color: #ffffff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+     */
+    /* 0607 이인수 : 모든 <form> 태그에 일괄 적용되던 기본 폼 스타일 제거.
+    - 로그아웃 버튼을 감싸는 <form> 태그에 원치 않는 배경 및 그림자 스타일이 적용되던 문제 해결.
+     */
 }
 
 /* 폼 요소 간의 일반적인 간격 */
