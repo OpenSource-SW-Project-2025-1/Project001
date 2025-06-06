@@ -1,10 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% block content %}
 
-</body>
-</html>
+<div class="welfare-container">
+    <div class="welfare-title">
+        <span class="welfare-badge">전라남도청</span>
+        <h2>전남 청년 문화복지 카드</h2>
+        <p>삶의 질을 올려주는 복지혜택</p>
+    </div>
+
+    <div class="welfare-section">
+        <h3>복지 정보</h3>
+        <table class="welfare-table">
+            <tr><td>정책 번호</td><td>11111111111111111111111111111111111</td></tr>
+            <tr><td>정책 내용</td><td>11111111111111111111111111111111111</td></tr>
+            <tr><td>사업 운영기간</td><td>11111111111111111111111111111111111</td></tr>
+            <tr><td>사업 신청기간</td><td>11111111111111111111111111111111111</td></tr>
+            <tr><td>지원 규모(명)</td><td>11111111111111111111111111111111111</td></tr>
+        </table>
+    </div>
+
+    <div class="welfare-section">
+        <h3>신청 조건</h3>
+        <table class="welfare-table">
+            <tr><td>소득</td><td>11111111111111111111111111111111111</td></tr>
+            <tr><td>학력</td><td>11111111111111111111111111111111111</td></tr>
+            <tr><td>취업 상태</td><td>11111111111111111111111111111111111</td></tr>
+            <tr><td>소속</td><td>11111111111111111111111111111111111</td></tr>
+            <tr><td>기혼 여부</td><td>11111111111111111111111111111111111</td></tr>
+            <tr><td>형제자매 수</td><td>11111111111111111111111111111111111</td></tr>
+            <tr><td>추가 사항</td><td>11111111111111111111111111111111111</td></tr>
+            <tr><td>참여 제한 사항</td><td>11111111111111111111111111111111111</td></tr>
+        </table>
+    </div>
+
+    <div class="welfare-section">
+        <h3>신청 방법</h3>
+        <table class="welfare-table">
+            <tr><td>신청 절차</td><td>11111111111111111111111111111111111</td></tr>
+            <tr><td>심사 및 발표</td><td>11111111111111111111111111111111111</td></tr>
+            <tr><td>신청 사이트</td><td>11111111111111111111111111111111111</td></tr>
+            <tr><td>제출 서류</td><td>11111111111111111111111111111111111</td></tr>
+        </table>
+    </div>
+
+    <div class="welfare-section welfare-back-section">
+        <a href="javascript:history.back();" class="welfare-back-button">← 뒤로가기</a>
+    </div>
+</div>
+
+{% endblock %}

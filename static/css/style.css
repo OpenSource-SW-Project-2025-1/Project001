@@ -92,6 +92,32 @@ body {
   gap: 6px;  /* 버튼 간격 조정 (붙어 보이게) */
 }
 
+/* 버튼 옛날거
+.login-btn,
+.menu-link {
+    display: inline-block;
+    background: linear-gradient(135deg, #5d8eff, #6fa8ff);
+    color: white;
+    padding: 8px 18px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 55, 255, 0.15);
+    transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.nav-btn:hover,
+.login-btn:hover,
+.menu-link:hover {
+    background: #0037ff;
+    box-shadow: 0 4px 12px rgba(0, 55, 255, 0.25);
+    transform: translateY(-2px);
+}
+*/
+
 /* 버튼 스타일 (Menu, Login 공통) */
 .login-btn,
 .menu-link {
@@ -1119,31 +1145,6 @@ form {
     to { transform: translateY(0); opacity: 1; }
 }
 
-/*-------- 공통 버튼 스타일 (로그인, 메뉴) -------*/
-.login-btn,
-.menu-link {
-    display: inline-block;
-    background: linear-gradient(135deg, #5d8eff, #6fa8ff);
-    color: white;
-    padding: 8px 18px;
-    border-radius: 12px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.95rem;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0, 55, 255, 0.15);
-    transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.nav-btn:hover,
-.login-btn:hover,
-.menu-link:hover {
-    background: #0037ff;
-    box-shadow: 0 4px 12px rgba(0, 55, 255, 0.25);
-    transform: translateY(-2px);
-}
-
 /* 회원가입 안내 */
 .login-helper {
   margin-top: 20px;
@@ -1801,4 +1802,114 @@ form {
     50% {
         transform: translateY(-5px); /* 중간에 위로 이동 (파도 효과) */
     }
+}
+
+/* welfare_info.html */
+body {
+    background-color: #f2f6fb;
+    font-family: 'Noto Sans KR', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.welfare-container {
+    max-width: 800px;
+    margin: 48px auto;
+    background-color: #ffffff;
+    padding: 32px 28px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.welfare-title {
+    background-color: #e2efff;
+    padding: 24px;
+    border-radius: 12px;
+    margin-bottom: 32px;
+    text-align: left;
+}
+
+.welfare-title h2 {
+    margin: 12px 0 10px;
+    font-size: 24px;
+    color: #2048a0;
+}
+
+.welfare-title p {
+    font-size: 15px;
+    color: #3b4c64;
+    margin: 0;
+}
+
+.welfare-badge {
+    background-color: #4285f4;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    display: inline-block;
+}
+
+.welfare-section {
+    margin-bottom: 36px;
+}
+
+.welfare-section h3 {
+    font-size: 18px;
+    margin-bottom: 16px;
+    border-left: 5px solid #3a75d2;
+    padding-left: 12px;
+    color: #234079;
+}
+
+.welfare-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #f9fbfc;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+.welfare-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 14px;
+    vertical-align: top;
+    line-height: 1.5;
+}
+
+.welfare-table tr:last-child td {
+    border-bottom: none;
+}
+
+.welfare-table td:first-child {
+    background-color: #edf4fc;
+    font-weight: 600;
+    width: 32%;
+    color: #2c3e50;
+}
+
+.welfare-back-section {
+    text-align: center;
+    margin-top: 60px;
+}
+
+.welfare-back-button {
+    display: inline-block;
+    padding: 12px 26px;
+    background: linear-gradient(135deg, #5b88f3, #3c6ef0);
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 16px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.25s ease, transform 0.2s ease;
+}
+
+.welfare-back-button:hover {
+    transform: scale(1.03);
+    background: linear-gradient(135deg, #3f6ef0, #2f59d6);
 }
