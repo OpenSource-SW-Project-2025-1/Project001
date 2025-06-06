@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
     {# 챗봇 페이지에서는 상단 메뉴바가 필요 없다고 판단되면 이 줄을 제거하세요 #}
-    {# {% include 'accounts/menu.html' %} #}
+    {% include 'accounts/menu.html' %}
 
     <main class="main">
         <section class="chat_area_ai">
@@ -56,7 +56,7 @@
             // 사용자 메시지를 chatHistory에 추가
             chatHistory.push({
                 "role": "user",
-                "parts": [{ "text": userMessage }]
+                "parts": [{"text": userMessage}]
             });
 
             //  입력 필드와 버튼 비활성화 
@@ -113,10 +113,13 @@
                     botReply = "네트워크 오류 또는 기타 문제가 발생했습니다. 다시 시도해 주세요.";
                 }
             } finally {
+                let processedBotReply = botReply.replace(/\n/g, '<br>');
+                const urlRegex = /(https?:\/\/[^\s<>"'()]+)/g;
+                processedBotReply = processedBotReply.replace(urlRegex, '<a href="$&" target="_blank" rel="noopener noreferrer">$&</a>');
                 // 로딩 표시 제거 및 챗봇 응답으로 대체
                 const loadingMessageElement = document.getElementById(loadingMessageId);
                 if (loadingMessageElement) {
-                    loadingMessageElement.querySelector('.bubble_ai').innerHTML = botReply;
+                    loadingMessageElement.querySelector('.bubble_ai').innerHTML = processedBotReply;
                 } else {
                     chatArea.innerHTML += `
                     <div class="message_wrapper message_bot_ai">
@@ -132,7 +135,7 @@
                     !botReply.startsWith("오류:") && !botReply.startsWith("네트워크 오류")) {
                     chatHistory.push({
                         "role": "model",
-                        "parts": [{ "text": botReply }]
+                        "parts": [{"text": botReply}]
                     });
                 }
 
@@ -156,5 +159,25 @@
             }
             return cookieValue;
         }
+
+        function adjustChatAreaHeight() {
+            const headerHeight = document.querySelector('header')?.offsetHeight || 0; // 헤더 요소의 실제 높이
+            const footerHeight = document.querySelector('footer')?.offsetHeight || 0; // 푸터 요소의 실제 높이 (만약 있다면)
+            const inputAreaHeight = document.getElementById('inputAreaAI')?.offsetHeight || 0; // 입력창의 실제 높이
+
+            const chatArea = document.getElementById('chatAreaAI');
+
+            if (chatArea) {
+                // 뷰포트 높이에서 헤더, 푸터, 입력창 높이를 뺀 값을 채팅 영역 높이로 설정
+                // 추가로 여백이 필요하면 더 빼주세요 (예: -10px)
+                const newHeight = window.innerHeight - headerHeight - footerHeight - inputAreaHeight;
+                chatArea.style.height = `${newHeight}px`;
+                // 입력창이 채팅 영역을 가리지 않도록 마진 추가 (필요시)
+                chatArea.style.marginBottom = `${inputAreaHeight}px`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', adjustChatAreaHeight);
+        window.addEventListener('resize', adjustChatAreaHeight);
     </script>
 {% endblock %}
