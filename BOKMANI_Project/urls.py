@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 from accounts import views
 from accounts.views import search_result_mock
@@ -16,3 +18,7 @@ urlpatterns = [
 
     path('chatbot/reply/', views.chatbot_reply, name='chatbot_reply'),
 ]
+
+# 개발 중 media 파일 서빙
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

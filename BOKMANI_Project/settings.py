@@ -146,3 +146,9 @@ SESSION_SAVE_EVERY_REQUEST = True
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 genai_API_KEY = "AIzaSyDcJjQ7FYV9nKs6jrBtIFfEAavt73QLI7A"
+
+import os
+
+# Media files (user-generated content or API 저장 파일 등)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

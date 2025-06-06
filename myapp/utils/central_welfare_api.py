@@ -1,6 +1,14 @@
 import requests
 import xml.etree.ElementTree as ET
 import sys
+import os
+import django
+
+# ✅ Django 설정 초기화
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'BOKMANI_Project.settings')
+django.setup()
+
+from django.conf import settings
 
 url = "http://apis.data.go.kr/B554287/NationalWelfareInformationsV001/NationalWelfarelistV001"
 service_key = "CgiK/2Ib1MAAnwFFRs6sAKrz1sOwmMAPJrMqEcEnCdq+ytCunvXYxsyzyzzPk6t96xz706kdATdeQltO6GY9iw=="
@@ -17,8 +25,8 @@ params = {
     "orderBy": "popular"
 }
 
-# ✅ Django에서 인자 넘겨받기
 if __name__ == "__main__":
+    # 인자 처리
     if len(sys.argv) >= 3:
         params["age"] = sys.argv[1]
         params["searchWrd"] = sys.argv[2]
@@ -31,8 +39,10 @@ if __name__ == "__main__":
 
     response = requests.get(url, params=params)
 
-    # ✅ 결과 저장 파일 경로
-    result_path = "C:/Users/User/Desktop/api_result.txt"
+    # 결과 저장 경로: media/api_result.txt
+    output_dir = os.path.join(settings.BASE_DIR, 'media')
+    os.makedirs(output_dir, exist_ok=True)
+    result_path = os.path.join(output_dir, 'api_result.txt')
 
     if response.status_code == 200:
         try:
@@ -61,4 +71,3 @@ if __name__ == "__main__":
     else:
         with open(result_path, "w", encoding="utf-8") as f:
             f.write(f"❌ 요청 실패\n상태 코드: {response.status_code}\n응답 일부: {response.text[:300]}")
-
