@@ -22,43 +22,21 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-/* 로고 영역 링크 스타일 */
+/* 로고 영역 */
 .logo-area {
   user-select: none;
   display: flex;
   align-items: center;
-  text-decoration: none;  /* 밑줄 제거 */
-  color: inherit;         /* 기본 글자 색 유지 */
+  text-decoration: none;
+  color: inherit;
 }
 
-/* 로고 이미지 */
 .logo-img {
   width: 38px;
   height: 38px;
   margin-right: 12px;
 }
 
-/* 로고 텍스트 */
-.logo-text {
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-
-  font-family: 'Jua', sans-serif;
-  font-size: 1.6rem;
-  font-weight: 700;
-  background: linear-gradient(270deg, #00f, #6af, #0cf, #00f);
-  background-size: 400% 400%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradientMove 6s ease infinite;
-  text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-
-/* 로고 텍스트 */
 .logo-text {
   font-family: 'Jua', sans-serif;
   font-size: 1.6rem;
@@ -71,6 +49,149 @@ body {
   text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* 버튼 그룹 */
+.header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 6px;  /* 버튼 간격 조정 (붙어 보이게) */
+}
+
+/* 버튼 스타일 (Menu, Login 공통) */
+.login-btn,
+.menu-link {
+  display: inline-block;
+  background: linear-gradient(135deg, #5d8eff, #3f6bff);
+  color: white;
+  padding: 8px 18px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: 1px solid #cfd9ff;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(100, 120, 200, 0.12);
+  transition: all 0.25s ease, transform 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* hover 효과 */
+.login-btn:hover,
+.menu-link:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 10px rgba(80, 100, 200, 0.15);
+}
+
+/* 클릭 시 퍼짐 효과 */
+.login-btn::after,
+.menu-link::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 180%;
+  height: 180%;
+  background: rgba(150, 170, 255, 0.2);
+  border-radius: 50%;
+  z-index: 1;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+}
+
+.login-btn:active::after,
+.menu-link:active::after {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+/* ---------------- 메뉴 드롭다운 ---------------- */
+
+.dropdown-content.show {
+  display: block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 55px;
+  right: 20px;
+  background-color: #ffffff; /* 흰 배경 */
+  min-width: 700px; /* 더 넓은 드롭다운 */
+  padding: 24px;
+  border-radius: 20px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.12); /* 더 자연스러운 그림자 */
+  border: 1px solid #c0c4cc; /* 연회색 테두리 */
+  font-family: 'Pretendard', sans-serif;
+  margin-top: 8px; /* 버튼과 간격 */
+  z-index: 1000; /* 충분히 앞에 위치하도록 */
+  animation: fadeIn 0.25s ease;
+}
+
+.dropdown-content.show {
+  display: block;
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-content table {
+  table-layout: auto;
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.dropdown-content th {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #444; /* 텍스트 */
+  background-color: #f0f4ff; /* 연파랑 배경 */
+  padding: 12px;
+  border-bottom: 1px solid #d9e2f3;
+  letter-spacing: 0.4px;
+  vertical-align: middle;
+}
+
+.dropdown-content td {
+  padding: 14px;
+  font-size: 0.95rem;
+  color: #222; /* 본문 텍스트 더 진하게 */
+  border-bottom: 1px solid #e8edf5;
+  vertical-align: middle;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px 15px;
+  color: #333;  /* 더 차분한 글씨색 */
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-content a:hover {
+  background-color: #e6eeff;  /* 연한 하늘색 배경 */
+  color: #0037ff;             /* 브랜드 블루 */
+  text-decoration: none;
+}
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.show {display: block;}
 
 /* ---------------- 메인 ---------------- */
 .main {
@@ -160,29 +281,61 @@ body {
 
 
 /* ---------------- Suggestion ---------------- */
+/* 버튼 감싸는 영역 */
 .suggestion-area {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin: 60px 0 40px 0;
 }
 
+/* 추천 버튼 */
 .suggestion-button {
-  font-size: 1.3rem;
-  font-weight: bold;
-  background: linear-gradient(135deg, #0037ff, #5d8eff);
+  display: inline-block;
+  font-size: 1.2rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #002bdd, #6ea3ff);
   color: white;
-  padding: 14px 32px;
+  padding: 16px 40px;
   border-radius: 999px;
   border: none;
-  box-shadow: 0 4px 12px rgba(0, 55, 255, 0.3);
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  text-decoration: none; /* ← 밑줄 제거 */
+  transition: transform 0.25s ease, box-shadow 0.3s ease, background 0.3s ease;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  z-index: 0;
 }
 
+/* hover 시 효과 */
 .suggestion-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(0, 55, 255, 0.4);
+  transform: scale(1.04);
+  box-shadow: 0 0 20px rgba(0, 50, 255, 0.35);
+  background: linear-gradient(135deg, #001fc4, #5e9dff);
 }
+
+/* 클릭 시 퍼지는 물결 효과 */
+.suggestion-button::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 250%; /* ✅ 더 크게 확장 */
+  height: 250%;
+  background: rgba(255, 255, 255, 0.25); /* ✅ 살짝 더 뚜렷하게 */
+  transform: translate(-50%, -50%) scale(0);
+  border-radius: 50%;
+  opacity: 0;
+  transition: transform 0.6s ease, opacity 0.6s ease;
+  z-index: 0; /* ✅ 버튼 텍스트 위로 올라오지 않도록 */
+}
+
+.suggestion-button:active::after {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
 
 /* ---------------- 해시태그 ---------------- */
 .hashtag-area {
@@ -257,7 +410,7 @@ body {
 }
 
 .more-btn:hover {
-  background: #0037ff;
+  background: #2150ff;
   box-shadow: 0 4px 12px rgba(0, 55, 255, 0.25);
   cursor: pointer;
 }
@@ -392,14 +545,6 @@ body {
   color: #0037ff;
 }
 
-/*이인수 6.05 멤버들 이름 조금 작게*/
-.footer .team .member-names {
-  font-size: 0.8em;
-  display: block;
-  margin-top: 5px;
-  color: #777;
-}
-
 .footer .social,
 .footer .service {
   font-weight: 500;
@@ -515,31 +660,6 @@ body {
   outline: none;
   border-color: #0037ff;
   box-shadow: 0 0 0 3px rgba(0, 55, 255, 0.15);
-}
-
-/*-------- 공통 버튼 스타일 (로그인, 메뉴) -------*/
-.login-btn,
-.menu-link {
-  display: inline-block;
-  background: linear-gradient(135deg, #5d8eff, #6fa8ff);
-  color: white;
-  padding: 8px 18px;
-  border-radius: 12px;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.95rem;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 55, 255, 0.15);
-  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.nav-btn:hover,
-.login-btn:hover,
-.menu-link:hover {
-  background: #0037ff;
-  box-shadow: 0 4px 12px rgba(0, 55, 255, 0.25);
-  transform: translateY(-2px);
 }
 
 /* 회원가입 안내 */
@@ -700,116 +820,6 @@ body {
   box-shadow: 0 6px 18px rgba(0, 55, 255, 0.3);
 }
 
-/* ---------------- 메뉴 드롭다운 ---------------- */
-
-.dropdown-content.show {
-  display: block;
-}
-
-.menu-container {
-  position: absolute;
-  top: 20px;
-  right: 32px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  z-index: 1001;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background-color: #ffffff; /* 흰 배경 */
-  min-width: 700px; /* 더 넓은 드롭다운 */
-  padding: 24px;
-  border-radius: 20px;
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.12); /* 더 자연스러운 그림자 */
-  border: 1px solid #c0c4cc; /* 연회색 테두리 */
-  font-family: 'Pretendard', sans-serif;
-  margin-top: 8px; /* 버튼과 간격 */
-  z-index: 1000; /* 충분히 앞에 위치하도록 */
-  animation: fadeIn 0.25s ease;
-}
-
-.dropdown-content.show {
-  display: block;
-}
-
-.menu-container {
-  position: absolute;
-  top: 20px;
-  right: 32px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  z-index: 1001;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.dropdown-content table {
-  table-layout: auto;
-  width: 100%;
-  border-collapse: collapse;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.dropdown-content th {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #444; /* 텍스트 */
-  background-color: #f0f4ff; /* 연파랑 배경 */
-  padding: 12px;
-  border-bottom: 1px solid #d9e2f3;
-  letter-spacing: 0.4px;
-  vertical-align: middle;
-}
-
-.dropdown-content td {
-  padding: 14px;
-  font-size: 0.95rem;
-  color: #222; /* 본문 텍스트 더 진하게 */
-  border-bottom: 1px solid #e8edf5;
-  vertical-align: middle;
-}
-
-.dropdown-content a {
-  display: block;
-  padding: 10px 15px;
-  color: #333;  /* 더 차분한 글씨색 */
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 500;
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-.dropdown-content a:hover {
-  background-color: #e6eeff;  /* 연한 하늘색 배경 */
-  color: #0037ff;             /* 브랜드 블루 */
-  text-decoration: none;
-}
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.show {display: block;}
 /* ---------------- 검색결과 화면 전용 ---------------- */
 
 /* 검색 타이틀 */
@@ -1073,14 +1083,6 @@ body {
 
 /* 팀 소개 타이틀 */
 .team-title {
-  user-select: none !important;         /* 모든 브라우저에 적용 */
-  -webkit-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
-
-  pointer-events: none; /* 클릭/드래그 차단용 추가 옵션 */
-  cursor: default;
-
   font-family: 'Jua', sans-serif;
   font-size: 3rem;
   text-align: center;
@@ -1091,7 +1093,6 @@ body {
   -webkit-text-fill-color: transparent;
   animation: gradientMove 6s ease infinite;
   text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
-
 }
 
 /* 각 줄(행) 정렬용 */
@@ -1148,152 +1149,4 @@ body {
 .team-desc li {
   margin-bottom: 4px;
   list-style: disc;
-}
-
-/* ----------chat_styles.css----------- */
-
-/* 전체적인 챗 영역 */
-.chat_area_ai {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    height: calc(100vh - 120px); /* 헤더, 푸터 높이에 따라 조절 */
-    overflow-y: auto; /* 메시지 많아지면 스크롤 */
-    background-color: #f2f2f2; /* 카톡 배경색과 유사하게 */
-}
-
-/* 메시지 공통 스타일 */
-.message_wrapper {
-    display: flex;
-    margin-bottom: 10px;
-}
-
-/* 봇 메시지 */
-.message_bot_ai {
-    justify-content: flex-start; /* 왼쪽 정렬 */
-}
-
-.message_bot_ai .bubble_ai {
-    background-color: #ffffff; /* 흰색 배경 */
-    color: #333;
-    border-radius: 15px;
-    padding: 10px 15px;
-    max-width: 70%; /* 메시지 버블 최대 너비 */
-    word-break: break-word; /* 긴 단어 줄바꿈 */
-    box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13); /* 그림자 효과 */
-    position: relative;
-    margin-left: 10px; /* 이모지와의 간격 */
-}
-
-/* 사용자 메시지 */
-.message_user_ai {
-    justify-content: flex-end; /* 오른쪽 정렬 */
-}
-
-.message_user_ai .bubble_ai {
-    background-color: #fee500; /* 카톡 전송 메시지 색상 (노란색) */
-    color: #333;
-    border-radius: 15px;
-    padding: 10px 15px;
-    max-width: 70%;
-    word-break: break-word;
-    box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
-    position: relative;
-}
-
-/* 이모지 (봇 메시지에만 적용) */
-.emoji_ai {
-    font-size: 24px;
-    margin-right: 5px;
-    align-self: flex-start; /* 버블 상단에 정렬 */
-    min-width: 30px; /* 이모지 공간 확보 */
-    text-align: center;
-    padding-top: 5px; /* 버블 높이에 맞춰 조정 */
-}
-
-/* 입력창 */
-.input_area_ai {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: #f9f9f9;
-    padding: 10px;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.input_form_ai {
-    display: flex;
-    width: 100%;
-    max-width: 700px; /* 입력창 최대 너비 */
-    background-color: #fff;
-    border-radius: 25px;
-    border: 1px solid #ddd;
-    overflow: hidden;
-}
-
-.input_form_ai input[type="text"] {
-    flex-grow: 1;
-    border: none;
-    padding: 10px 15px;
-    font-size: 16px;
-    outline: none;
-}
-
-.input_form_ai button[type="submit"] {
-    background-color: #000; /* 전송 버튼 색상 */
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    font-size: 18px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    border-top-right-radius: 25px;
-    border-bottom-right-radius: 25px;
-}
-
-.input_form_ai button[type="submit"]:hover {
-    background-color: #333;
-}
-
-.input_form_ai button[type="submit"]:disabled {
-    background-color: #cccccc; /* 회색 배경 */
-    color: #666666; /* 어두운 회색 글씨 */
-    cursor: not-allowed; /* 마우스 커서를 '금지' 표시로 변경 */
-}
-
-/* 로딩 점들 스타일 */
-.loading-dot {
-    display: inline-block; /* 각 점을 인라인 블록으로 만들어 위치 조정 가능 */
-    width: 6px;
-    height: 6px;
-    background-color: #333; /* 점 색상 */
-    border-radius: 50%; /* 원형 */
-    margin: 0 1px; /* 점들 사이 간격 */
-    animation: wave 1.2s infinite ease-in-out; /* wave 애니메이션 적용 */
-}
-
-/* 각 점에 애니메이션 지연 시간 다르게 적용 */
-.loading-dot:nth-child(1) {
-    animation-delay: 0s;
-}
-
-.loading-dot:nth-child(2) {
-    animation-delay: 0.2s;
-}
-
-.loading-dot:nth-child(3) {
-    animation-delay: 0.4s;
-}
-
-/* 파도 물결 애니메이션 (keyframes) */
-@keyframes wave {
-    0%, 100% {
-        transform: translateY(0); /* 시작과 끝은 제자리 */
-    }
-    50% {
-        transform: translateY(-5px); /* 중간에 위로 이동 (파도 효과) */
-    }
 }
