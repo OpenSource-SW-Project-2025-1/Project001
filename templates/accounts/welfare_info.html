@@ -1,16 +1,18 @@
 {% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
 {% block content %}
 
-<div class="container">
-    <div class="title">
-        <span class="badge">전라남도청</span>
+<div class="welfare-container">
+    <div class="welfare-title">
+        <span class="welfare-badge">전라남도청</span>
         <h2>전남 청년 문화복지 카드</h2>
         <p>삶의 질을 올려주는 복지혜택</p>
     </div>
 
-    <div class="section">
+    <div class="welfare-section">
         <h3>복지 정보</h3>
-        <table>
+        <table class="welfare-table">
             <tr><td>정책 번호</td><td>11111111111111111111111111111111111</td></tr>
             <tr><td>정책 내용</td><td>11111111111111111111111111111111111</td></tr>
             <tr><td>사업 운영기간</td><td>11111111111111111111111111111111111</td></tr>
@@ -19,9 +21,9 @@
         </table>
     </div>
 
-    <div class="section">
+    <div class="welfare-section">
         <h3>신청 조건</h3>
-        <table>
+        <table class="welfare-table">
             <tr><td>소득</td><td>11111111111111111111111111111111111</td></tr>
             <tr><td>학력</td><td>11111111111111111111111111111111111</td></tr>
             <tr><td>취업 상태</td><td>11111111111111111111111111111111111</td></tr>
@@ -33,9 +35,9 @@
         </table>
     </div>
 
-    <div class="section">
+    <div class="welfare-section">
         <h3>신청 방법</h3>
-        <table>
+        <table class="welfare-table">
             <tr><td>신청 절차</td><td>11111111111111111111111111111111111</td></tr>
             <tr><td>심사 및 발표</td><td>11111111111111111111111111111111111</td></tr>
             <tr><td>신청 사이트</td><td>11111111111111111111111111111111111</td></tr>
@@ -43,119 +45,9 @@
         </table>
     </div>
 
-    <div class="section back-section">
-        <a href="javascript:history.back();" class="back-button">← 뒤로가기</a>
+    <div class="welfare-section welfare-back-section">
+        <a href="javascript:history.back();" class="welfare-back-button">← 뒤로가기</a>
     </div>
 </div>
-
-<style>
-    body {
-        background-color: #f2f6fb;
-        font-family: 'Noto Sans KR', sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-
-    .container {
-        max-width: 800px;
-        margin: 36px auto;
-        background-color: #ffffff;
-        padding: 24px 20px;
-        border-radius: 14px;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
-    }
-
-    .title {
-        background-color: #e2efff;
-        padding: 20px;
-        border-radius: 10px;
-        margin-bottom: 24px;
-        text-align: left;
-    }
-
-    .title h2 {
-        margin: 8px 0 6px;
-        font-size: 23px;
-        color: #2048a0;
-    }
-
-    .title p {
-        font-size: 14px;
-        color: #3b4c64;
-        margin: 0;
-    }
-
-    .badge {
-        background-color: #4285f4;
-        color: white;
-        padding: 4px 10px;
-        border-radius: 6px;
-        font-size: 13px;
-        display: inline-block;
-    }
-
-    .section {
-        margin-bottom: 18px;
-    }
-
-    .section h3 {
-        font-size: 17px;
-        margin-bottom: 10px;
-        border-left: 4px solid #3a75d2;
-        padding-left: 10px;
-        color: #234079;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        background-color: #f9fbfc;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-    }
-
-    table td {
-        padding: 10px 12px;
-        border-bottom: 1px solid #e0e0e0;
-        font-size: 14px;
-        vertical-align: top;
-    }
-
-    table tr:last-child td {
-        border-bottom: none;
-    }
-
-    table td:first-child {
-        background-color: #edf4fc;
-        font-weight: 600;
-        width: 32%;
-        color: #2c3e50;
-    }
-
-    .back-section {
-        text-align: center;
-        margin-top: 30px;
-    }
-
-    .back-button {
-        display: inline-block;
-        padding: 10px 22px;
-        background: linear-gradient(135deg, #5b88f3, #3c6ef0);
-        color: white;
-        text-decoration: none;
-        border: none;
-        border-radius: 8px;
-        font-weight: 600;
-        font-size: 15px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        transition: all 0.25s ease, transform 0.2s ease;
-    }
-
-    .back-button:hover {
-        transform: scale(1.03);
-        background: linear-gradient(135deg, #3f6ef0, #2f59d6);
-    }
-</style>
 
 {% endblock %}
