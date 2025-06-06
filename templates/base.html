@@ -2,26 +2,26 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Bokmani{% endblock %}</title>
+  <meta charset="UTF-8">
+  <title>{% block title %}Bokmani{% endblock %}</title>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
-    <!-- Pretendard 폰트 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.8/dist/web/static/pretendard.css">
-    <!-- CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+  <!-- Pretendard 폰트 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.8/dist/web/static/pretendard.css">
+  <!-- CSS -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
 
-<!-- 헤더 -->
+<!-- ✅ 헤더 -->
 <header class="header">
   <a href="{% url 'main' %}" class="logo-area">
     <img src="{% static 'img/bokmani-icon.png' %}" alt="Bokmani 로고" class="logo-img">
     <span class="logo-text">BOKMANI</span>
   </a>
 
-  <!-- ✅ 오른쪽 버튼 그룹 -->
+  <!-- 오른쪽 버튼 그룹 -->
   <div class="header-buttons">
     <span class="menu-link" onclick="toggleDropdown()">Menu</span>
 
@@ -38,26 +38,26 @@
   {% include 'accounts/menu.html' %}
 </header>
 
+<!-- ✅ 본문 내용 전환 효과 영역 -->
+<div class="page-content" id="pageContent">
+  {% block content %}{% endblock %}
+</div>
 
-
-<!-- 페이지별 내용 삽입 -->
-{% block content %}{% endblock %}
-
-<!-- 푸터 -->
+<!-- ✅ 푸터 -->
 <footer class="footer">
-    <div class="team">
-        Team BokMANI<br>
-        <span class="member-names">윤수진 김재훈 송태양 이인수 엄희찬</span>
-    </div>
-    <div class="social">
-        <a href="https://instagram.com" target="_blank">Instagram</a><br>
-        <a href="https://www.kakaocorp.com/page/" target="_blank">Kakao Talk</a><br>
-        <a href="https://www.line.me/ko/" target="_blank">Line</a>
-    </div>
-    <div class="service">
-        <a href="#">Customer Service Center</a><br>
-        <a href="#">문의하기</a>
-    </div>
+  <div class="team">
+    Team BokMANI<br>
+    <span class="member-names">윤수진 김재훈 송태양 이인수 엄희찬</span>
+  </div>
+  <div class="social">
+    <a href="https://instagram.com" target="_blank">Instagram</a><br>
+    <a href="https://www.kakaocorp.com/page/" target="_blank">Kakao Talk</a><br>
+    <a href="https://www.line.me/ko/" target="_blank">Line</a>
+  </div>
+  <div class="service">
+    <a href="#">Customer Service Center</a><br>
+    <a href="#">문의하기</a>
+  </div>
 </footer>
 
 <!-- ✅ 메시지 알림 -->
@@ -90,6 +90,18 @@
 
     if (!menuButton && !insideMenu) {
       dropdown.style.display = "none";
+    }
+  });
+</script>
+
+<!-- ✅ 본문 전환 효과 -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const page = document.getElementById("pageContent");
+    if (page) {
+      setTimeout(() => {
+        page.classList.add("loaded");
+      }, 50);
     }
   });
 </script>
