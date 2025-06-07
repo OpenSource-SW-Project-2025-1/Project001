@@ -5,179 +5,149 @@
     {% include 'accounts/menu.html' %}
 
     <main class="main">
-        <section class="chat_area_ai">
-            <div class="message_wrapper message_bot_ai">
-                <span class="emoji_ai">🎓</span>
-                <div class="bubble_ai">무엇이든 물어보세요</div>
-            </div>
-        </section>
 
-        <footer class="input_area_ai">
-            <form class="input_form_ai">
-                <input type="text" placeholder="메시지를 입력하세요"/>
-                <button type="submit">전송</button>
-            </form>
-        </footer>
-    </main>
+    <section class="chatbot-chat-area" id="chatAreaAI">
+        <div class="chatbot-message-wrapper chatbot-message-bot">
+            <span class="chatbot-emoji">🎓</span>
+            <div class="chatbot-bubble">안녕하세요! 무엇을 도와드릴까요?</div>
+        </div>
+    </section>
+
+    <div class="chatbot-input-area" id="inputAreaAI">
+        <form class="chatbot-input-form">
+            <input type="text" placeholder="메시지를 입력하세요" />
+            <button type="submit">전송</button>
+        </form>
+    </div>
+</main>
     <script>
-        const form = document.querySelector('.input_form_ai');
-        const input = form.querySelector('input');
-        const sendButton = form.querySelector('button[type="submit"]'); // 전송 버튼을 선택
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.querySelector(".chatbot-input-form");
+  const input = form.querySelector("input");
+  const sendButton = form.querySelector('button[type="submit"]');
+  const chatArea = document.querySelector(".chatbot-chat-area");
 
-        const chatArea = document.querySelector('.chat_area_ai');
+  let chatHistory = [];
 
-        let chatHistory = [];
+  const API_TIMEOUT_MS = 10000;
 
-        const API_TIMEOUT_MS = 10000; // 10초
+  function setInputEnabled(enabled) {
+    input.disabled = !enabled;
+    sendButton.disabled = !enabled;
+    if (enabled) input.focus();
+  }
 
-        // *** 입력 필드와 버튼 활성화/비활성화 함수 ***
-        function setInputEnabled(enabled) {
-            input.disabled = !enabled; // input 필드 활성화/비활성화
-            sendButton.disabled = !enabled; // 전송 버튼 활성화/비활성화
-            if (enabled) {
-                input.focus(); // 활성화되면 입력 필드에 포커스
-            }
-        }
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const userMessage = input.value.trim();
+    if (!userMessage) return;
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const userMessage = input.value.trim();
-            if (!userMessage) return;
+    // 사용자 메시지 출력
+    const userMsg = document.createElement("div");
+    userMsg.className = "chatbot-message-wrapper chatbot-message-user";
+    userMsg.innerHTML = `<div class="chatbot-bubble">${userMessage}</div>`;
+    chatArea.appendChild(userMsg);
+    input.value = "";
+    chatArea.scrollTop = chatArea.scrollHeight;
 
-            // 사용자 메시지 UI에 추가
-            chatArea.innerHTML += `
-            <div class="message_wrapper message_user_ai">
-                <div class="bubble_ai">${userMessage}</div>
-            </div>
-            `;
-            input.value = "";
-            chatArea.scrollTop = chatArea.scrollHeight;
+    chatHistory.push({ role: "user", parts: [{ text: userMessage }] });
+    setInputEnabled(false);
 
-            // 사용자 메시지를 chatHistory에 추가
-            chatHistory.push({
-                "role": "user",
-                "parts": [{"text": userMessage}]
-            });
+    // 로딩 메시지
+    const loadingMsg = document.createElement("div");
+    const loadingId = `loading-${Date.now()}`;
+    loadingMsg.className = "chatbot-message-wrapper chatbot-message-bot";
+    loadingMsg.id = loadingId;
+    loadingMsg.innerHTML = `
+      <span class="chatbot-emoji">🎓</span>
+      <div class="chatbot-bubble">
+        <span class="loading-dot"></span>
+        <span class="loading-dot"></span>
+        <span class="loading-dot"></span>
+      </div>
+    `;
+    chatArea.appendChild(loadingMsg);
+    chatArea.scrollTop = chatArea.scrollHeight;
 
-            //  입력 필드와 버튼 비활성화 
-            setInputEnabled(false);
+    let botReply = "죄송합니다. 답변을 받아오는데 너무 오래 걸립니다.";
 
-            // 챗봇 로딩 표시 추가
-            const loadingMessageId = `loading-message-${Date.now()}`;
-            chatArea.innerHTML += `
-            <div class="message_wrapper message_bot_ai" id="${loadingMessageId}">
-                <span class="emoji_ai">🎓</span>
-                <div class="bubble_ai">
-                    <span class="loading-dot">.</span><span class="loading-dot">.</span><span class="loading-dot">.</span>
-                </div>
-            </div>
-            `;
-            chatArea.scrollTop = chatArea.scrollHeight;
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
 
-            let botReply = "죄송합니다. 답변을 받아오는데 너무 오래 걸립니다. 잠시 후 다시 시도해 주세요."; // 타임아웃 기본 메시지
+    try {
+      const res = await fetch("/chatbot/reply/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken"),
+        },
+        body: JSON.stringify({
+          message: userMessage,
+          history: chatHistory,
+        }),
+        signal: controller.signal,
+      });
 
-            // fetch 요청에 타임아웃 적용
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
+      clearTimeout(timeout);
 
-            try {
-                const res = await fetch("/chatbot/reply/", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRFToken": getCookie("csrftoken")
-                    },
-                    body: JSON.stringify({
-                        message: userMessage,
-                        history: chatHistory
-                    }),
-                    signal: controller.signal
-                });
+      if (!res.ok) {
+        const errData = await res.json();
+        botReply = `오류: ${errData.error || "알 수 없는 서버 오류"}`;
+      } else {
+        const data = await res.json();
+        botReply = data.reply;
+      }
+    } catch (error) {
+      clearTimeout(timeout);
+      botReply = error.name === "AbortError"
+        ? "요청 시간이 초과되었습니다."
+        : "네트워크 오류가 발생했습니다.";
+    } finally {
+      const loadingEl = document.getElementById(loadingId);
+      let processed = botReply.replace(/\n/g, "<br>");
+      const urlRegex = /(https?:\/\/[^\s<>"'()]+)/g;
+      processed = processed.replace(urlRegex, '<a href="$&" target="_blank" rel="noopener noreferrer">$&</a>');
 
-                clearTimeout(timeoutId);
+      if (loadingEl) {
+        loadingEl.querySelector(".chatbot-bubble").innerHTML = processed;
+      }
 
-                if (!res.ok) {
-                    const errorData = await res.json();
-                    botReply = `오류: ${errorData.error || '알 수 없는 서버 오류'}`;
-                } else {
-                    const data = await res.json();
-                    botReply = data.reply;
-                }
+      if (!botReply.startsWith("죄송합니다") &&
+          !botReply.startsWith("오류:") &&
+          !botReply.startsWith("네트워크")) {
+        chatHistory.push({ role: "model", parts: [{ text: botReply }] });
+      }
 
-            } catch (error) {
-                clearTimeout(timeoutId);
-                if (error.name === 'AbortError') {
-                    console.error("API 요청 시간 초과:", error);
-                } else {
-                    console.error("API 요청 중 오류 발생:", error);
-                    botReply = "네트워크 오류 또는 기타 문제가 발생했습니다. 다시 시도해 주세요.";
-                }
-            } finally {
-                let processedBotReply = botReply.replace(/\n/g, '<br>');
-                const urlRegex = /(https?:\/\/[^\s<>"'()]+)/g;
-                processedBotReply = processedBotReply.replace(urlRegex, '<a href="$&" target="_blank" rel="noopener noreferrer">$&</a>');
-                // 로딩 표시 제거 및 챗봇 응답으로 대체
-                const loadingMessageElement = document.getElementById(loadingMessageId);
-                if (loadingMessageElement) {
-                    loadingMessageElement.querySelector('.bubble_ai').innerHTML = processedBotReply;
-                } else {
-                    chatArea.innerHTML += `
-                    <div class="message_wrapper message_bot_ai">
-                        <span class="emoji_ai">🎓</span>
-                        <div class="bubble_ai">${botReply}</div>
-                    </div>
-                    `;
-                }
-                chatArea.scrollTop = chatArea.scrollHeight;
+      chatArea.scrollTop = chatArea.scrollHeight;
+      setInputEnabled(true);
+    }
+  });
 
-                // 챗봇 응답을 chatHistory에 추가 (타임아웃 메시지는 추가하지 않음)
-                if (botReply !== "죄송합니다. 답변을 받아오는데 너무 오래 걸립니다. 잠시 후 다시 시도해 주세요." &&
-                    !botReply.startsWith("오류:") && !botReply.startsWith("네트워크 오류")) {
-                    chatHistory.push({
-                        "role": "model",
-                        "parts": [{"text": botReply}]
-                    });
-                }
+  function getCookie(name) {
+    const cookies = document.cookie.split(';');
+    for (let c of cookies) {
+      const trimmed = c.trim();
+      if (trimmed.startsWith(name + "=")) {
+        return decodeURIComponent(trimmed.substring(name.length + 1));
+      }
+    }
+    return null;
+  }
 
-                // 입력 필드와 버튼 다시 활성화
-                setInputEnabled(true);
-            }
-        });
+  function adjustChatAreaHeight() {
+    const headerH = document.querySelector("header")?.offsetHeight || 0;
+    const footerH = document.querySelector("footer")?.offsetHeight || 0;
+    const inputH = document.getElementById("inputAreaAI")?.offsetHeight || 0;
+    const chatArea = document.getElementById("chatAreaAI");
+    if (chatArea) {
+      const newHeight = window.innerHeight - headerH - footerH - inputH - 24;
+      chatArea.style.maxHeight = `${newHeight}px`;
+    }
+  }
 
-        // CSRF 토큰 가져오기
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== "") {
-                const cookies = document.cookie.split(';');
-                for (let cookie of cookies) {
-                    const trimmed = cookie.trim();
-                    if (trimmed.startsWith(name + "=")) {
-                        cookieValue = decodeURIComponent(trimmed.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
+  adjustChatAreaHeight();
+  window.addEventListener("resize", adjustChatAreaHeight);
+});
+</script>
 
-        function adjustChatAreaHeight() {
-            const headerHeight = document.querySelector('header')?.offsetHeight || 0; // 헤더 요소의 실제 높이
-            const footerHeight = document.querySelector('footer')?.offsetHeight || 0; // 푸터 요소의 실제 높이 (만약 있다면)
-            const inputAreaHeight = document.getElementById('inputAreaAI')?.offsetHeight || 0; // 입력창의 실제 높이
-
-            const chatArea = document.getElementById('chatAreaAI');
-
-            if (chatArea) {
-                // 뷰포트 높이에서 헤더, 푸터, 입력창 높이를 뺀 값을 채팅 영역 높이로 설정
-                // 추가로 여백이 필요하면 더 빼주세요 (예: -10px)
-                const newHeight = window.innerHeight - headerHeight - footerHeight - inputAreaHeight;
-                chatArea.style.height = `${newHeight}px`;
-                // 입력창이 채팅 영역을 가리지 않도록 마진 추가 (필요시)
-                chatArea.style.marginBottom = `${inputAreaHeight}px`;
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', adjustChatAreaHeight);
-        window.addEventListener('resize', adjustChatAreaHeight);
-    </script>
 {% endblock %}
