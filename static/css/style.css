@@ -64,6 +64,7 @@ body {
     width: 38px;
     height: 38px;
     margin-right: 12px;
+    border-radius: 30%;
 }
 
 /* 로고 텍스트 */
