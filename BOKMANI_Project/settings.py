@@ -36,7 +36,7 @@ if 'RENDER_EXTERNAL_HOSTNAME' in os.environ:
 # Application definition
 
 INSTALLED_APPS = [
-
+    'accounts.apps.AccountsConfig',  # ← apps.py에서 정의한 클래스
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'myapp',
-    'accounts',
 ]
 
 MIDDLEWARE = [
