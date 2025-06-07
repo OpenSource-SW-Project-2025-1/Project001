@@ -136,7 +136,7 @@ class UserLogoutView(View):
 
 def main_page(request):
     new_benefits = [
-        {"title": "다문화가족 교육비 지원", "description": "전자 바우처 제공", "d_day": 30},
+        {"title": "의료급여 임신.출산진료비지원", "description": "임신.출산 진료비로 100만원 지원", "d_day": 365},
         {"title": "청년 월세 지원", "description": "1년간 최대 월 20만원", "d_day": 12},
     ]
 
