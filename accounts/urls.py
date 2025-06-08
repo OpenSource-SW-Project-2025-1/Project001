@@ -18,6 +18,7 @@ urlpatterns = [
     path('frequent-welfare/', views.frequent_welfare, name='frequent_welfare'),
     path('new-welfare/', views.new_welfare, name='new_welfare'),
     path('welfare_info/', views.welfare_info, name='welfare_info'),
+    path('search-api/', views.search_api, name='search_api'),
     path('chatbot/', views.chatbot_home, name='chatbot_home'),
     path('team-programming/', views.team_programming, name='team_programming'),
     path('project-info/', views.project_info, name='project_info'),

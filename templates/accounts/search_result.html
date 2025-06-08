@@ -66,23 +66,22 @@
   <div class="keyword-title"># 키워드 검색</div>
   <div class="keyword-line"></div>
   <div class="keyword-buttons">
-    <!-- 예시로 키워드 16개 -->
-    <div class="keyword-button">키워드</div>
-    <div class="keyword-button">키워드</div>
-    <div class="keyword-button">키워드</div>
-    <div class="keyword-button">키워드</div>
-    <div class="keyword-button">키워드</div>
-    <div class="keyword-button">키워드</div>
-    <div class="keyword-button">키워드</div>
-    <div class="keyword-button">키워드</div>
-    <div class="keyword-button">키워드</div>
-    <div class="keyword-button">키워드</div>
-    <div class="keyword-button">키워드</div>
-    <div class="keyword-button">키워드</div>
-    <div class="keyword-button">키워드</div>
-    <div class="keyword-button">키워드</div>
-    <div class="keyword-button">키워드</div>
-    <div class="keyword-button">키워드</div>
+    <!-- 예시로 키워드 15개 -->
+    <div class="keyword-button" data-keyword="신체건강">신체건강</div>
+    <div class="keyword-button" data-keyword="정신건강">정신건강</div>
+    <div class="keyword-button" data-keyword="생활지원">생활지원</div>
+    <div class="keyword-button" data-keyword="주거">주거</div>
+    <div class="keyword-button" data-keyword="일자리">일자리</div>
+    <div class="keyword-button" data-keyword="문화▪여가">문화▪여가</div>
+    <div class="keyword-button" data-keyword="안전▪위기">안전▪위기</div>
+    <div class="keyword-button" data-keyword="임신▪출산">임신▪출산</div>
+    <div class="keyword-button" data-keyword="보육">보육</div>
+    <div class="keyword-button" data-keyword="교육">교육</div>
+    <div class="keyword-button" data-keyword="입양▪위탁">입양▪위탁</div>
+    <div class="keyword-button" data-keyword="보호▪돌봄">보호▪돌봄</div>
+    <div class="keyword-button" data-keyword="서민금융">서민금융</div>
+    <div class="keyword-button" data-keyword="법률">법률</div>
+    <div class="keyword-button" data-keyword="에너지">에너지</div>
   </div>
 </div>
 
@@ -141,5 +140,24 @@
   </div>
   {% endif %}
 </main>
+    
+{#<script>#}
+{#// api 키워드로 불러오기#}
+{#document.querySelectorAll('.keyword-button').forEach(button => {#}
+{#  button.addEventListener('click', () => {#}
+{#    const keyword = button.getAttribute('data-keyword');#}
+{##}
+{#    fetch(`/search-api/?keyword=${encodeURIComponent(keyword)}`)#}
+{#      .then(res => res.json())#}
+{#      .then(data => {#}
+{#        document.getElementById('result').innerHTML = `#}
+{#          <h3>검색 결과</h3>#}
+{#          <pre>${JSON.stringify(data, null, 2)}</pre>#}
+{#        `;#}
+{#      })#}
+{#      .catch(err => console.error('API 요청 실패:', err));#}
+{#  });#}
+{# });#}
+{#</script>#}
 
 {% endblock %}
