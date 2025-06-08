@@ -716,11 +716,11 @@ body {
 }
 
 /* 입력 그룹 */
-.input-group {
+.login-input-group {
   margin-bottom: 20px;
 }
 
-.input-group label {
+.login-input-group label {
   display: block;
   margin-bottom: 6px;
   color: #333;
@@ -728,7 +728,7 @@ body {
 }
 
 /* 입력창 */
-.input-group input {
+.login-input-group input {
   width: 100%;
   max-width: 100%;
   padding: 12px 16px;
@@ -739,12 +739,14 @@ body {
   transition: border 0.2s ease;
 }
 
-.input-group input:focus {
+.login-input-group input:focus {
   outline: none;
   border-color: #0037ff;
   box-shadow: 0 0 0 3px rgba(0, 55, 255, 0.15);
 }
 
+
+/*---회원가입---*/
 /* 가로 정렬 위한 inline-group */
 .inline-group {
     display: flex;
