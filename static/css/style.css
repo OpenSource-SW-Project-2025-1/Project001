@@ -1825,3 +1825,17 @@ form {
     transform: scale(1.03);
     background: linear-gradient(135deg, #3f6ef0, #2f59d6);
 }
+
+/* style.css */
+
+.github-link {
+    text-align: center; /* 가운데 정렬 */
+    margin-top: 20px; /* 푸터 다른 요소들과의 간격 */
+    padding-bottom: 20px; /* 푸터 하단과의 간격 */
+}
+
+.github-logo {
+    width: 30px; /* 로고 크기 조절 (원하는 크기로) */
+    height: 30px;
+}
+
