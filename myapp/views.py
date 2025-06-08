@@ -8,7 +8,7 @@ def home(request):
     return main_page(request)         # 메인화면을 그대로 띄움
 
 # 복지 API 호출 view
-def welfare_view(request):
+def search_api(request):
     # 사용자 입력 받기
     age = request.GET.get("age", "30")  # 나이 (기본: 30)     # 생년월일만 받기 때문에 변환 코드 필요
     keyword = request.GET.get("searchWrd", "출산") # 검색 키워드 (기본: 출산)
@@ -21,7 +21,7 @@ def welfare_view(request):
     python_executable = sys.executable
     result_path = os.path.join(settings.BASE_DIR, 'media', 'api_result.txt')  # 결과 저장 경로
 
-    try: # 파싱 순서조절 가능?
+    try:
         # API 실행 (출력은 파일에 저장됨)
         subprocess.run(
             [python_executable, script_path, age, keyword, life, target, interest],
