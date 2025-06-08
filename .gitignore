@@ -7,3 +7,5 @@ venv/
 *.sqlite3
 .DS_Store
 .idea/
+db.sqlite3
+/staticfiles/
