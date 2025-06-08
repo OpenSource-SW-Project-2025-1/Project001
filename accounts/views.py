@@ -154,7 +154,6 @@ def main_page(request):
 def custom_welfare(request):
     return render(request, 'accounts/search_result.html')
 
-
 def frequent_welfare(request):
     return render(request, 'accounts/search_result.html')
 
