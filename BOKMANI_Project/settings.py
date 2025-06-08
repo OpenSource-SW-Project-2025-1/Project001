@@ -25,9 +25,9 @@ SECRET_KEY = 'django-insecure-0u@jt*a2avyu8a&@8jt4dxd2ocdezyea97dni$)g88iuff6fdl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 if 'RENDER' in os.environ:
-    DEBUG = False # 운영 환경에서는 False
+    DEBUG = False  # 운영 환경에서는 False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost'] # 로컬 개발용
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']  # 로컬 개발용
 
 # Render 배포 환경에서 RENDER_EXTERNAL_HOSTNAME 환경 변수를 사용할 경우
 if 'RENDER_EXTERNAL_HOSTNAME' in os.environ:
@@ -52,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -156,3 +157,6 @@ import os
 # Media files (user-generated content or API 저장 파일 등)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+if not DEBUG:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
