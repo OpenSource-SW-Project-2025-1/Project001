@@ -111,7 +111,7 @@
         <div class="desc">{{ item.description }}</div>
 
         <!-- detail 링크 임시 처리 -->
-        <a href="#" class="detail-btn">+ 자세히보기</a>
+        <a href="{% url 'welfare_info.html' %}" class="detail-btn">+ 자세히보기</a>
 
         <div class="keywords">
           {% if item.keywords %}
