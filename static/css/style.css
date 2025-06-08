@@ -16,8 +16,9 @@ button {
 /* ---------------- 기본 ---------------- */
 body {
     margin: 0;
+    padding: 0;
     font-family: 'Pretendard', sans-serif;
-    background-color: #f3f6fb;
+    background-color: #eaf4ff;
 }
 
 .container {
@@ -41,9 +42,9 @@ body {
 
 /* ---------------- 헤더 ---------------- */
 .header {
-    background: #f3f6fb;
+    background: #eaf4ff;
     padding: 14px 32px;
-    border-bottom: 2px solid #bcd3f5;
+    border-bottom: 1px solid #74aaff;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -141,8 +142,9 @@ body {
 /* hover 효과 */
 .login-btn:hover,
 .menu-link:hover {
-  transform: scale(1.03);
-  box-shadow: 0 4px 10px rgba(80, 100, 200, 0.15);
+    transform: scale(1.03);
+    box-shadow: 0 4px 10px rgba(80, 100, 200, 0.15);
+    background: linear-gradient(135deg, #3b75fb, #1c4ff8);
 }
 
 /* 클릭 시 퍼짐 효과 */
@@ -271,7 +273,7 @@ body {
 .main {
     padding: 60px 20px 40px;
     text-align: center;
-    background: linear-gradient(180deg, #eaf4ff, #F3F6FBFF);
+    background: #eaf4ff;
 }
 
 .main-title {
@@ -290,21 +292,15 @@ body {
     text-align: center;
     margin-top: 30px;
     margin-bottom: 30px;
-    text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15);
+    text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 
 /* 애니메이션 정의 */
 @keyframes gradientMove {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .search-container {
@@ -349,7 +345,7 @@ body {
 }
 
 .search-btn:hover {
-  background: #e0e0ff;
+  background: #e0f0ff;
   color: #0037ff;
   box-shadow: 0 2px 6px rgba(0, 55, 255, 0.2);
 }
@@ -597,7 +593,7 @@ body {
 
 /* ---------------- 푸터 ---------------- */
 .footer {
-  background: #eaf1f8;
+  background: #e0e9f8;
   padding: 40px 24px;
   display: flex;
   justify-content: space-between;
@@ -1486,10 +1482,6 @@ form {
 }
 
 /* ---------------- 팀 소개 섹션 ---------------- */
-.team-section {
-  background-color: #f3f6fb;
-  padding: 40px 20px 80px;
-}
 
 /* 팀 소개 타이틀 */
 .team-title {
@@ -1731,12 +1723,6 @@ form {
 }
 
 /* welfare_info.html */
-body {
-    background-color: #f2f6fb;
-    font-family: 'Noto Sans KR', sans-serif;
-    margin: 0;
-    padding: 0;
-}
 
 .welfare-container {
     max-width: 800px;
