@@ -29,7 +29,7 @@
 <section class="section section-new">
   <div class="section-header">
     <h2 class="section-title">New Benefits</h2>
-    <a href="#" class="more-btn">more</a>
+    <a href="{% url 'search_result' %}" class="more-btn">more</a>
   </div>
   <div class="card-container">
     {% for benefit in new_benefits %}
@@ -52,7 +52,7 @@
 <section class="section section-popular">
   <div class="section-header">
     <h2 class="section-title">Popularity Benefits</h2>
-    <a href="#" class="more-btn">more</a>
+    <a href="{% url 'search_result' %}" class="more-btn">more</a>
   </div>
   <div class="card-container">
     {% for benefit in popular_benefits %}

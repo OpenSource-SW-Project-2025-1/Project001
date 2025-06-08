@@ -12,7 +12,80 @@
     <button type="submit" class="search-btn">🔍</button>
   </form>
 </div>
+<!--css 수정 -->
+      <style>
+    body {
+      background-color: #a5dff6; /* 연한 하늘색 배경 */
+      font-family: sans-serif;
+    }
 
+    .keyword-container {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      max-width: 90%;      
+      width: 600px;
+      margin: 50px auto;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      box-sizing: border-box;
+    }
+
+    .keyword-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .keyword-line {
+      border-bottom: 1px solid black;
+      margin-bottom: 15px;
+    }
+
+    .keyword-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      overflow-x: hidden;
+    }
+
+    .keyword-button {
+      border: 1px solid black;
+      padding: 5px 15px;
+      background-color: white;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .keyword-button:hover {
+      background-color: #e0f0ff;
+    }
+  </style>
+</head>
+<body>
+
+<div class="keyword-container">
+  <div class="keyword-title"># 키워드 검색</div>
+  <div class="keyword-line"></div>
+  <div class="keyword-buttons">
+    <!-- 예시로 키워드 15개 -->
+    <div class="keyword-button" data-keyword="신체건강">신체건강</div>
+    <div class="keyword-button" data-keyword="정신건강">정신건강</div>
+    <div class="keyword-button" data-keyword="생활지원">생활지원</div>
+    <div class="keyword-button" data-keyword="주거">주거</div>
+    <div class="keyword-button" data-keyword="일자리">일자리</div>
+    <div class="keyword-button" data-keyword="문화▪여가">문화▪여가</div>
+    <div class="keyword-button" data-keyword="안전▪위기">안전▪위기</div>
+    <div class="keyword-button" data-keyword="임신▪출산">임신▪출산</div>
+    <div class="keyword-button" data-keyword="보육">보육</div>
+    <div class="keyword-button" data-keyword="교육">교육</div>
+    <div class="keyword-button" data-keyword="입양▪위탁">입양▪위탁</div>
+    <div class="keyword-button" data-keyword="보호▪돌봄">보호▪돌봄</div>
+    <div class="keyword-button" data-keyword="서민금융">서민금융</div>
+    <div class="keyword-button" data-keyword="법률">법률</div>
+    <div class="keyword-button" data-keyword="에너지">에너지</div>
+  </div>
+</div>
+
+</body>
 
   <!-- 키워드 정렬 선택 -->
   <section class="section-new">
@@ -38,7 +111,7 @@
         <div class="desc">{{ item.description }}</div>
 
         <!-- detail 링크 임시 처리 -->
-        <a href="#" class="detail-btn">+ 자세히보기</a>
+        <a href="{% url 'welfare_info.html' %}" class="detail-btn">+ 자세히보기</a>
 
         <div class="keywords">
           {% if item.keywords %}
@@ -67,5 +140,24 @@
   </div>
   {% endif %}
 </main>
+    
+{#<script>#}
+{#// api 키워드로 불러오기#}
+{#document.querySelectorAll('.keyword-button').forEach(button => {#}
+{#  button.addEventListener('click', () => {#}
+{#    const keyword = button.getAttribute('data-keyword');#}
+{##}
+{#    fetch(`/search-api/?keyword=${encodeURIComponent(keyword)}`)#}
+{#      .then(res => res.json())#}
+{#      .then(data => {#}
+{#        document.getElementById('result').innerHTML = `#}
+{#          <h3>검색 결과</h3>#}
+{#          <pre>${JSON.stringify(data, null, 2)}</pre>#}
+{#        `;#}
+{#      })#}
+{#      .catch(err => console.error('API 요청 실패:', err));#}
+{#  });#}
+{# });#}
+{#</script>#}
 
 {% endblock %}
