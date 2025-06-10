@@ -1,75 +1,121 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_filters %} {# 새로 추가된 부분! #}
+
 {% block content %}
-<main class="main">
-  <h1 class="main-title">BOKMANI</h1>
+    <main class="main">
+        <h1 class="main-title">BOKMANI</h1>
 
-<!-- 검색창 -->
-<div class="search-container">
-  <form action="/search_result/" method="get" class="search-form">
-    <input type="text" id="search" name="query" class="search-input" placeholder="복지제도 검색" value="{{ request.GET.query }}" required>
-    <button type="submit" class="search-btn">🔍</button>
-  </form>
-</div>
+        <div class="search-container">
+            <form action="/search_result/" method="get" class="search-form">
+                <input type="text" id="search" name="query" class="search-input" placeholder="복지제도 검색"
+                       value="{{ request.GET.query }}" required>
+                <button type="submit" class="search-btn">🔍</button>
+            </form>
+        </div>
 
 
-  <!-- Suggestion 버튼 -->
-  <div class="suggestion-area">
-      <a href="/recommend/" class="suggestion-button">✨ Suggestion</a>
-  </div>
+        <div class="keyword-container">
+            <form id="keywordForm" method="get" action="/search_result/">
+                <input type="hidden" name="query" id="ThemaInput">
+                <button type="submit" id="submitBtn" style="display: none;">Submit</button>
+            </form>
+            <div class="keyword-buttons">
+                <div class="keyword-button" data-keyword="신체건강">신체건강</div>
+                <div class="keyword-button" data-keyword="정신건강">정신건강</div>
+                <div class="keyword-button" data-keyword="생활지원">생활지원</div>
+                <div class="keyword-button" data-keyword="주거">주거</div>
+                <div class="keyword-button" data-keyword="일자리">일자리</div>
+                <div class="keyword-button" data-keyword="문화여가">문화▪여가</div>
+                <div class="keyword-button" data-keyword="안전위기">안전▪위기</div>
+                <div class="keyword-button" data-keyword="임신출산">임신▪출산</div>
+                <div class="keyword-button" data-keyword="보육">보육</div>
+                <div class="keyword-button" data-keyword="교육">교육</div>
+                <div class="keyword-button" data-keyword="입양위탁">입양▪위탁</div>
+                <div class="keyword-button" data-keyword="보호돌봄">보호▪돌봄</div>
+                <div class="keyword-button" data-keyword="서민금융">서민금융</div>
+                <div class="keyword-button" data-keyword="법률">법률</div>
+                <div class="keyword-button" data-keyword="에너지">에너지</div>
+            </div>
+        </div>
+        <script>
+            document.querySelectorAll('.keyword-button').forEach(function (button) {
+                button.addEventListener('click', function () {
+                    const keyword = this.dataset.keyword;
+                    document.getElementById('ThemaInput').value = keyword;
+                    document.getElementById('submitBtn').click();
+                });
+            });
+        </script>
 
-  <!-- 해시태그 -->
-  <div class="hashtag-area">
-    <span class="hashtag"># 집</span>
-    <span class="hashtag"># 생활비</span>
-    <span class="hashtag"># 취업</span>
-  </div>
+        <div class="suggestion-area">
+            <a href="/recommend/" class="suggestion-button">✨ Suggestion</a>
+        </div>
 
-  <!-- New Benefits -->
-<section class="section section-new">
-  <div class="section-header">
-    <h2 class="section-title">New Benefits</h2>
-    <a href="{% url 'search_result' %}" class="more-btn">more</a>
-  </div>
-  <div class="card-container">
-    {% for benefit in new_benefits %}
-    <div class="card">
-      <div class="card-header">
-        <span class="tag">여성가족부</span>
-        <span class="d-day">D - {{ benefit.d_day }}</span>
-      </div>
-      <div class="title">{{ benefit.title }}</div>
-      <div class="desc">정책 내용 : {{ benefit.description }}</div>
-      <div class="apply">신청 기간 : {{ benefit.period }}</div>
-      <a href="{% url 'welfare_info' %}" class="detail-btn">+ 자세히보기</a>
-      <div class="keywords">#신체건강 #임신.출산 #저소득</div>
-    </div>
-    {% endfor %}
-  </div>
-</section>
+        <section class="section section-new">
+            <div class="section-header">
+                <h2 class="section-title">New Benefits</h2>
+                <a href="{% url 'search_result' %}" class="more-btn">more</a>
+            </div>
+            <div class="card-container">
+                {% for benefit in new_benefits %}
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="tag">{{ benefit.tag|default:"정보 없음" }}</span>
+                            {# {% if benefit.d_day %} #}
+                            {# <span class="d-day">D - {{ benefit.d_day }}</span> #}
+                            {# {% endif %} #}
+                        </div>
+                        <div class="title">{{ benefit.policy_name|default:"제목 없음" }}</div>
+                        <div class="desc">정책 내용 : {{ benefit.summary|default:"내용 없음" }}</div>
+                        <div class="apply">신청 기간 : {{ benefit.period|default:"정보 없음" }}</div>
+                        <a href="{% url 'welfare_info' benefit.id %}" class="detail-btn">+ 자세히보기</a>
+                        <div class="keywords">
+                            {# keywords 필드를 쉼표로 분리하여 해시태그로 표시 #}
+                            {% if benefit.keywords %}
+                                {% for keyword in benefit.keywords|split_string:',' %} {# 여기를 수정했어요! #}
+                                    #{{ keyword|strip_string }} {# 여기를 수정했어요! #}
+                                {% endfor %}
+                            {% else %}
+                                #키워드정보없음
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
 
-<!-- Popularity Benefits -->
-<section class="section section-popular">
-  <div class="section-header">
-    <h2 class="section-title">Popularity Benefits</h2>
-    <a href="{% url 'search_result' %}" class="more-btn">more</a>
-  </div>
-  <div class="card-container">
-    {% for benefit in popular_benefits %}
-    <div class="card">
-      <div class="card-header">
-        <span class="tag">여성가족부</span>
-        <span class="d-day">D - {{ benefit.d_day }}</span>
-      </div>
-      <div class="title">{{ benefit.title }}</div>
-      <div class="desc">정책 내용 : {{ benefit.description }}</div>
-      <div class="apply">신청 기간 : {{ benefit.period }}</div>
-      <a href="{% url 'welfare_info' %}" class="detail-btn">+ 자세히보기</a>
-      <div class="keywords">#키워드 #키워드 #키워드</div>
-    </div>
-    {% endfor %}
-  </div>
-</section>
+        <section class="section section-popular">
+            <div class="section-header">
+                <h2 class="section-title">Popularity Benefits</h2>
+                <a href="{% url 'search_result' %}" class="more-btn">more</a>
+            </div>
+            <div class="card-container">
+                {% for benefit in popular_benefits %}
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="tag">{{ benefit.tag|default:"정보 없음" }}</span>
+                            {# {% if benefit.d_day %} #}
+                            {# <span class="d-day">D - {{ benefit.d_day }}</span> #}
+                            {# {% endif %} #}
+                        </div>
+                        <div class="title">{{ benefit.policy_name|default:"제목 없음" }}</div>
+                        <div class="desc">정책 내용 : {{ benefit.summary|default:"내용 없음" }}</div>
+                        <div class="apply">신청 기간 : {{ benefit.period|default:"정보 없음" }}</div>
+                        <a href="{% url 'welfare_info' benefit.id %}" class="detail-btn">+ 자세히보기</a>
+                        <div class="keywords">
+                            {% if benefit.keywords %}
+                                {% for keyword in benefit.keywords|split_string:',' %} {# 여기를 수정했어요! #}
+                                    #{{ keyword|strip_string }} {# 여기를 수정했어요! #}
+                                {% endfor %}
+                            {% else %}
+                                #키워드정보없음
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
 
-</main>
+    </main>
 {% endblock %}

@@ -1,0 +1,194 @@
+조회된 복지 서비스 수: 12
+
+1
+WLF00000024
+아이돌봄 서비스
+보육,보호·돌봄
+여성가족부
+가족문화과
+영유아,아동,청소년
+Y
+1577-8136
+맞벌이를 하거나 갑자기 아이를 돌볼 수 없는 일이 생겼을 때 육아 도우미가 방문하여 12세 이하 자녀의 양육을 도와줍니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000024&wlfareInfoReldBztpCd=01
+수시
+기타
+20210903
+다문화·탈북민,다자녀,장애인,한부모·조손
+
+2
+WLF00000026
+장애인자립자금대여
+생활지원,일자리,서민금융
+보건복지부
+장애인자립기반과
+청년,중장년,노년
+Y
+129
+저소득 장애인의 소규모 창업 및 출퇴근용 자동차 구입 비용을 장기 저리로 대여하여 생업의 기반을 다지고 편리하게 이동할 수 있도록 지원합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000026&wlfareInfoReldBztpCd=01
+1회성
+현금대여(융자)
+20210903
+장애인,저소득
+
+3
+WLF00000025
+장애인일자리지원
+일자리
+보건복지부
+장애인자립기반과
+청년,중장년,노년
+N
+129
+18세 이상 미취업 장애인에게 공공형 일자리를 제공하여 사회참여 확대와 소득보장을 도모합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000025&wlfareInfoReldBztpCd=01
+월
+현금지급
+20210903
+장애인
+
+4
+WLF00000036
+주거취약계층 주거상향 지원사업
+생활지원,주거
+국토교통부
+주거복지정책과
+None
+N
+1599-0001
+쪽방·고시원 등 열악한 비주택거주자의 공공임대주택 이주수요를 발굴하고 LH와 협력하여 이주과정을 지원합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000036&wlfareInfoReldBztpCd=01
+1회성
+기타
+20210903
+저소득
+
+5
+WLF00000030
+육아종합지원서비스 제공
+보육
+교육부
+영유아정책총괄과
+영유아
+N
+02-6901-0202
+영유아와 부모를 위한 종합적인 육아종합서비스를 제공하는 육아종합지원센터 운영비를 지원합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000030&wlfareInfoReldBztpCd=01
+분기
+프로그램/서비스(서비스)
+20210903
+None
+
+6
+WLF00000031
+노후준비서비스
+생활지원
+보건복지부
+인구정책총괄과
+청년,중장년,노년
+N
+1355
+국민의 체계적 노후준비와 건강한 노후생활을 위해 재무·건강·여가·대인관계 등 분야별 종합적인 정보와 서비스를 제공합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000031&wlfareInfoReldBztpCd=01
+수시
+프로그램/서비스(서비스)
+20210903
+None
+
+7
+WLF00000028
+공동육아나눔터 운영
+보육
+여성가족부
+가족친화기반과
+영유아,아동
+N
+1577-9337
+육아 공간 및 돌봄 프로그램 제공, 이웃 간 자녀 돌봄 품앗이 활동 지원을 통해 양육 부담을 경감하고 돌봄친화적 분위기를 조성합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000028&wlfareInfoReldBztpCd=01
+수시
+프로그램/서비스(서비스)
+20210903
+None
+
+8
+WLF00000033
+노인복지민간단체지원
+신체건강,정신건강,생활지원,일자리,문화·여가,보호·돌봄
+보건복지부
+노인지원과
+노년
+N
+129
+노인단체 활동을 육성, 지원하여 노인들의 사회참여 및 권익향상을 도모합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000033&wlfareInfoReldBztpCd=01
+년
+현금지급
+20210903
+None
+
+9
+WLF00000023
+농어가목돈마련저축 저축장려금 지급
+서민금융
+금융위원회
+은행과
+None
+N
+1544-4200
+농어가목돈마련저축 만기시 저축장려금을 지급하여 농어민의 재산 형성을 지원하고 저축 의욕을 높여 안정된 생활기반 조성에 기여합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000023&wlfareInfoReldBztpCd=01
+1회성
+현금지급
+20210903
+None
+
+10
+WLF00000022
+(산재근로자)사회심리재활지원
+신체건강,정신건강,생활지원,문화·여가,안전·위기,보호·돌봄
+고용노동부
+산재보상정책과
+None
+N
+1588-0075
+산업 재해 및 장해를 입은 근로자가 심리적 충격을 해소하고 재활할 수 있도록 지원합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000022&wlfareInfoReldBztpCd=01
+월
+현물지급
+20210903
+None
+
+11
+WLF00000035
+개발제한구역 거주민 생활비용보조사업
+생활지원,주거
+국토교통부
+녹색도시과
+None
+N
+1599-0001
+개발제한구역 지정으로 생활의 불편을 겪는 구역 내 저소득 주민에게 보전부담금을 재원으로 생활비용을 보조합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000035&wlfareInfoReldBztpCd=01
+년
+현금지급
+20210903
+저소득
+
+12
+WLF00000032
+실종아동 등 보호 및 지원
+안전·위기
+보건복지부
+아동학대대응과
+아동
+N
+02-777-0182
+아동 및 장애인(지적·자폐성·정신)의 실종예방 교육 및 홍보, 장기실종 가족지원을 통해 가족해체를 예방합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000032&wlfareInfoReldBztpCd=01
+수시
+프로그램/서비스(서비스)
+20210903
+장애인
+
