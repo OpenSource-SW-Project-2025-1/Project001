@@ -4,6 +4,7 @@ from django.conf import settings
 import os
 import sys
 import subprocess
+
 def home(request):
     return main_page(request)         # 메인화면을 그대로 띄움
 
@@ -17,7 +18,7 @@ def search_api(request):
     interest = request.GET.get("intrsThemaArray", "")  # 관심주제 정보 (선택)
 
     #  복지 API 호출 스크립트 경로 및 실행 파일 지정
-    script_path = os.path.join(os.path.dirname(__file__), 'utils', 'central_welfare_api.py')
+    script_path = os.path.join(os.path.dirname(__file__), 'utils', '../central_welfare_api.py')
     python_executable = sys.executable
     result_path = os.path.join(settings.BASE_DIR, 'media', 'api_result.txt')  # 결과 저장 경로
 

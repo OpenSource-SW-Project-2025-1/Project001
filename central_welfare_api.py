@@ -12,17 +12,16 @@ from django.conf import settings
 
 # API URL 및 서비스 키 정의
 base_list_url = "http://apis.data.go.kr/B554287/NationalWelfareInformationsV001/NationalWelfarelistV001"
-base_detail_url = "http://apis.data.go.kr/B554287/NationalWelfareInformationsV001/NationalWelfaredetailedV001"
 service_key = "CgiK/2Ib1MAAnwFFRs6sAKrz1sOwmMAPJrMqEcEnCdq+ytCunvXYxsyzyzzPk6t96xz706kdATdeQltO6GY9iw=="
 
 params = {
     "serviceKey": service_key,  # 인증키
     "callTp": "L",  # 호출 구분 (리스트)
     "pageNo": 1,  # 페이지 번호
-    "numOfRows": 3,  # 한 페이지 결과 수
-    "srchKeyCode": "001",   # 검색 키 코드
-    "searchWrd": "출산",   # 검색어 (예: 출산)
-    "age": "30",  # 연령 (예: 30세)
+    "numOfRows": 12,  # 한 페이지 결과 수
+    "srchKeyCode": "",   # 검색 키 코드
+    "searchWrd": "",   # 검색어 (예: 출산)
+    "age": "",  # 연령 (예: 30세)
     "onapPsbltYn": "Y",  # 온라인 신청 가능 여부
     "orderBy": "popular"   # 정렬 기준: 인기순
 }
@@ -89,38 +88,6 @@ if __name__ == "__main__":
                     f.write(f"{type}\n")
                     f.write(f"{reg_date}\n")
                     f.write(f"{household}\n")
-
-                    # 상세조회 요청
-                    detail_params = {
-                        "serviceKey": service_key,
-                        "callTp": "D",
-                        "servId": serv_id
-                    }
-                    detail_response = requests.get(base_detail_url, params=detail_params)
-
-                    if detail_response.status_code == 200:
-                        try:
-                            detail_root = ET.fromstring(detail_response.text)
-                            detail = detail_root
-
-                            if detail is not None:
-                                tgt = detail.findtext("tgtrDtlCn")  # 대상자 내용
-                                crit = detail.findtext("slctCritCn")  # 선정 기준
-                                benefit = detail.findtext("alwServCn")  # 급여 서비스
-
-                                if any([tgt, crit, benefit]):
-                                    f.write(f"{tgt or '정보 없음'}\n")
-                                    f.write(f"{crit or '정보 없음'}\n")
-                                    f.write(f"{benefit or '정보 없음'}\n")
-                                else:
-                                    f.write("상세정보 없음\n")
-                            else:
-                                f.write("상세 루트 없음\n")
-
-                        except Exception as e:
-                            f.write(f"상세 파싱 실패: {str(e)}\n")
-                    else:
-                        f.write(f"상세 요청 실패 (code {detail_response.status_code})\n")
 
                     f.write("\n")
 

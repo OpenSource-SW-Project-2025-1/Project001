@@ -3,7 +3,7 @@ from django.contrib.auth import login, logout
 from django.views.generic.edit import FormView
 from django.shortcuts import render, redirect
 from collections import defaultdict
-
+import time
 from BOKMANI_Project.settings import genai_API_KEY
 from .forms import SignUpForm, UserProfileForm, UserJobInfoForm, UserLoginForm
 from .models import UserID, UserProfile, UserJobInfo,Location
@@ -16,6 +16,101 @@ import json
 
 genai.configure(api_key=genai_API_KEY)
 
+import subprocess
+from django.shortcuts import render
+from django.conf import settings
+import time
+import os
+
+def search_result_mock(request):
+    import os, time
+    result_path = os.path.join(settings.BASE_DIR, 'media', 'api_result.txt')
+    parsed_results = []
+
+    if os.path.exists(result_path):
+        with open(result_path, 'r', encoding='utf-8') as f:
+            lines = [line.strip() for line in f.readlines() if line.strip()]
+        i = 0
+        while i + 15 <= len(lines):
+            result = {
+                "title": lines[i + 3],
+                "category": lines[i + 5],
+                "description": lines[i + 7],
+                "keywords": [lines[i + 4]]
+            }
+            parsed_results.append(result)
+            i += 15
+    else:
+        parsed_results = []
+
+    return render(request, "accounts/search_result.html", {
+        "results": parsed_results,
+        "query": "",
+        "page_range": range(1, 2),
+        "current_page": 1,
+    })
+
+
+def run_local_api_script(request):
+    import time
+    import os
+    from django.conf import settings
+    import subprocess
+
+    script_path = os.path.join(settings.BASE_DIR, 'central_welfare_api.py')
+
+    # GET 요청에서 파라미터 추출
+    age = request.GET.get('age', '')
+    searchWrd = request.GET.get('searchWrd', '')
+    lifeArray = request.GET.get('lifeArray', '')
+    trgterIndvdlArray = request.GET.get('trgterIndvdlArray', '')
+    intrsThemaArray = request.GET.get('ThemaArray', '')  # keyword 버튼에서 전달됨
+
+    # API 호출 실행
+    try:
+        result = subprocess.run(
+            ['python', script_path, age, searchWrd, lifeArray, trgterIndvdlArray, intrsThemaArray],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
+        message = "API 호출 완료" if result.returncode == 0 else f"실패: {result.stderr}"
+    except Exception as e:
+        message = f"실행 중 오류: {str(e)}"
+
+    # 결과 파일 경로
+    result_path = os.path.join(settings.BASE_DIR, 'media', 'api_result.txt')
+    parsed_results = []
+
+    # 결과 파싱
+    if os.path.exists(result_path):
+        modified_time = time.ctime(os.path.getmtime(result_path))
+        with open(result_path, 'r', encoding='utf-8') as f:
+            lines = [line.strip() for line in f.readlines() if line.strip()]
+
+        i = 0
+        while i + 15 <= len(lines):
+            result = {
+                "title": lines[i + 3],
+                "category": lines[i + 5],
+                "description": lines[i + 7],
+                "keywords": [lines[i + 4]]
+               }
+            parsed_results.append(result)
+            i += 15  # 한 항목당 15줄 + 공백
+
+        content = "\n".join(lines)  # 디버깅용 텍스트
+    else:
+        modified_time = "파일이 존재하지 않음"
+        content = "결과 파일이 없습니다."
+
+    # 결과 페이지로 렌더링
+    return render(request, 'accounts/search_result.html', {
+        'content': content,
+        'message': message,
+        'modified_time': modified_time,
+        'results': parsed_results,
+    })
 
 
 def signup(request):
@@ -176,44 +271,6 @@ def team_programming(request):
 
 def project_info(request):
     return render(request, 'accounts/project_info.html')
-
-
-def search_result_mock(request):
-    query = request.GET.get('query', '')  # 검색어 가져오기
-
-    mock_results = [
-        {
-            "id": 1,
-            "title": "주거급여 지원",
-            "description": "저소득층 대상 주거급여를 지원합니다.",
-            "category": "주거",
-            "d_day": 10,
-            "keywords": ["주거", "저소득층", "정부지원"]
-        },
-        {
-            "id": 2,
-            "title": "청년내일채움공제",
-            "description": "청년 장기근속 장려금 제공",
-            "category": "고용",
-            "d_day": 20,
-            "keywords": ["청년", "취업", "장려금"]
-        },
-        {
-            "id": 3,
-            "title": "기초연금 지급",
-            "description": "65세 이상 어르신 대상",
-            "category": "연금",
-            "d_day": 5,
-            "keywords": []
-        }
-    ]
-
-    return render(request, 'accounts/search_result.html', {
-        'results': mock_results,
-        'query': query,
-        'page_range': range(1, 4),
-        'current_page': 1,
-    })
 
 
 def ai_recommend_result(request):

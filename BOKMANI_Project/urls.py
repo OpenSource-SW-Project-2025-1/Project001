@@ -6,8 +6,12 @@ from django.conf.urls.static import static
 from accounts import views
 from accounts.views import search_result_mock
 from accounts.views import ai_recommend_result
-
+from django.urls import path, include
 urlpatterns = [
+
+
+
+
     path('admin/', admin.site.urls),
     path('', include('myapp.urls')),             # 메인 페이지는 myapp에서 처리
     path('accounts/', include('accounts.urls')),  # 로그인 등 계정 관련 URL은 accounts에서 처리

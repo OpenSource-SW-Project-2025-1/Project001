@@ -1,18 +1,34 @@
 조회된 복지 서비스 수: 2
 
 1
-WLF00000061
-의료급여 임신.출산진료비지원
+WLF00000092
+저소득층 기저귀·조제분유 지원
+임신·출산,보육,입양·위탁
 보건복지부
+출산정책과
+영유아,임신 · 출산
+Y
 129
-임신 또는 출산한 의료급여 수급자와 2세미만 자녀에게 의료비를 지원하여 저소득층 국민보건 향상과 사회복지 증진에 기여합니다.
-https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000061&wlfareInfoReldBztpCd=01
+영아(0~24개월)를 양육하고 있는 저소득층 가정에 기저귀와 조제분유를 지원하여 경제적 부담을 경감합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000092&wlfareInfoReldBztpCd=01
+월
+전자바우처(바우처)
+20210903
+다자녀,장애인,저소득,한부모·조손
 
 2
-WLF00003278
-여성장애인 출산비용지원
+WLF00003258
+아동발달지원계좌(디딤씨앗통장)지원
+입양·위탁,서민금융
 보건복지부
+아동보호자립과
+청소년
+Y
 129
-임신과 출산에 대한 비용이 추가로 발생하는 여성장애인에게 출산비용을 지원하여 경제적 부담을 경감하고 모성권 보호에 기여합니다.
-https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00003278&wlfareInfoReldBztpCd=01
+취약계층 아동의 사회진출 시 학자금･취업･창업･주거마련 등에 소요되는 초기비용 마련을 위한 자산형성을 지원합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00003258&wlfareInfoReldBztpCd=01
+월
+현금지급
+20210903
+저소득
 
