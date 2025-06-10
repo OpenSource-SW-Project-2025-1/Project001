@@ -22,33 +22,149 @@ from django.conf import settings
 import time
 import os
 
-def search_result_mock(request):
-    import os, time
-    result_path = os.path.join(settings.BASE_DIR, 'media', 'api_result.txt')
-    parsed_results = []
+# def search_result_mock(request):
+#     result_path = os.path.join(settings.BASE_DIR, 'media', 'api_result.txt')
+#     parsed_results = []
+#
+#     if os.path.exists(result_path):
+#         with open(result_path, 'r', encoding='utf-8') as f:
+#             lines = [line.strip() for line in f.readlines() if line.strip()]
+#         i = 0
+#         while i + 15 <= len(lines):
+#             result = {
+#                 "title": lines[i + 3],
+#                 "category": lines[i + 5],
+#                 "description": lines[i + 7],
+#                 "keywords": [lines[i + 4]]
+#             }
+#             parsed_results.append(result)
+#             i += 15
+#     else:
+#         parsed_results = []
+#
+#     return render(request, "accounts/search_result.html", {
+#         "results": parsed_results,
+#         "query": "",
+#         "page_range": range(1, 2),
+#         "current_page": 1,
+#     })
 
-    if os.path.exists(result_path):
-        with open(result_path, 'r', encoding='utf-8') as f:
-            lines = [line.strip() for line in f.readlines() if line.strip()]
-        i = 0
-        while i + 15 <= len(lines):
-            result = {
-                "title": lines[i + 3],
-                "category": lines[i + 5],
-                "description": lines[i + 7],
-                "keywords": [lines[i + 4]]
-            }
-            parsed_results.append(result)
-            i += 15
+def search_result_mock(request):
+    age = request.GET.get('age', '')
+    searchWrd = request.GET.get('query', '')
+    lifeArray = request.GET.get('lifeArray', '')
+    trgterIndvdlArray = request.GET.get('trgterIndvdlArray', '')
+    intrsThemaArray = request.GET.get('ThemaArray', '')
+
+    parsed_results = []
+    message = ""
+
+    script_path = os.path.join(settings.BASE_DIR, 'central_welfare_api.py')
+    result_path = os.path.join(settings.BASE_DIR, 'media', 'api_result.txt')
+
+    # 스크립트 실행 조건
+    if searchWrd or intrsThemaArray or age or lifeArray or trgterIndvdlArray:
+        try:
+            command = [
+                'python', script_path,
+                age, searchWrd, lifeArray, trgterIndvdlArray, intrsThemaArray
+            ]
+
+            result = subprocess.run(
+                command,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False
+            )
+
+            if result.returncode == 0:
+                message = "API 호출 스크립트 완료."
+            else:
+                message = f"API 호출 스크립트 실패: {result.stderr.strip()}"
+                print(f"Script Error: {result.stderr}")
+
+        except Exception as e:
+            message = f"스크립트 실행 중 예외 발생: {str(e)}"
+            print(f"Exception during script execution: {e}")
     else:
+        message = "검색어를 입력하거나 키워드를 선택해주세요."
+
+    # 결과 파일 파싱
+    if os.path.exists(result_path):
+        try:
+            with open(result_path, 'r', encoding='utf-8') as f:
+                lines = [line.strip() for line in f.readlines()]
+
+            start_data_idx = -1
+            for idx, line in enumerate(lines):
+                if line.strip().isdigit() and (idx == 0 or not lines[idx - 1].strip().isdigit()):
+                    start_data_idx = idx
+                    break
+
+            if start_data_idx != -1:
+                # 데이터 시작 지점부터 16줄 간격으로 파싱 (데이터 15줄 + 1줄 공백)
+                i = start_data_idx
+                while i + 15 < len(lines):  # 총 15줄 데이터가 있어야 하므로 i+15까지 확인
+                    # 각 필드에 해당하는 정확한 줄 번호 확인
+                    # (lines[i]가 '1'이면, lines[i+1]이 ID, lines[i+2]가 제목 등)
+                    service_id = lines[i + 1] if len(lines) > i + 1 else None
+                    title = lines[i + 2] if len(lines) > i + 2 else "제목 없음"
+                    category = lines[i + 3] if len(lines) > i + 3 else "분류 없음"
+                    description = lines[i + 9] if len(lines) > i + 9 else "내용 없음"
+                    link = lines[i + 10] if len(lines) > i + 10 else "#"
+                    # 키워드 필드(대상)는 lines[i + 6]
+                    # 추가 키워드/특징은 lines[i + 14]
+                    # 둘 다 활용하여 keywords 필드를 구성
+
+                    keywords_from_target = [lines[i + 6]] if (
+                                len(lines) > i + 6 and lines[i + 6] and lines[i + 6].lower() != 'none') else []
+                    keywords_from_last_line = []
+                    if len(lines) > i + 14 and lines[i + 14] and lines[i + 14].lower() != 'none':
+                        keywords_from_last_line = [k.strip() for k in lines[i + 14].split(',') if
+                                                   k.strip()]  # 쉼표로 구분된 키워드
+
+                    # 두 키워드 소스를 합쳐서 중복 제거
+                    combined_keywords = list(set(keywords_from_target + keywords_from_last_line))
+
+                    parsed_results.append({
+                        "id": service_id,  # 상세 링크를 위해 ID도 포함
+                        "title": title,
+                        "category": category,
+                        "description": description,
+                        "link": link,
+                        "keywords": combined_keywords,
+                    })
+                    i += 16  # 다음 서비스 항목은 16줄 뒤에 시작 (15줄 데이터 + 빈 줄 1개)
+
+                if not message:
+                    message = f"총 {len(parsed_results)}개의 복지 서비스를 조회했습니다."
+            else:
+                message = "결과 파일에서 복지 서비스 데이터를 찾을 수 없습니다."
+
+        except Exception as e:
+            message = f"결과 파일 파싱 중 오류 발생: {str(e)}"
+            print(f"File parsing error: {e}")
+            parsed_results = []
+    else:
+        if not (searchWrd or intrsThemaArray or age or lifeArray or trgterIndvdlArray):
+            message = "검색어를 입력하거나 키워드를 선택해주세요."
+        else:
+            message = "스크립트 실행 후 결과 파일을 찾을 수 없거나 파일 내용이 비어있습니다."
         parsed_results = []
 
-    return render(request, "accounts/search_result.html", {
+    context = {
         "results": parsed_results,
-        "query": "",
-        "page_range": range(1, 2),
+        "query": searchWrd,
+        "age": age,
+        "lifeArray": lifeArray,
+        "trgterIndvdlArray": trgterIndvdlArray,
+        "ThemaArray": intrsThemaArray,
+        "message": message,
+        "page_range": range(1, max(2, (len(parsed_results) + 9) // 10)),  # 결과 수에 따라 페이지네이션 조정 (예시)
         "current_page": 1,
-    })
+    }
+    return render(request, "accounts/search_result.html", context)
 
 
 def run_local_api_script(request):
