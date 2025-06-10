@@ -16,6 +16,49 @@ import json
 
 genai.configure(api_key=genai_API_KEY)
 
+import subprocess
+from django.shortcuts import render
+from django.conf import settings
+import time
+import os
+
+def run_local_api_script(request):
+    script_path = os.path.join(settings.BASE_DIR, 'central_welfare_api.py')
+
+    age = request.GET.get('age', '')
+    searchWrd = request.GET.get('searchWrd', '')
+    lifeArray = request.GET.get('lifeArray', '')
+    trgterIndvdlArray = request.GET.get('trgterIndvdlArray', '')
+    intrsThemaArray = request.GET.get('intrsThemaArray', '')
+
+    try:
+        result = subprocess.run(
+            ['python', script_path, age, searchWrd, lifeArray, trgterIndvdlArray, intrsThemaArray],  # 예시 인자
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
+        message = "API 호출 완료" if result.returncode == 0 else f"실패: {result.stderr}"
+    except Exception as e:
+        message = f"실행 중 오류: {str(e)}"
+
+    # 텍스트 파일 내용 읽기
+    result_path = os.path.join(settings.BASE_DIR, 'media', 'api_result.txt')
+
+    if os.path.exists(result_path):
+        modified_time = time.ctime(os.path.getmtime(result_path))
+        with open(result_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+    else:
+        modified_time = "파일이 존재하지 않음"
+        content = "결과 파일이 없습니다."
+
+    return render(request, 'accounts/search_result.html', {
+        'content': content,
+        'message': message,
+        'modified_time': modified_time,
+
+    })
 
 
 def signup(request):
