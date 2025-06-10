@@ -19,7 +19,7 @@ params = {
     "serviceKey": service_key,  # 인증키
     "callTp": "L",  # 호출 구분 (리스트)
     "pageNo": 1,  # 페이지 번호
-    "numOfRows": 3,  # 한 페이지 결과 수
+    "numOfRows": 12,  # 한 페이지 결과 수
     "srchKeyCode": "001",   # 검색 키 코드
     "searchWrd": "출산",   # 검색어 (예: 출산)
     "age": "30",  # 연령 (예: 30세)
@@ -104,12 +104,10 @@ if __name__ == "__main__":
                             detail = detail_root
 
                             if detail is not None:
-                                tgt = detail.findtext("tgtrDtlCn")  # 대상자 내용
                                 crit = detail.findtext("slctCritCn")  # 선정 기준
                                 benefit = detail.findtext("alwServCn")  # 급여 서비스
 
-                                if any([tgt, crit, benefit]):
-                                    f.write(f"{tgt or '정보 없음'}\n")
+                                if any([crit, benefit]):
                                     f.write(f"{crit or '정보 없음'}\n")
                                     f.write(f"{benefit or '정보 없음'}\n")
                                 else:
