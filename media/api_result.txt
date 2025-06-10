@@ -1,18 +1,130 @@
-조회된 복지 서비스 수: 1
+조회된 복지 서비스 수: 8
 
 1
-WLF00003201
-주거급여(맞춤형 급여)
-주거,에너지
-국토교통부
-주거복지지원과
+WLF00001188
+산모·신생아 건강관리 지원사업
+신체건강,임신·출산
+보건복지부
+출산정책과
+영유아,임신 · 출산
+Y
+129
+출산가정에 건강관리사를 파견하여 산후관리를 지원함으로써 산모와 신생아의 건강을 증진하고 출산가정의 경제적 부담 경감을 지원합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00001188&wlfareInfoReldBztpCd=01
+1회성
+전자바우처(바우처)
+20210903
+다자녀,장애인,저소득
+
+2
+WLF00000078
+청소년특별지원
+신체건강,생활지원,일자리,문화·여가,교육,법률
+여성가족부
+학교밖청소년지원과
+아동,청소년,청년
+Y
+02-2100-6000
+보호자가 없거나, 실질적으로 보호자의 보호를 받지 못하는 사회, 경제적으로 어려움이 있는 위기청소년이 올바르게 성장하고 안정된 생활을 할 수 있도록 지원합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000078&wlfareInfoReldBztpCd=01
+수시
+현금지급,현물지급
+20210903
+저소득
+
+3
+WLF00000781
+여성청소년 생리용품 지원
+신체건강,생활지원
+여성가족부
+청소년정책과
+아동,청소년,청년
+Y
+1566-3232
+취약계층 여성청소년 대상 생리용품 지원을 통해 여성 청소년의 건강한 성장을 지원합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000781&wlfareInfoReldBztpCd=01
+반기
+전자바우처(바우처)
+20210903
+저소득,한부모·조손
+
+4
+WLF00000061
+의료급여 임신.출산진료비지원
+신체건강,임신·출산
+보건복지부
+기초의료보장과
+영유아,임신 · 출산
+Y
+129
+임신 또는 출산한 의료급여 수급자와 2세미만 자녀에게 의료비를 지원하여 저소득층 국민보건 향상과 사회복지 증진에 기여합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000061&wlfareInfoReldBztpCd=01
+수시
+현금지급
+20210903
+저소득
+
+5
+WLF00003171
+의료급여본인부담면제
+신체건강
+보건복지부
+기초의료보장과
 None
 Y
-1600-0777
-생활이 어려운 사람에게 주거급여를 실시하여 취약계층의 주거비 부담을 완화하고 양질의 주거 수준 향상을 도모합니다.
-https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00003201&wlfareInfoReldBztpCd=01
+129
+의료급여 수급권자에 대한 의료비를 지원하여 저소득층 국민보건 향상과 사회복지 증진에 기여합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00003171&wlfareInfoReldBztpCd=01
+수시
+현물지급
+20210903
+다문화·탈북민,보훈대상자,저소득
+
+6
+WLF00003279
+언어발달지원사업
+신체건강,교육
+보건복지부
+장애인서비스과
+아동
+Y
+129
+장애인 부모의 자녀에게 필요한 언어발달지원서비스를 제공하여 아동의 건강한 성장을 지원합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00003279&wlfareInfoReldBztpCd=01
 월
-현금지급,기타
+전자바우처(바우처)
+20210903
+장애인,저소득
+
+7
+WLF00003195
+발달재활서비스
+신체건강,정신건강,교육
+보건복지부
+장애인건강과
+영유아,아동,청소년
+Y
+129
+성장기 정신적, 감각적 장애아동의 인지, 의사소통, 적응행동, 감각, 운동 등의 기능향상과 행동발달을 위한 재활서비스를 지원하고, 관련 정보를 제공합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00003195&wlfareInfoReldBztpCd=01
+월
+전자바우처(바우처)
+20210903
+장애인
+
+8
+WLF00000056
+의료급여(요양비)
+신체건강,임신·출산
+보건복지부
+기초의료보장과
+임신 · 출산
+Y
+129
+의료급여 수급권자에게 의료비를 지원하여 저소득층의  국민보건 향상과 사회복지 증진에 기여합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000056&wlfareInfoReldBztpCd=01
+수시
+현금지급
 20210903
 저소득
 

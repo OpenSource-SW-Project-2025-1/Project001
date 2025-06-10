@@ -13,6 +13,7 @@ from django.http import JsonResponse
 import google.generativeai as genai
 from django.views.decorators.csrf import csrf_exempt
 import json
+import requests
 
 genai.configure(api_key=genai_API_KEY)
 
@@ -62,7 +63,6 @@ def search_result_mock(request):
     script_path = os.path.join(settings.BASE_DIR, 'central_welfare_api.py')
     result_path = os.path.join(settings.BASE_DIR, 'media', 'api_result.txt')
 
-    # 스크립트 실행 조건
     if searchWrd or intrsThemaArray or age or lifeArray or trgterIndvdlArray:
         try:
             command = [
@@ -98,49 +98,93 @@ def search_result_mock(request):
 
             start_data_idx = -1
             for idx, line in enumerate(lines):
+                # 각 서비스 항목이 숫자로 시작하는 규칙을 따름
                 if line.strip().isdigit() and (idx == 0 or not lines[idx - 1].strip().isdigit()):
                     start_data_idx = idx
                     break
 
             if start_data_idx != -1:
-                # 데이터 시작 지점부터 16줄 간격으로 파싱 (데이터 15줄 + 1줄 공백)
                 i = start_data_idx
-                while i + 15 < len(lines):  # 총 15줄 데이터가 있어야 하므로 i+15까지 확인
-                    # 각 필드에 해당하는 정확한 줄 번호 확인
-                    # (lines[i]가 '1'이면, lines[i+1]이 ID, lines[i+2]가 제목 등)
-                    service_id = lines[i + 1] if len(lines) > i + 1 else None
-                    title = lines[i + 2] if len(lines) > i + 2 else "제목 없음"
-                    category = lines[i + 3] if len(lines) > i + 3 else "분류 없음"
-                    description = lines[i + 9] if len(lines) > i + 9 else "내용 없음"
-                    link = lines[i + 10] if len(lines) > i + 10 else "#"
-                    # 키워드 필드(대상)는 lines[i + 6]
-                    # 추가 키워드/특징은 lines[i + 14]
-                    # 둘 다 활용하여 keywords 필드를 구성
+                while i + 15 < len(lines):  # 총 16줄 데이터 (0~15 인덱스) 확인
+                    # 각 필드에 대한 정확한 줄 번호 확인 및 파싱 (제공해주신 데이터 형식 기반)
 
-                    keywords_from_target = [lines[i + 6]] if (
-                                len(lines) > i + 6 and lines[i + 6] and lines[i + 6].lower() != 'none') else []
-                    keywords_from_last_line = []
-                    if len(lines) > i + 14 and lines[i + 14] and lines[i + 14].lower() != 'none':
-                        keywords_from_last_line = [k.strip() for k in lines[i + 14].split(',') if
-                                                   k.strip()]  # 쉼표로 구분된 키워드
+                    # 1줄: 번호 (예: 1, 2) - 사용하지 않음
+                    # 2줄: 서비스 ID
+                    current_service_id = lines[i + 1] if len(lines) > i + 1 else None
+                    # 3줄: 정책 이름
+                    policy_name = lines[i + 2] if len(lines) > i + 2 else "정보 없음"
+                    # 4줄: 관심 분야
+                    category = lines[i + 3] if len(lines) > i + 3 else "정보 없음"
+                    # 5줄: 소관 부처명
+                    ministry_name = lines[i + 4] if len(lines) > i + 4 else "정보 없음"
+                    # 6줄: 소관 조직명
+                    division_name = lines[i + 5] if len(lines) > i + 5 else "정보 없음"
+                    # 7줄: 대상 연령
+                    target_age = lines[i + 6] if len(lines) > i + 6 else "정보 없음"
+                    # 8줄: 온라인 신청 가능 여부
+                    online_application_available = lines[i + 7] if len(lines) > i + 7 else "N"
+                    # 9줄: 문의처
+                    contact_number = lines[i + 8] if len(lines) > i + 8 else "정보 없음"
+                    # 10줄: 서비스 요약 (description)
+                    summary = lines[i + 9] if len(lines) > i + 9 else "정보 없음"
+                    # 11줄: 상세 링크
+                    detail_link = lines[i + 10] if len(lines) > i + 10 else "#"
+                    # 12줄: 지원 주기
+                    support_cycle = lines[i + 11] if len(lines) > i + 11 else "정보 없음"
+                    # 13줄: 제공 유형
+                    offer_type = lines[i + 12] if len(lines) > i + 12 else "정보 없음"
+                    # 14줄: 등록일
+                    reg_date = lines[i + 13] if len(lines) > i + 13 else "정보 없음"
+                    # 15줄: 대상자 (가구 유형, 대상자, 선정기준이 함께 있을 수 있음)
+                    # 이 부분은 단일 필드로 처리
+                    target_audience_raw = lines[i + 14] if len(lines) > i + 14 else "정보 없음"
 
-                    # 두 키워드 소스를 합쳐서 중복 제거
-                    combined_keywords = list(set(keywords_from_target + keywords_from_last_line))
 
-                    parsed_results.append({
-                        "id": service_id,  # 상세 링크를 위해 ID도 포함
-                        "title": title,
+                    # 'target_audience_raw'에서 가구 유형, 대상자, 선정 기준을 분리해야 한다면
+                    # 추가적인 파싱 로직 필요 (예: 콤마로 구분되어 있으면 split)
+
+                    # 현재 데이터 형식에 맞춰 keywords는 15번째 줄의 콤마로 구분된 값으로 가정
+                    keywords_str = lines[i + 14] if len(lines) > i + 14 else ""
+                    keywords = [k.strip() for k in keywords_str.split(',') if k.strip()] if keywords_str else []
+
+                    # '지급 서비스'는 10번째 줄에 해당하는 요약에서 가져오거나,
+                    # 아니면 별도의 필드가 있다면 해당 인덱스에서 가져와야 함.
+                    # 현재 제공된 데이터에서는 "서비스 요약"과 "지급 서비스"가 동일한 줄(10번째)에 있는 것으로 보임.
+                    # 만약 별도의 줄에 있다면 해당 인덱스를 찾아야 함.
+                    benefits = summary  # 임시로 summary와 동일하게 설정, 필요시 수정
+
+                    # 복지 서비스 객체에 모든 상세 필드 포함
+                    service_data = {
+                        "id": current_service_id,
+                        "policy_name": policy_name,
                         "category": category,
-                        "description": description,
-                        "link": link,
-                        "keywords": combined_keywords,
-                    })
-                    i += 16  # 다음 서비스 항목은 16줄 뒤에 시작 (15줄 데이터 + 빈 줄 1개)
+                        "ministry_name": ministry_name,
+                        "division_name": division_name,
+                        "summary": summary,
+                        "benefits": benefits,  # 지급 서비스
+                        "detail_link": detail_link,
+                        "support_cycle": support_cycle,
+                        "offer_type": offer_type,
+                        "reg_date": reg_date,
+                        "target_age": target_age,
+                        "online_application_available": online_application_available,
+                        "contact_number": contact_number,
+                        "keywords": keywords,
+                        # 추가적으로 파싱되어야 할 필드가 있다면 여기에 추가
+                        "household_type": "",  # 현재 데이터에서 명확히 분리되지 않으면 비워두기
+                        "target_audience": target_audience_raw,
+                        "selection_criteria": "",  # 현재 데이터에서 명확히 분리되지 않으면 비워두기
+                    }
+                    parsed_results.append(service_data)
+                    print(f"Parsed and stored item ID: {current_service_id}")
+                    i += 16  # 다음 서비스 항목 시작 인덱스
 
-                if not message:
+                if not message and parsed_results:
                     message = f"총 {len(parsed_results)}개의 복지 서비스를 조회했습니다."
+                elif not message:
+                    message = "검색 결과가 없습니다."
             else:
-                message = "결과 파일에서 복지 서비스 데이터를 찾을 수 없습니다."
+                message = "결과 파일에서 복지 서비스 데이터를 찾을 수 없습니다. 파일 형식을 확인해주세요."
 
         except Exception as e:
             message = f"결과 파일 파싱 중 오류 발생: {str(e)}"
@@ -153,6 +197,13 @@ def search_result_mock(request):
             message = "스크립트 실행 후 결과 파일을 찾을 수 없거나 파일 내용이 비어있습니다."
         parsed_results = []
 
+    # 파싱된 결과를 캐시에 저장하여 welfare_detail 뷰에서 접근할 수 있도록 함
+    # TTL (Time To Live)은 적절히 설정 (예: 5분 = 300초)
+    # 실제 사용자 세션 ID 등을 키로 사용하면 더 안전함
+    request.session['search_results_data'] = parsed_results
+    # 캐시 대신 Django 세션 사용을 권장합니다. 사용자별 데이터를 저장하기 용이합니다.
+    # cache.set('search_results_data', parsed_results, 300)
+
     context = {
         "results": parsed_results,
         "query": searchWrd,
@@ -161,10 +212,55 @@ def search_result_mock(request):
         "trgterIndvdlArray": trgterIndvdlArray,
         "ThemaArray": intrsThemaArray,
         "message": message,
-        "page_range": range(1, max(2, (len(parsed_results) + 9) // 10)),  # 결과 수에 따라 페이지네이션 조정 (예시)
+        "page_range": range(1, max(2, (len(parsed_results) + 9) // 10)),
         "current_page": 1,
     }
     return render(request, "accounts/search_result.html", context)
+
+
+def welfare_detail(request, service_id):
+    detail_info = {}
+
+    # search_results 뷰에서 세션에 저장한 데이터를 가져옴
+    all_search_results = request.session.get('search_results_data', [])
+
+    found_item = None
+    for item in all_search_results:
+        if item.get('id') == service_id:
+            found_item = item
+            break
+
+    if found_item:
+        detail_info = found_item
+        print(f"상세 정보 조회 성공: {service_id}")
+    else:
+        print(f"세션에서 상세 정보 찾을 수 없음: {service_id}")
+        detail_info = {
+            "policy_name": "정보 없음",
+            "summary": f"ID {service_id}에 해당하는 복지 서비스 정보를 찾을 수 없습니다.",
+            "policy_id": service_id,
+            "category": "정보 없음",
+            "ministry_name": "정보 없음",
+            "division_name": "정보 없음",
+            "benefits": "정보 없음",
+            "detail_link": "#",
+            "support_cycle": "정보 없음",
+            "offer_type": "정보 없음",
+            "reg_date": "정보 없음",
+            "target_age": "정보 없음",
+            "online_application_available": "정보 없음",
+            "contact_number": "정보 없음",
+            "household_type": "정보 없음",
+            "target_audience": "정보 없음",
+            "selection_criteria": "정보 없음",
+        }
+
+    context = {
+        'detail_info': detail_info,
+        'service_id': service_id,
+    }
+    return render(request, 'accounts/welfare_info.html', context)
+
 
 
 def run_local_api_script(request):

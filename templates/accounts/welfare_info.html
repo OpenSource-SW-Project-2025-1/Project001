@@ -5,57 +5,43 @@
 
 <div class="welfare-container">
     <div class="welfare-title">
-        <span class="welfare-badge">보건복지부</span>
-        <h2>의료급여 임신.출산진료비지원</h2>
-        <p>삶의 질을 올려주는 복지혜택</p>
+        <span class="welfare-badge">{{ detail_info.ministry_name|default:"소관 부처 없음" }}</span>
+        <h2>{{ detail_info.policy_name|default:"정책 이름 없음" }}</h2>
+        <p>{{ detail_info.summary|default:"요약 정보 없음" }}</p>
     </div>
 
     <div class="welfare-section">
         <h3>복지 정보</h3>
         <table class="welfare-table">
-            <tr><td>정책 번호</td><td>WLF00000061</td></tr>
-            <tr><td>정책 이름</td><td>의료급여 임신.출산진료비지원</td></tr>
-            <tr><td>관심 분야</td><td>신체건강,임신·출산</td></tr>
-            <tr><td>소관 부처명</td><td>보건복지부</td></tr>
-            <tr><td>소관 조직명</td><td>기초의료보장과</td></tr>
-            <tr><td>서비스 요약</td><td>임신 또는 출산한 의료급여 수급자와 2세미만 자녀에게 의료비를 지원하여 저소득층 국민보건 향상과 사회복지 증진에 기여합니다.</td></tr>
-            <tr><td>지급 서비스</td><td>임신출산 진료비로 100만원을 지원합니다(다태아는 태아당 100만원).
-
-임신과 출산에 관련된 진료를 편리하게 받기 어려운 분만취약지역에 계속하여 30일 이상 거주하는 경우 20만원 추가 지원됩니다.
-
-임신출산 진료비 추가금 지급 대상 지역(2024년)은 다음과 같습니다.
-- 인천 : 강화군, 옹진군
-- 경기 : 연천군, 가평군,양평군
-- 강원 : 홍천군, 인제군, 정선군, 평창군, 화천군
-- 충북 : 보은군, 괴산군, 단양군
-- 전북 : 진안군, 무주군, 장수군
-- 전남 : 보성군,완도군, 진도군, 신안군
-- 대구 : 군위군
-- 경북 : 의성군, 청송군, 영양군, 영덕군, 청도군, 봉화군, 울릉군
-- 경남 : 의령군, 남해군, 함양군, 합천군
-* 「공공보건의료에 관한 법률」에 따라 보건복지부 '분만취약지 지원사업'에서 규정하는 지역에 한함</td></tr>
-            <tr><td>상세 링크</td><td>https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000061&wlfareInfoReldBztpCd=01</td></tr>
-            <tr><td>지원 주기</td><td>수시</td></tr>
-            <tr><td>제공유형</td><td>현금지급</td></tr>
-            <tr><td>등록일</td><td>20210903</td></tr>
+            <tr><td>정책 번호</td><td>{{ detail_info.id|default:"-" }}</td></tr> {# id로 접근 #}
+            <tr><td>정책 이름</td><td>{{ detail_info.policy_name|default:"-" }}</td></tr>
+            <tr><td>관심 분야</td><td>{{ detail_info.category|default:"-" }}</td></tr>
+            <tr><td>소관 부처명</td><td>{{ detail_info.ministry_name|default:"-" }}</td></tr>
+            <tr><td>소관 조직명</td><td>{{ detail_info.division_name|default:"-" }}</td></tr>
+            <tr><td>서비스 요약</td><td>{{ detail_info.summary|default:"-" }}</td></tr>
+            <tr><td>지급 서비스</td><td>{{ detail_info.benefits|default:"-" }}</td></tr>
+            <tr><td>상세 링크</td><td><a href="{{ detail_info.detail_link|default:"#" }}" target="_blank">{{ detail_info.detail_link|default:"링크 없음" }}</a></td></tr>
+            <tr><td>지원 주기</td><td>{{ detail_info.support_cycle|default:"-" }}</td></tr>
+            <tr><td>제공유형</td><td>{{ detail_info.offer_type|default:"-" }}</td></tr>
+            <tr><td>등록일</td><td>{{ detail_info.reg_date|default:"-" }}</td></tr>
         </table>
     </div>
 
     <div class="welfare-section">
         <h3>신청 조건</h3>
         <table class="welfare-table">
-            <tr><td>대상 연령</td><td>영유아,임신 · 출산</td></tr>
-            <tr><td>가구 유형</td><td>저소득</td></tr>
-            <tr><td>대상자</td><td>의료급여 수급자 중 임신 중이거나 출산(유산 및 사산 포함)한 수급권자 및 출생일로부터2세 미만의 자녀를 지원합니다.</td></tr>
-            <tr><td>선정 기준</td><td>지원대상의 내용을 참고해 주시기 바랍니다.</td></tr>
+            <tr><td>대상 연령</td><td>{{ detail_info.target_age|default:"-" }}</td></tr>
+            <tr><td>가구 유형</td><td>{{ detail_info.household_type|default:"-" }}</td></tr>
+            <tr><td>대상자</td><td>{{ detail_info.target_audience|default:"-" }}</td></tr>
+            <tr><td>선정 기준</td><td>{{ detail_info.selection_criteria|default:"-" }}</td></tr>
         </table>
     </div>
 
     <div class="welfare-section">
         <h3>신청 방법</h3>
         <table class="welfare-table">
-            <tr><td>온라인 신청 가능 여부</td><td>Y</td></tr>
-            <tr><td>문의처</td><td>129</td></tr>
+            <tr><td>온라인 신청 가능 여부</td><td>{{ detail_info.online_application_available|default:"-" }}</td></tr>
+            <tr><td>문의처</td><td>{{ detail_info.contact_number|default:"-" }}</td></tr>
         </table>
     </div>
 

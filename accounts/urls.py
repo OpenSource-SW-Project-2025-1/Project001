@@ -3,7 +3,7 @@ from accounts import views
 from django.contrib.auth import views as auth_views
 from . import views
 from .views import main_page, signup, UserLogoutView
-from .views import UserLoginView
+from .views import UserLoginView, welfare_detail
 
 
 urlpatterns = [
@@ -27,4 +27,5 @@ urlpatterns = [
     path('chatbot/', views.chatbot_home, name='chatbot_home'),
     path('team-programming/', views.team_programming, name='team_programming'),
     path('project-info/', views.project_info, name='project_info'),
+    path('welfare-detail/<str:service_id>/', views.welfare_detail, name='welfare_info'),
 ]

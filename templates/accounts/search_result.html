@@ -12,8 +12,59 @@
     <button type="submit" class="search-btn">🔍</button>
   </form>
 </div>
+<!--css 수정 -->
+      <style>
+    body {
+      background-color: #a5dff6; /* 연한 하늘색 배경 */
+      font-family: sans-serif;
+    }
+
+    .keyword-container {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      max-width: 90%;      
+      width: 600px;
+      margin: 50px auto;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      box-sizing: border-box;
+    }
+
+    .keyword-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .keyword-line {
+      border-bottom: 1px solid black;
+      margin-bottom: 15px;
+    }
+
+    .keyword-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      overflow-x: hidden;
+    }
+
+    .keyword-button {
+      border: 1px solid black;
+      padding: 5px 15px;
+      background-color: white;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .keyword-button:hover {
+      background-color: #e0f0ff;
+    }
+  </style>
+</head>
+<body>
 
 <div class="keyword-container">
+  <div class="keyword-title"># 키워드 검색</div>
+  <div class="keyword-line"></div>
     <form id="keywordForm" method="get" action="/accounts/run-api/">
         <input type="hidden" name="ThemaArray" id="ThemaInput">
         <button type="submit" id="submitBtn" style="display: none;">Submit</button>
@@ -46,6 +97,7 @@
       });
     });
 </script>
+</body>
 
   <!-- 키워드 정렬 선택 -->
   <section class="section-new">
@@ -64,11 +116,10 @@
         <div class="card-header">
           <span class="tag">{{ item.category|default:"분류 없음" }}</span>
         </div>
-        <div class="title">{{ item.title }}</div>
-        <div class="desc">{{ item.description }}</div>
+        <div class="title">{{ item.policy_name|default:"정책 이름 없음" }}</div> {# item.title 대신 item.policy_name #}
+        <div class="desc">{{ item.summary|default:"요약 정보 없음" }}</div>  {# item.description 대신 item.summary #}
 
-        <!-- detail 링크 임시 처리 -->
-        <a href="{% url 'welfare_info' %}" class="detail-btn">+ 자세히보기</a>
+        <a href="{% url 'welfare_info' item.id %}" class="detail-btn">+ 자세히보기</a>
 
         <div class="keywords">
           {% if item.keywords %}
