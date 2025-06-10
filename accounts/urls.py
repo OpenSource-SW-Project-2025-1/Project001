@@ -1,4 +1,5 @@
 from django.urls import path
+from accounts import views
 from django.contrib.auth import views as auth_views
 from . import views
 from .views import main_page, signup, UserLogoutView
@@ -6,6 +7,8 @@ from .views import UserLoginView
 
 
 urlpatterns = [
+    path('run-api/', views.run_local_api_script, name='run_local_api_script'),
+
 
     path('check_id/', views.check_id, name='check_id'), # 아이디 중복확인
     path('login/', UserLoginView.as_view(), name='login'),  # 로그인 뷰
