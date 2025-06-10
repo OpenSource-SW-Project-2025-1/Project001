@@ -115,9 +115,6 @@
       <div class="card">
         <div class="card-header">
           <span class="tag">{{ item.category|default:"분류 없음" }}</span>
-          {% if item.d_day %}
-            <span class="d-day">D - {{ item.d_day }}</span>
-          {% endif %}
         </div>
         <div class="title">{{ item.title }}</div>
         <div class="desc">{{ item.description }}</div>

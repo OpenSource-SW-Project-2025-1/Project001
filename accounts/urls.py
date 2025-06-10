@@ -9,6 +9,7 @@ from .views import UserLoginView
 urlpatterns = [
     path('run-api/', views.run_local_api_script, name='run_local_api_script'),
 
+
     path('check_id/', views.check_id, name='check_id'), # 아이디 중복확인
     path('login/', UserLoginView.as_view(), name='login'),  # 로그인 뷰
     #path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
