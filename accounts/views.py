@@ -442,20 +442,183 @@ class UserLogoutView(View):
 
 
 def main_page(request):
-    new_benefits = [
-        {"title": "의료급여 임신.출산진료비지원", "description": "임신.출산 진료비로 100만원 지원", "d_day": 365},
-        {"title": "청년 월세 지원", "description": "1년간 최대 월 20만원", "d_day": 12},
+    # 메인 페이지에 표시할 8개의 복지 서비스 데이터
+    # 각 필드명은 main.html 및 welfare_info.html에서 사용하는 변수명과 일치시켜야 합니다.
+    # 'id' 필드는 welfare_info 상세 페이지로 넘겨줄 핵심 값입니다.
+    all_main_benefits = [
+        {
+            "id": "WLF00003250",
+            "policy_name": "영유아보육료 지원", # 상세 페이지 제목으로 사용될 이름 (정책명)
+            "category": "보육",
+            "ministry_name": "교육부",
+            "division_name": "영유아재정과",
+            "target_age": "영유아",
+            "online_application_available": "Y",
+            "contact_number": "02-6222-6060",
+            "summary": "어린이집 이용 영유아에 대한 보육료 지원을 통해 부모의 자녀양육 부담경감 및 원활한 경제활동을 지원합니다.",
+            "detail_link": "https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00003250&wlfareInfoReldBztpCd=01",
+            "support_cycle": "월",
+            "offer_type": "전자바우처(바우처)",
+            "reg_date": "20210903",
+            "target_audience": "", # 제공된 데이터에서는 None 이지만, 빈 문자열로 두는 것이 일반적입니다.
+            "keywords": "보육,영유아", # main.html에서 해시태그로 표시할 키워드 (쉼표로 구분)
+            "period": "상시", # main.html에 표시할 신청 기간
+            "tag": "교육부", # main.html에 표시할 태그 (부처명)
+            "d_day": 10 # main.html에 표시할 D-day
+        },
+        {
+            "id": "WLF00000969",
+            "policy_name": "유아학비 지원(3~5세 누리과정 지원)",
+            "category": "교육",
+            "ministry_name": "교육부",
+            "division_name": "영유아재정과",
+            "target_age": "영유아",
+            "online_application_available": "Y",
+            "contact_number": "1544-0079",
+            "summary": "국공사립유치원에 재원하는 유아를 대상으로 보호자의 소득수준에 관계없이 전 계층에 유아학비를 지원하여 실질적 교육기회 보장을 지원합니다.",
+            "detail_link": "https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000969&wlfareInfoReldBztpCd=01",
+            "support_cycle": "월",
+            "offer_type": "전자바우처(바우처)",
+            "reg_date": "20210903",
+            "target_audience": "",
+            "keywords": "교육,영유아",
+            "period": "상시",
+            "tag": "교육부",
+            "d_day": 5
+        },
+        {
+            "id": "WLF00004657",
+            "policy_name": "부모급여 지원",
+            "category": "보육",
+            "ministry_name": "보건복지부",
+            "division_name": "아동정책과",
+            "target_age": "영유아",
+            "online_application_available": "Y",
+            "contact_number": "129",
+            "summary": "영아기 집중돌봄을 두텁게 지원하여 출산 및 양육으로 인한 경제적 부담을 줄여드립니다.",
+            "detail_link": "https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00004657&wlfareInfoReldBztpCd=01",
+            "support_cycle": "월",
+            "offer_type": "현금지급",
+            "reg_date": "20220103",
+            "target_audience": "",
+            "keywords": "보육,출산,경제적부담",
+            "period": "상시",
+            "tag": "보건복지부",
+            "d_day": 20
+        },
+        {
+            "id": "WLF00003253",
+            "policy_name": "가정양육수당 지원사업",
+            "category": "보육",
+            "ministry_name": "교육부",
+            "division_name": "영유아재정과",
+            "target_age": "영유아,아동",
+            "online_application_available": "Y",
+            "contact_number": "02-6222-6060",
+            "summary": "가정에서 아이를 돌보는 가정 양육 시, 부모의 자녀 양육에 대한 부담을 줄이고 보육 서비스에 대한 선택권을 보장합니다.",
+            "detail_link": "https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00003253&wlfareInfoReldBztpCd=01",
+            "support_cycle": "월",
+            "offer_type": "현금지급",
+            "reg_date": "20210903",
+            "target_audience": "",
+            "keywords": "보육,가정양육",
+            "period": "상시",
+            "tag": "교육부",
+            "d_day": 15
+        },
+        {
+            "id": "WLF00000024",
+            "policy_name": "아이돌봄 서비스",
+            "category": "보육,보호·돌봄",
+            "ministry_name": "여성가족부",
+            "division_name": "가족문화과",
+            "target_age": "영유아,아동,청소년",
+            "online_application_available": "Y",
+            "contact_number": "1577-8136",
+            "summary": "맞벌이를 하거나 갑자기 아이를 돌볼 수 없는 일이 생겼을 때 육아 도우미가 방문하여 12세 이하 자녀의 양육을 도와줍니다.",
+            "detail_link": "https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000024&wlfareInfoReldBztpCd=01",
+            "support_cycle": "수시",
+            "offer_type": "기타",
+            "reg_date": "20210903",
+            "target_audience": "다문화·탈북민,다자녀,장애인,한부모·조손",
+            "keywords": "아이돌봄,맞벌이,육아",
+            "period": "수시",
+            "tag": "여성가족부",
+            "d_day": 30
+        },
+        {
+            "id": "WLF00000867",
+            "policy_name": "방과후학교 자유수강권",
+            "category": "교육,보호·돌봄",
+            "ministry_name": "교육부",
+            "division_name": "늘봄학교정책과",
+            "target_age": "아동,청소년",
+            "online_application_available": "Y",
+            "contact_number": "1544-9654",
+            "summary": "방과후학교 수업을 통해 저소득층 자녀의 지속적이며 실직적인 교육기회를 확대하고 공교육 활성화 및 저소득층의 교육격차 해소를 돕습니다.",
+            "detail_link": "https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000867&wlfareInfoReldBztpCd=01",
+            "support_cycle": "수시",
+            "offer_type": "프로그램/서비스(서비스)",
+            "reg_date": "20210903",
+            "target_audience": "다문화·탈북민,저소득,한부모·조손",
+            "keywords": "방과후학교,자유수강권,저소득",
+            "period": "수시",
+            "tag": "교육부",
+            "d_day": 25
+        },
+        {
+            "id": "WLF00001140",
+            "policy_name": "방과후보육료지원",
+            "category": "보육,교육",
+            "ministry_name": "교육부",
+            "division_name": "교육보육과정지원과",
+            "target_age": "아동",
+            "online_application_available": "Y",
+            "contact_number": "02-6222-6060",
+            "summary": "어린이집을 이용하는 12세 이하 취학아동에 대한 방과후 보육료를 지원하여 양육의 부담을 줄이고 원활한 경제활동을 돕습니다.",
+            "detail_link": "https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00001140&wlfareInfoReldBztpCd=01",
+            "support_cycle": "월",
+            "offer_type": "전자바우처(바우처)",
+            "reg_date": "20210903",
+            "target_audience": "장애인,저소득,한부모·조손",
+            "keywords": "방과후보육료,아동",
+            "period": "월",
+            "tag": "교육부",
+            "d_day": 18
+        },
+        {
+            "id": "WLF00001067",
+            "policy_name": "장애아보육료지원",
+            "category": "보육",
+            "ministry_name": "교육부",
+            "division_name": "영유아재정과",
+            "target_age": "영유아,아동",
+            "online_application_available": "Y",
+            "contact_number": "02-6222-6060",
+            "summary": "어린이집 이용 장애아동에 대한 보육료 지원을 통해 부모의 자녀양육 부담경감 및 원활한 경제활동을 지원합니다.",
+            "detail_link": "https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00001067&wlfareInfoReldBztpCd=01",
+            "support_cycle": "월",
+            "offer_type": "전자바우처(바우처)",
+            "reg_date": "20210903",
+            "target_audience": "장애인",
+            "keywords": "장애아보육료,보육",
+            "period": "월",
+            "tag": "교육부",
+            "d_day": 22
+        },
     ]
 
-    popular_benefits = [
-        {"title": "취업 준비금 지원", "description": "1인당 150만원", "d_day": 5},
-        {"title": "자격증 시험비 지원", "description": "최대 3회 지원", "d_day": 22},
-    ]
+    new_benefits = all_main_benefits[:4]
+    popular_benefits = all_main_benefits[4:]
 
-    return render(request, 'accounts/main.html', {
+    # welfare_info 뷰에서 사용할 수 있도록 모든 데이터를 세션에 저장
+    request.session['search_results_data'] = all_main_benefits
+
+    context = {
         'new_benefits': new_benefits,
-        'popular_benefits': popular_benefits
-    })
+        'popular_benefits': popular_benefits,
+    }
+    return render(request, 'accounts/main.html', context)
 
 
 def custom_welfare(request):
@@ -469,8 +632,52 @@ def new_welfare(request):
     return render(request, 'accounts/search_result.html')
 
 
-def welfare_info(request):
-    return render(request, 'accounts/welfare_info.html')
+def welfare_info(request, service_id):  # <-- service_id 인자를 받도록!
+    detail_info = {}
+
+    # 세션에서 이전에 main_page에서 저장된 모든 복지 서비스 데이터를 가져옵니다.
+    all_benefits_from_session = request.session.get('search_results_data', [])
+
+    found_item = None
+    for item in all_benefits_from_session:
+        if item.get('id') == service_id:  # 세션 데이터의 'id' 필드와 URL에서 받은 service_id를 비교
+            found_item = item
+            break
+
+    if found_item:
+        detail_info = found_item
+        print(f"상세 정보 조회 성공 (세션 사용): {service_id}")  # 디버깅용 메시지
+    else:
+        print(f"세션에서 ID {service_id}에 해당하는 상세 정보 찾을 수 없음. 기본 정보 표시.")  # 디버깅용 메시지
+        # 세션에 정보가 없을 경우 (예: URL에 직접 접근하거나 세션 만료), 기본 정보 표시
+        detail_info = {
+            "policy_name": f"ID {service_id}에 해당하는 복지 서비스 정보를 찾을 수 없습니다.",
+            "summary": "세션에 저장된 데이터에 해당 복지 정보가 없습니다. (API 호출 없음)",
+            "id": service_id,
+            "category": "정보 없음",
+            "ministry_name": "정보 없음",
+            "division_name": "정보 없음",
+            "benefits": "정보 없음",  # welfare_info.html에서 사용하는 필드
+            "detail_link": "#",
+            "support_cycle": "정보 없음",
+            "offer_type": "정보 없음",
+            "reg_date": "정보 없음",
+            "target_age": "정보 없음",
+            "online_application_available": "정보 없음",
+            "contact_number": "정보 없음",
+            "household_type": "정보 없음",
+            "target_audience": "정보 없음",
+            "selection_criteria": "정보 없음",
+            "period": "정보 없음",
+            "tag": "정보 없음",
+            "d_day": 0
+        }
+
+    context = {
+        'detail_info': detail_info,
+        'service_id': service_id,  # 템플릿에서 service_id가 필요할 경우를 위해 전달
+    }
+    return render(request, 'accounts/welfare_info.html', context)
 
 
 def chatbot_home(request):

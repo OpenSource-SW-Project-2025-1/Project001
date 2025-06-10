@@ -1,68 +1,68 @@
-조회된 복지 서비스 수: 8
+조회된 복지 서비스 수: 12
 
 1
-WLF00003250
-영유아보육료 지원
-보육
-교육부
-영유아재정과
-영유아
-Y
-02-6222-6060
-어린이집 이용 영유아에 대한 보육료 지원을 통해 부모의 자녀양육 부담경감 및 원활한 경제활동을 지원합니다.
-https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00003250&wlfareInfoReldBztpCd=01
-월
-전자바우처(바우처)
-20210903
+WLF00003201
+주거급여(맞춤형 급여)
+주거,에너지
+국토교통부
+주거복지지원과
 None
+Y
+1600-0777
+생활이 어려운 사람에게 주거급여를 실시하여 취약계층의 주거비 부담을 완화하고 양질의 주거 수준 향상을 도모합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00003201&wlfareInfoReldBztpCd=01
+월
+현금지급,기타
+20210903
+저소득
 
 2
-WLF00000969
-유아학비 지원(3~5세 누리과정 지원)
-교육
-교육부
-영유아재정과
-영유아
-Y
-1544-0079
-국공사립유치원에 재원하는 유아를 대상으로 보호자의 소득수준에 관계없이 전 계층에 유아학비를 지원하여 실질적 교육기회 보장을 지원합니다.
-https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000969&wlfareInfoReldBztpCd=01
-월
-전자바우처(바우처)
-20210903
-None
-
-3
-WLF00004657
-부모급여 지원
-보육
+WLF00003249
+장애인연금
+생활지원
 보건복지부
-아동정책과
-영유아
+장애인자립기반과
+청년,중장년,노년
 Y
 129
-영아기 집중돌봄을 두텁게 지원하여 출산 및 양육으로 인한 경제적 부담을 줄여드립니다.
-https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00004657&wlfareInfoReldBztpCd=01
-월
-현금지급
-20220103
-None
-
-4
-WLF00003253
-가정양육수당 지원사업
-보육
-교육부
-영유아재정과
-영유아,아동
-Y
-02-6222-6060
-가정에서 아이를 돌보는 가정 양육 시, 부모의 자녀 양육에 대한 부담을 줄이고 보육 서비스에 대한 선택권을 보장합니다.
-https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00003253&wlfareInfoReldBztpCd=01
+장애로 인하여 생활이 어려운 중증장애인에게 매월 일정금액의 연금을 지급하여 생활안정 지원과 복지 증진 및 사회통합을 도모합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00003249&wlfareInfoReldBztpCd=01
 월
 현금지급
 20210903
+장애인,저소득
+
+3
+WLF00003257
+이동통신요금감면
+생활지원
+과학기술정보통신부
+통신경쟁정책과
 None
+Y
+(이동전화) 국번없이 1523
+사회적 취약계층을 대상으로 가계통신비 부담완화를 위해 통신요금을 감면합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00003257&wlfareInfoReldBztpCd=01
+월
+감면
+20210903
+보훈대상자,장애인,저소득,한부모·조손
+
+4
+WLF00001103
+초중고 교육비 지원사업(고교학비 지원)
+교육
+교육부
+학생맞춤통합지원과
+아동,청소년
+Y
+1544-9654
+형편이 어려운 저소득층 가정의 자녀에게 교육의 기회를  보장하기 위해서 학비를 지원합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00001103&wlfareInfoReldBztpCd=01
+수시
+현물지급,감면,실물바우처
+20210903
+저소득,한부모·조손
 
 5
 WLF00000024
@@ -81,22 +81,70 @@ https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInf
 다문화·탈북민,다자녀,장애인,한부모·조손
 
 6
-WLF00000867
-방과후학교 자유수강권
-교육,보호·돌봄
+WLF00003227
+초.중.고 학생 교육정보화 지원
+교육
 교육부
-늘봄학교정책과
+디지털인프라담당관
 아동,청소년
 Y
 1544-9654
-방과후학교 수업을 통해 저소득층 자녀의 지속적이며 실직적인 교육기회를 확대하고 공교육 활성화 및 저소득층의 교육격차 해소를 돕습니다.
-https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000867&wlfareInfoReldBztpCd=01
-수시
-프로그램/서비스(서비스)
+초중고 학생에게 PC, 인터넷 통신비를 지원하여 정보 소외 계층의 교육 격차를 해소하고 균등한 교육 기회를 제공합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00003227&wlfareInfoReldBztpCd=01
+년
+현물지급
 20210903
-다문화·탈북민,저소득,한부모·조손
+저소득,한부모·조손
 
 7
+WLF00003258
+아동발달지원계좌(디딤씨앗통장)지원
+입양·위탁,서민금융
+보건복지부
+아동보호자립과
+청소년
+Y
+129
+취약계층 아동의 사회진출 시 학자금･취업･창업･주거마련 등에 소요되는 초기비용 마련을 위한 자산형성을 지원합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00003258&wlfareInfoReldBztpCd=01
+월
+현금지급
+20210903
+저소득
+
+8
+WLF00000781
+여성청소년 생리용품 지원
+신체건강,생활지원
+여성가족부
+청소년정책과
+아동,청소년,청년
+Y
+1566-3232
+취약계층 여성청소년 대상 생리용품 지원을 통해 여성 청소년의 건강한 성장을 지원합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000781&wlfareInfoReldBztpCd=01
+반기
+전자바우처(바우처)
+20210903
+저소득,한부모·조손
+
+9
+WLF00003265
+장애수당
+생활지원
+보건복지부
+장애인자립기반과
+청년,중장년,노년
+Y
+129
+장애인연금 비수급 경증장애인을 대상으로 장애로 인한 추가적 비용을 보전하여 저소득 장애인 가구의 생활 안정을 도모합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00003265&wlfareInfoReldBztpCd=01
+월
+현금지급
+20210903
+장애인,저소득
+
+10
 WLF00001140
 방과후보육료지원
 보육,교육
@@ -112,19 +160,35 @@ https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInf
 20210903
 장애인,저소득,한부모·조손
 
-8
-WLF00001067
-장애아보육료지원
-보육
-교육부
-영유아재정과
-영유아,아동
+11
+WLF00001135
+해산급여
+생활지원,임신·출산
+보건복지부
+기초생활보장과
+임신 · 출산
 Y
-02-6222-6060
-어린이집 이용 장애아동에 대한 보육료 지원을 통해 부모의 자녀양육 부담경감 및 원활한 경제활동을 지원합니다.
-https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00001067&wlfareInfoReldBztpCd=01
-월
-전자바우처(바우처)
+129
+수급자 가구의 조산 및 분만전과 분만후의 출산에 필요한 조치와 보호를 위해 해산비를 지급합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00001135&wlfareInfoReldBztpCd=01
+수시
+현금지급
 20210903
-장애인
+저소득
+
+12
+WLF00003198
+장애아동수당
+생활지원
+보건복지부
+장애인자립기반과
+아동,청소년
+Y
+129
+장애로 인하여 생활이 어려운 장애아동이 보다 편안한 생활을 할 수 있도록 지원합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00003198&wlfareInfoReldBztpCd=01
+월
+현금지급
+20210903
+장애인,저소득
 

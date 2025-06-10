@@ -1,53 +1,108 @@
 {% extends 'base.html' %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
-{% block content %}
 
-<div class="welfare-container">
+{% block content %}
+<main class="welfare-container">
     <div class="welfare-title">
-        <span class="welfare-badge">{{ detail_info.ministry_name|default:"소관 부처 없음" }}</span>
-        <h2>{{ detail_info.policy_name|default:"정책 이름 없음" }}</h2>
-        <p>{{ detail_info.summary|default:"요약 정보 없음" }}</p>
+        <span class="welfare-badge">{{ detail_info.ministry_name|default:"정보 없음" }}</span> {# 소관 부처명 동적으로 #}
+        <h2>{{ detail_info.policy_name|default:"제목 없음" }}</h2> {# 정책 이름 동적으로 #}
+        <p>삶의 질을 올려주는 복지혜택</p> {# 이 부분은 현재 데이터에 없으므로 고정 텍스트 유지 #}
     </div>
 
     <div class="welfare-section">
         <h3>복지 정보</h3>
-        <table class="welfare-table">
-            <tr><td>정책 번호</td><td>{{ detail_info.id|default:"-" }}</td></tr> {# id로 접근 #}
-            <tr><td>정책 이름</td><td>{{ detail_info.policy_name|default:"-" }}</td></tr>
-            <tr><td>관심 분야</td><td>{{ detail_info.category|default:"-" }}</td></tr>
-            <tr><td>소관 부처명</td><td>{{ detail_info.ministry_name|default:"-" }}</td></tr>
-            <tr><td>소관 조직명</td><td>{{ detail_info.division_name|default:"-" }}</td></tr>
-            <tr><td>서비스 요약</td><td>{{ detail_info.summary|default:"-" }}</td></tr>
-            <tr><td>지급 서비스</td><td>{{ detail_info.benefits|default:"-" }}</td></tr>
-            <tr><td>상세 링크</td><td><a href="{{ detail_info.detail_link|default:"#" }}" target="_blank">{{ detail_info.detail_link|default:"링크 없음" }}</a></td></tr>
-            <tr><td>지원 주기</td><td>{{ detail_info.support_cycle|default:"-" }}</td></tr>
-            <tr><td>제공유형</td><td>{{ detail_info.offer_type|default:"-" }}</td></tr>
-            <tr><td>등록일</td><td>{{ detail_info.reg_date|default:"-" }}</td></tr>
+        <table class="welfare-table"> {# welfare-table 클래스 유지 #}
+            <tr>
+                <td>정책 번호</td>
+                <td>{{ detail_info.id|default:"정보 없음" }}</td> {# 서비스 ID 동적으로 #}
+            </tr>
+            <tr>
+                <td>정책 이름</td>
+                <td>{{ detail_info.policy_name|default:"제목 없음" }}</td> {# 정책 이름 동적으로 #}
+            </tr>
+            <tr>
+                <td>관심 분야</td>
+                <td>{{ detail_info.category|default:"정보 없음" }}</td> {# 카테고리 동적으로 #}
+            </tr>
+            <tr>
+                <td>소관 부처명</td>
+                <td>{{ detail_info.ministry_name|default:"정보 없음" }}</td> {# 소관 부처명 동적으로 #}
+            </tr>
+            <tr>
+                <td>소관 조직명</td>
+                <td>{{ detail_info.division_name|default:"정보 없음" }}</td> {# 소관 조직명 동적으로 #}
+            </tr>
+            <tr>
+                <td>서비스 요약</td>
+                <td>{{ detail_info.summary|default:"정책 요약 정보가 없습니다." }}</td> {# 서비스 요약 동적으로 #}
+            </tr>
+            <tr>
+                <td>지급 서비스</td>
+                <td>{{ detail_info.benefit_details|default:"지급 서비스 정보 없음"|safe }}</td> {# 지급 서비스 동적으로, HTML 태그가 있다면 safe 필터 사용 #}
+            </tr>
+            <tr>
+                <td>상세 링크</td>
+                <td>
+                    {% if detail_info.detail_link and detail_info.detail_link != '#' %}
+                        <a href="{{ detail_info.detail_link }}" target="_blank">자세히 보기 (외부 링크)</a>
+                    {% else %}
+                        정보 없음
+                    {% endif %}
+                </td> {# 상세 링크 동적으로 #}
+            </tr>
+            <tr>
+                <td>지원 주기</td>
+                <td>{{ detail_info.support_cycle|default:"정보 없음" }}</td> {# 지원 주기 동적으로 #}
+            </tr>
+            <tr>
+                <td>제공유형</td>
+                <td>{{ detail_info.offer_type|default:"정보 없음" }}</td> {# 제공 유형 동적으로 #}
+            </tr>
+            <tr>
+                <td>등록일</td>
+                <td>{{ detail_info.reg_date|default:"정보 없음" }}</td> {# 등록일 동적으로 #}
+            </tr>
         </table>
     </div>
 
     <div class="welfare-section">
         <h3>신청 조건</h3>
-        <table class="welfare-table">
-            <tr><td>대상 연령</td><td>{{ detail_info.target_age|default:"-" }}</td></tr>
-            <tr><td>가구 유형</td><td>{{ detail_info.household_type|default:"-" }}</td></tr>
-            <tr><td>대상자</td><td>{{ detail_info.target_audience|default:"-" }}</td></tr>
-            <tr><td>선정 기준</td><td>{{ detail_info.selection_criteria|default:"-" }}</td></tr>
+        <table class="welfare-table"> {# welfare-table 클래스 유지 #}
+            <tr>
+                <td>대상 연령</td>
+                <td>{{ detail_info.target_age|default:"정보 없음" }}</td> {# 대상 연령 동적으로 #}
+            </tr>
+            <tr>
+                <td>가구 유형</td>
+                <td>{{ detail_info.household_type|default:"정보 없음" }}</td> {# 가구 유형 동적으로 #}
+            </tr>
+            <tr>
+                <td>대상자</td>
+                <td>{{ detail_info.target_audience|default:"정보 없음" }}</td> {# 대상자 동적으로 #}
+            </tr>
+            <tr>
+                <td>선정 기준</td>
+                <td>{{ detail_info.selection_criteria|default:"정보 없음" }}</td> {# 선정 기준 동적으로 #}
+            </tr>
         </table>
     </div>
 
     <div class="welfare-section">
         <h3>신청 방법</h3>
-        <table class="welfare-table">
-            <tr><td>온라인 신청 가능 여부</td><td>{{ detail_info.online_application_available|default:"-" }}</td></tr>
-            <tr><td>문의처</td><td>{{ detail_info.contact_number|default:"-" }}</td></tr>
+        <table class="welfare-table"> {# welfare-table 클래스 유지 #}
+            <tr>
+                <td>온라인 신청 가능 여부</td>
+                <td>{{ detail_info.online_application_available|default:"정보 없음" }}</td> {# 온라인 신청 가능 여부 동적으로 #}
+            </tr>
+            <tr>
+                <td>문의처</td>
+                <td>{{ detail_info.contact_number|default:"정보 없음" }}</td> {# 문의처 동적으로 #}
+            </tr>
         </table>
     </div>
 
     <div class="welfare-section welfare-back-section">
         <a href="javascript:history.back();" class="welfare-back-button">← 뒤로가기</a>
     </div>
-</div>
-
+</main>
 {% endblock %}
