@@ -407,31 +407,82 @@ body {
   opacity: 1;
 }
 
-
-/* ---------------- 해시태그 ---------------- */
-.hashtag-area {
-    text-align: center;
-    margin-bottom: 36px;
+/*------키워드 검색-------*/
+ body {
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
 }
 
-.hashtag {
+.keyword-container {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 90%;
+    width: 680px;
+    margin: 60px auto;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.keyword-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.keyword-line {
+    border-bottom: 2px solid #e0e0e0;
+    margin-bottom: 25px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.keyword-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    padding-top: 10px;
+}
+
+.keyword-button {
     background: #e0eaff;
     color: #0037ff;
-    padding: 8px 16px;
+    padding: 10px 20px;
+    border: none;
     border-radius: 999px;
-    margin: 6px;
-    display: inline-block;
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 55, 255, 0.05);
+    flex-shrink: 0;
 }
 
-.hashtag:hover {
-    background: #d0dbff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 55, 255, 0.1);
+.keyword-button:hover {
+    background: #cdd8ff;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 55, 255, 0.15);
 }
+
+.keyword-button.selected {
+    background: #0037ff;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 55, 255, 0.3);
+    transform: translateY(-1px);
+}
+
+.keyword-button.selected:hover {
+    background: #002ac7;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 18px rgba(0, 55, 255, 0.4);
+}
+
 
 /* ---------------- 섹션 ---------------- */
 .section {
