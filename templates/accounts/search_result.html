@@ -1,154 +1,159 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-{% include 'accounts/menu.html' %}
+    {% include 'accounts/menu.html' %}
 
-<main class="main">
+    <main class="main">
 
-  <!-- 검색창 -->
-<div class="search-container">
-  <form action="/search_result/" method="get" class="search-form">
-    <input type="text" name="query" placeholder="검색어를 입력하세요" value="{{ query|default:'' }}" class="search-input" required>
-    <button type="submit" class="search-btn">🔍</button>
-  </form>
-</div>
-<!--css 수정 -->
-      <style>
-    body {
-      background-color: #a5dff6; /* 연한 하늘색 배경 */
-      font-family: sans-serif;
-    }
-
-    .keyword-container {
-      background-color: white;
-      border-radius: 10px;
-      padding: 20px;
-      max-width: 90%;      
-      width: 600px;
-      margin: 50px auto;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      box-sizing: border-box;
-    }
-
-    .keyword-title {
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .keyword-line {
-      border-bottom: 1px solid black;
-      margin-bottom: 15px;
-    }
-
-    .keyword-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      overflow-x: hidden;
-    }
-
-    .keyword-button {
-      border: 1px solid black;
-      padding: 5px 15px;
-      background-color: white;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-
-    .keyword-button:hover {
-      background-color: #e0f0ff;
-    }
-  </style>
-</head>
-<body>
-
-<div class="keyword-container">
-  <div class="keyword-title"># 키워드 검색</div>
-  <div class="keyword-line"></div>
-    <form id="keywordForm" method="get" action="/accounts/run-api/">
-        <input type="hidden" name="ThemaArray" id="ThemaInput">
-        <button type="submit" id="submitBtn" style="display: none;">Submit</button>
-    </form>
-  <div class="keyword-buttons">
-    <!-- 예시로 키워드 15개 -->
-      <div class="keyword-button" data-keyword="010">신체건강</div>
-      <div class="keyword-button" data-keyword="020">정신건강</div>
-      <div class="keyword-button" data-keyword="030">생활지원</div>
-      <div class="keyword-button" data-keyword="040">주거</div>
-      <div class="keyword-button" data-keyword="050">일자리</div>
-      <div class="keyword-button" data-keyword="060">문화▪여가</div>
-      <div class="keyword-button" data-keyword="070">안전▪위기</div>
-      <div class="keyword-button" data-keyword="080">임신▪출산</div>
-      <div class="keyword-button" data-keyword="090">보육</div>
-      <div class="keyword-button" data-keyword="100">교육</div>
-      <div class="keyword-button" data-keyword="110">입양▪위탁</div>
-      <div class="keyword-button" data-keyword="120">보호▪돌봄</div>
-      <div class="keyword-button" data-keyword="130">서민금융</div>
-      <div class="keyword-button" data-keyword="140">법률</div>
-      <div class="keyword-button" data-keyword="160">에너지</div>
-  </div>
-</div>
-<script>
-    document.querySelectorAll('.keyword-button').forEach(function(button) {
-      button.addEventListener('click', function() {
-        const intrsThemaArray = this.dataset.keyword;
-        document.getElementById('ThemaInput').value = intrsThemaArray;
-        document.getElementById('submitBtn').click();  // 자동 제출
-      });
-    });
-</script>
-</body>
-
-  <!-- 키워드 정렬 선택 -->
-  <section class="section-new">
-    <div class="section-header">
-      <h3 class="section-title">검색 결과</h3>
-      <div class="dropdown">
-        <button class="more-btn">정렬 ▾</button>
-        <!-- 정렬 드롭다운 옵션 추가 예정 -->
-      </div>
-    </div>
-
-    <!-- 카드 목록 -->
-    <div class="card-container">
-      {% for item in results %}
-      <div class="card">
-        <div class="card-header">
-          <span class="tag">{{ item.category|default:"분류 없음" }}</span>
+        <!-- 검색창 -->
+        <div class="search-container">
+            <form action="/search_result/" method="get" class="search-form">
+                <input type="text" name="query" placeholder="검색어를 입력하세요" value="{{ query|default:'' }}"
+                       class="search-input" required>
+                <button type="submit" class="search-btn">🔍</button>
+            </form>
         </div>
-        <div class="title">{{ item.policy_name|default:"정책 이름 없음" }}</div> {# item.title 대신 item.policy_name #}
-        <div class="desc">{{ item.summary|default:"요약 정보 없음" }}</div>  {# item.description 대신 item.summary #}
+        <!--css 수정 -->
+        <style>
+            body {
+                background-color: #a5dff6; /* 연한 하늘색 배경 */
+                font-family: sans-serif;
+            }
 
-        <a href="{% url 'welfare_info' item.id %}" class="detail-btn">+ 자세히보기</a>
+            .keyword-container {
+                background-color: white;
+                border-radius: 10px;
+                padding: 20px;
+                max-width: 90%;
+                width: 600px;
+                margin: 50px auto;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                box-sizing: border-box;
+            }
 
-        <div class="keywords">
-          {% if item.keywords %}
-            {% for keyword in item.keywords %}
-              <span>#{{ keyword }}</span>
-            {% endfor %}
-          {% else %}
-            <span style="color:#888;">#추천 없음</span>
-          {% endif %}
+            .keyword-title {
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            .keyword-line {
+                border-bottom: 1px solid black;
+                margin-bottom: 15px;
+            }
+
+            .keyword-buttons {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                overflow-x: hidden;
+            }
+
+            .keyword-button {
+                border: 1px solid black;
+                padding: 5px 15px;
+                background-color: white;
+                cursor: pointer;
+                transition: background-color 0.2s;
+            }
+
+            .keyword-button:hover {
+                background-color: #e0f0ff;
+            }
+        </style>
+        </head>
+        <body>
+
+        <div class="keyword-container">
+            {# 폼의 action을 기존 검색창과 동일하게 '/search_result/'로 변경합니다. #}
+            <form id="keywordForm" method="get" action="/search_result/">
+                {# name을 'query'로 변경하여 일반 검색어와 동일한 인자로 넘깁니다. #}
+                <input type="hidden" name="query" id="ThemaInput">
+                <button type="submit" id="submitBtn" style="display: none;">Submit</button>
+            </form>
+            <div class="keyword-buttons">
+                <div class="keyword-button" data-keyword="신체건강">신체건강</div>
+                {# data-keyword 값도 실제 텍스트로 변경 #}
+                <div class="keyword-button" data-keyword="정신건강">정신건강</div>
+                <div class="keyword-button" data-keyword="생활지원">생활지원</div>
+                <div class="keyword-button" data-keyword="주거">주거</div>
+                <div class="keyword-button" data-keyword="일자리">일자리</div>
+                <div class="keyword-button" data-keyword="문화여가">문화▪여가</div>
+                {# 특수문자 제거 또는 URL 인코딩 고려 #}
+                <div class="keyword-button" data-keyword="안전위기">안전▪위기</div>
+                <div class="keyword-button" data-keyword="임신출산">임신▪출산</div>
+                <div class="keyword-button" data-keyword="보육">보육</div>
+                <div class="keyword-button" data-keyword="교육">교육</div>
+                <div class="keyword-button" data-keyword="입양위탁">입양▪위탁</div>
+                <div class="keyword-button" data-keyword="보호돌봄">보호▪돌봄</div>
+                <div class="keyword-button" data-keyword="서민금융">서민금융</div>
+                <div class="keyword-button" data-keyword="법률">법률</div>
+                <div class="keyword-button" data-keyword="에너지">에너지</div>
+            </div>
         </div>
-      </div>
-      {% empty %}
-      <p style="text-align:center; color:#555;">검색 결과가 없습니다.</p>
-      {% endfor %}
-    </div>
-  </section>
+        <script>
+            document.querySelectorAll('.keyword-button').forEach(function (button) {
+                button.addEventListener('click', function () {
+                    // data-keyword 값을 가져와서 ThemeInput (이제는 name="query")에 할당
+                    const keyword = this.dataset.keyword;
+                    document.getElementById('ThemaInput').value = keyword;
+                    document.getElementById('submitBtn').click();  // 폼 자동 제출
+                });
+            });
+        </script>
+        </body>
 
-  <!-- 페이지네이션 -->
-  {% if page_range %}
-  <div class="pagination" style="margin-top: 40px; text-align: center;">
-    <span class="page-link">처음</span>
-    {% for i in page_range %}
-      <span class="page-link {% if i == current_page %}active{% endif %}">{{ i }}</span>
-    {% endfor %}
-    <span class="page-link">마지막</span>
-  </div>
-  {% endif %}
-</main>
-    
+        <!-- 키워드 정렬 선택 -->
+        <section class="section-new">
+            <div class="section-header">
+                <h3 class="section-title">검색 결과</h3>
+                <div class="dropdown">
+                    <button class="more-btn">정렬 ▾</button>
+                    <!-- 정렬 드롭다운 옵션 추가 예정 -->
+                </div>
+            </div>
+
+            <!-- 카드 목록 -->
+            <div class="card-container">
+                {% for item in results %}
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="tag">{{ item.category|default:"분류 없음" }}</span>
+                        </div>
+                        <div class="title">{{ item.policy_name|default:"정책 이름 없음" }}</div>
+                        {# item.title 대신 item.policy_name #}
+                        <div class="desc">{{ item.summary|default:"요약 정보 없음" }}</div>
+                        {# item.description 대신 item.summary #}
+
+                        <a href="{% url 'welfare_info' item.id %}" class="detail-btn">+ 자세히보기</a>
+
+                        <div class="keywords">
+                            {% if item.keywords %}
+                                {% for keyword in item.keywords %}
+                                    <span>#{{ keyword }}</span>
+                                {% endfor %}
+                            {% else %}
+                                <span style="color:#888;">#추천 없음</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p style="text-align:center; color:#555;">검색 결과가 없습니다.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- 페이지네이션 -->
+        {% if page_range %}
+            <div class="pagination" style="margin-top: 40px; text-align: center;">
+                <span class="page-link">처음</span>
+                {% for i in page_range %}
+                    <span class="page-link {% if i == current_page %}active{% endif %}">{{ i }}</span>
+                {% endfor %}
+                <span class="page-link">마지막</span>
+            </div>
+        {% endif %}
+    </main>
+
 
 
 {% endblock %}

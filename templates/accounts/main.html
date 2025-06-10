@@ -1,102 +1,107 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<main class="main">
-  <h1 class="main-title">BOKMANI</h1>
+    <main class="main">
+        <h1 class="main-title">BOKMANI</h1>
 
-<!-- 검색창 -->
-<div class="search-container">
-  <form action="/search_result/" method="get" class="search-form">
-    <input type="text" id="search" name="query" class="search-input" placeholder="복지제도 검색" value="{{ request.GET.query }}" required>
-    <button type="submit" class="search-btn">🔍</button>
-  </form>
-</div>
+        <!-- 검색창 -->
+        <div class="search-container">
+            <form action="/search_result/" method="get" class="search-form">
+                <input type="text" id="search" name="query" class="search-input" placeholder="복지제도 검색"
+                       value="{{ request.GET.query }}" required>
+                <button type="submit" class="search-btn">🔍</button>
+            </form>
+        </div>
 
 
-<div class="keyword-container">
-    <form id="keywordForm" method="get" action="/accounts/run-api/">
-        <input type="hidden" name="ThemaArray" id="ThemaInput">
-        <button type="submit" id="submitBtn" style="display: none;">Submit</button>
-    </form>
-  <div class="keyword-buttons">
-    <!-- 예시로 키워드 15개 -->
-      <div class="keyword-button" data-keyword="010">신체건강</div>
-      <div class="keyword-button" data-keyword="020">정신건강</div>
-      <div class="keyword-button" data-keyword="030">생활지원</div>
-      <div class="keyword-button" data-keyword="040">주거</div>
-      <div class="keyword-button" data-keyword="050">일자리</div>
-      <div class="keyword-button" data-keyword="060">문화▪여가</div>
-      <div class="keyword-button" data-keyword="070">안전▪위기</div>
-      <div class="keyword-button" data-keyword="080">임신▪출산</div>
-      <div class="keyword-button" data-keyword="090">보육</div>
-      <div class="keyword-button" data-keyword="100">교육</div>
-      <div class="keyword-button" data-keyword="110">입양▪위탁</div>
-      <div class="keyword-button" data-keyword="120">보호▪돌봄</div>
-      <div class="keyword-button" data-keyword="130">서민금융</div>
-      <div class="keyword-button" data-keyword="140">법률</div>
-      <div class="keyword-button" data-keyword="160">에너지</div>
-  </div>
-</div>
-<script>
-    document.querySelectorAll('.keyword-button').forEach(function(button) {
-      button.addEventListener('click', function() {
-        const intrsThemaArray = this.dataset.keyword;
-        document.getElementById('ThemaInput').value = intrsThemaArray;
-        document.getElementById('submitBtn').click();  // 자동 제출
-      });
-    });
-</script>
+        <div class="keyword-container">
+            {# 폼의 action을 기존 검색창과 동일하게 '/search_result/'로 변경합니다. #}
+            <form id="keywordForm" method="get" action="/search_result/">
+                {# name을 'query'로 변경하여 일반 검색어와 동일한 인자로 넘깁니다. #}
+                <input type="hidden" name="query" id="ThemaInput">
+                <button type="submit" id="submitBtn" style="display: none;">Submit</button>
+            </form>
+            <div class="keyword-buttons">
+                <div class="keyword-button" data-keyword="신체건강">신체건강</div>
+                {# data-keyword 값도 실제 텍스트로 변경 #}
+                <div class="keyword-button" data-keyword="정신건강">정신건강</div>
+                <div class="keyword-button" data-keyword="생활지원">생활지원</div>
+                <div class="keyword-button" data-keyword="주거">주거</div>
+                <div class="keyword-button" data-keyword="일자리">일자리</div>
+                <div class="keyword-button" data-keyword="문화여가">문화▪여가</div>
+                {# 특수문자 제거 또는 URL 인코딩 고려 #}
+                <div class="keyword-button" data-keyword="안전위기">안전▪위기</div>
+                <div class="keyword-button" data-keyword="임신출산">임신▪출산</div>
+                <div class="keyword-button" data-keyword="보육">보육</div>
+                <div class="keyword-button" data-keyword="교육">교육</div>
+                <div class="keyword-button" data-keyword="입양위탁">입양▪위탁</div>
+                <div class="keyword-button" data-keyword="보호돌봄">보호▪돌봄</div>
+                <div class="keyword-button" data-keyword="서민금융">서민금융</div>
+                <div class="keyword-button" data-keyword="법률">법률</div>
+                <div class="keyword-button" data-keyword="에너지">에너지</div>
+            </div>
+        </div>
+        <script>
+            document.querySelectorAll('.keyword-button').forEach(function (button) {
+                button.addEventListener('click', function () {
+                    // data-keyword 값을 가져와서 ThemeInput (이제는 name="query")에 할당
+                    const keyword = this.dataset.keyword;
+                    document.getElementById('ThemaInput').value = keyword;
+                    document.getElementById('submitBtn').click();  // 폼 자동 제출
+                });
+            });
+        </script>
 
-  <!-- Suggestion 버튼 -->
-  <div class="suggestion-area">
-      <a href="/recommend/" class="suggestion-button">✨ Suggestion</a>
-  </div>
+        <!-- Suggestion 버튼 -->
+        <div class="suggestion-area">
+            <a href="/recommend/" class="suggestion-button">✨ Suggestion</a>
+        </div>
 
-  <!-- New Benefits -->
-<section class="section section-new">
-  <div class="section-header">
-    <h2 class="section-title">New Benefits</h2>
-    <a href="{% url 'search_result' %}" class="more-btn">more</a>
-  </div>
-  <div class="card-container">
-    {% for benefit in new_benefits %}
-    <div class="card">
-      <div class="card-header">
-        <span class="tag">여성가족부</span>
-        <span class="d-day">D - {{ benefit.d_day }}</span>
-      </div>
-      <div class="title">{{ benefit.title }}</div>
-      <div class="desc">정책 내용 : {{ benefit.description }}</div>
-      <div class="apply">신청 기간 : {{ benefit.period }}</div>
-      <a href="{% url 'welfare_info' %}" class="detail-btn">+ 자세히보기</a>
-      <div class="keywords">#신체건강 #임신.출산 #저소득</div>
-    </div>
-    {% endfor %}
-  </div>
-</section>
+        <!-- New Benefits -->
+        <section class="section section-new">
+            <div class="section-header">
+                <h2 class="section-title">New Benefits</h2>
+                <a href="{% url 'search_result' %}" class="more-btn">more</a>
+            </div>
+            <div class="card-container">
+                {% for benefit in new_benefits %}
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="tag">여성가족부</span>
+                            <span class="d-day">D - {{ benefit.d_day }}</span>
+                        </div>
+                        <div class="title">{{ benefit.title }}</div>
+                        <div class="desc">정책 내용 : {{ benefit.description }}</div>
+                        <div class="apply">신청 기간 : {{ benefit.period }}</div>
+                        <a href="{% url 'welfare_info' %}" class="detail-btn">+ 자세히보기</a>
+                        <div class="keywords">#신체건강 #임신.출산 #저소득</div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
 
-<!-- Popularity Benefits -->
-<section class="section section-popular">
-  <div class="section-header">
-    <h2 class="section-title">Popularity Benefits</h2>
-    <a href="{% url 'search_result' %}" class="more-btn">more</a>
-  </div>
-  <div class="card-container">
-    {% for benefit in popular_benefits %}
-    <div class="card">
-      <div class="card-header">
-        <span class="tag">여성가족부</span>
-        <span class="d-day">D - {{ benefit.d_day }}</span>
-      </div>
-      <div class="title">{{ benefit.title }}</div>
-      <div class="desc">정책 내용 : {{ benefit.description }}</div>
-      <div class="apply">신청 기간 : {{ benefit.period }}</div>
-      <a href="{% url 'welfare_info' %}" class="detail-btn">+ 자세히보기</a>
-      <div class="keywords">#키워드 #키워드 #키워드</div>
-    </div>
-    {% endfor %}
-  </div>
-</section>
+        <!-- Popularity Benefits -->
+        <section class="section section-popular">
+            <div class="section-header">
+                <h2 class="section-title">Popularity Benefits</h2>
+                <a href="{% url 'search_result' %}" class="more-btn">more</a>
+            </div>
+            <div class="card-container">
+                {% for benefit in popular_benefits %}
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="tag">여성가족부</span>
+                            <span class="d-day">D - {{ benefit.d_day }}</span>
+                        </div>
+                        <div class="title">{{ benefit.title }}</div>
+                        <div class="desc">정책 내용 : {{ benefit.description }}</div>
+                        <div class="apply">신청 기간 : {{ benefit.period }}</div>
+                        <a href="{% url 'welfare_info' %}" class="detail-btn">+ 자세히보기</a>
+                        <div class="keywords">#키워드 #키워드 #키워드</div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
 
-</main>
+    </main>
 {% endblock %}
