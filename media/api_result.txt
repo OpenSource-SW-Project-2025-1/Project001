@@ -1,0 +1,194 @@
+조회된 복지 서비스 수: 12
+
+1
+WLF00000060
+청년내일저축계좌
+서민금융
+보건복지부
+자활정책과
+청년
+Y
+129
+근로빈곤층 청년의 생계수급자 등으로의 하락을 사전에 예방하고, 일하는 중간계층 청년이 사회에 안착할 수 있도록 자산형성을 지원합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000060&wlfareInfoReldBztpCd=01
+월
+현금지급
+20210903
+저소득
+
+2
+WLF00000072
+에너지바우처
+생활지원,주거,에너지
+산업통상자원부
+에너지정책관
+영유아,노년
+Y
+1600-3190
+에너지취약계층에게 에너지바우처를 지급하여 전기·가스·지역난방·등유·LPG 등 필요 에너지의 이용 비용을 지원합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000072&wlfareInfoReldBztpCd=01
+년
+전자바우처(바우처)
+20210903
+장애인,저소득,한부모·조손
+
+3
+WLF00000078
+청소년특별지원
+신체건강,생활지원,일자리,문화·여가,교육,법률
+여성가족부
+학교밖청소년지원과
+아동,청소년,청년
+Y
+02-2100-6000
+보호자가 없거나, 실질적으로 보호자의 보호를 받지 못하는 사회, 경제적으로 어려움이 있는 위기청소년이 올바르게 성장하고 안정된 생활을 할 수 있도록 지원합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000078&wlfareInfoReldBztpCd=01
+수시
+현금지급,현물지급
+20210903
+저소득
+
+4
+WLF00000024
+아이돌봄 서비스
+보육,보호·돌봄
+여성가족부
+가족문화과
+영유아,아동,청소년
+Y
+1577-8136
+맞벌이를 하거나 갑자기 아이를 돌볼 수 없는 일이 생겼을 때 육아 도우미가 방문하여 12세 이하 자녀의 양육을 도와줍니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000024&wlfareInfoReldBztpCd=01
+수시
+기타
+20210903
+다문화·탈북민,다자녀,장애인,한부모·조손
+
+5
+WLF00001068
+한부모가족 아동양육비 지원
+생활지원,보육,교육
+여성가족부
+가족지원과
+None
+Y
+1644-6621
+저소득 한부모가족 및 조손가족이 가족의 기능을 유지하고 안정된 생활을 할 수 있도록 아동 양육비를 지원합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00001068&wlfareInfoReldBztpCd=01
+월
+현금지급
+20210903
+한부모·조손
+
+6
+WLF00000781
+여성청소년 생리용품 지원
+신체건강,생활지원
+여성가족부
+청소년정책과
+아동,청소년,청년
+Y
+1566-3232
+취약계층 여성청소년 대상 생리용품 지원을 통해 여성 청소년의 건강한 성장을 지원합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000781&wlfareInfoReldBztpCd=01
+반기
+전자바우처(바우처)
+20210903
+저소득,한부모·조손
+
+7
+WLF00000061
+의료급여 임신.출산진료비지원
+신체건강,임신·출산
+보건복지부
+기초의료보장과
+영유아,임신 · 출산
+Y
+129
+임신 또는 출산한 의료급여 수급자와 2세미만 자녀에게 의료비를 지원하여 저소득층 국민보건 향상과 사회복지 증진에 기여합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000061&wlfareInfoReldBztpCd=01
+수시
+현금지급
+20210903
+저소득
+
+8
+WLF00000026
+장애인자립자금대여
+생활지원,일자리,서민금융
+보건복지부
+장애인자립기반과
+청년,중장년,노년
+Y
+129
+저소득 장애인의 소규모 창업 및 출퇴근용 자동차 구입 비용을 장기 저리로 대여하여 생업의 기반을 다지고 편리하게 이동할 수 있도록 지원합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000026&wlfareInfoReldBztpCd=01
+1회성
+현금대여(융자)
+20210903
+장애인,저소득
+
+9
+WLF00000056
+의료급여(요양비)
+신체건강,임신·출산
+보건복지부
+기초의료보장과
+임신 · 출산
+Y
+129
+의료급여 수급권자에게 의료비를 지원하여 저소득층의  국민보건 향상과 사회복지 증진에 기여합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000056&wlfareInfoReldBztpCd=01
+수시
+현금지급
+20210903
+저소득
+
+10
+WLF00001087
+가사·간병 방문 지원사업
+생활지원,보호·돌봄
+보건복지부
+사회서비스사업과
+None
+Y
+129
+일상생활이 어려운 저소득층 가정에 간병·가사 서비스를 지원하여  취약계층의 생활 안정을 도모하고  가사·간병 방문 제공인력의 사회적 일자리를 창출합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00001087&wlfareInfoReldBztpCd=01
+월
+전자바우처(바우처)
+20210903
+장애인,저소득,한부모·조손
+
+11
+WLF00000064
+발달장애인 부모상담지원사업
+정신건강
+보건복지부
+장애인서비스과
+영유아,아동
+Y
+129
+발달장애인 부모에게 발달장애인의 양육과 부양에 따른 심리적 부담 완화 및 가족기능 향상 도모를 위한 전문 심리상담을 지원합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00000064&wlfareInfoReldBztpCd=01
+월
+전자바우처(바우처)
+20210903
+장애인
+
+12
+WLF00001067
+장애아보육료지원
+보육
+교육부
+영유아재정과
+영유아,아동
+Y
+02-6222-6060
+어린이집 이용 장애아동에 대한 보육료 지원을 통해 부모의 자녀양육 부담경감 및 원활한 경제활동을 지원합니다.
+https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00001067&wlfareInfoReldBztpCd=01
+월
+전자바우처(바우처)
+20210903
+장애인
+
