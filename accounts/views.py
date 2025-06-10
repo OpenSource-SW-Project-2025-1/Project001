@@ -22,21 +22,54 @@ from django.conf import settings
 import time
 import os
 
+def search_result_mock(request):
+    import os, time
+    result_path = os.path.join(settings.BASE_DIR, 'media', 'api_result.txt')
+    parsed_results = []
 
+    if os.path.exists(result_path):
+        with open(result_path, 'r', encoding='utf-8') as f:
+            lines = [line.strip() for line in f.readlines() if line.strip()]
+        i = 0
+        while i + 15 <= len(lines):
+            result = {
+                "title": lines[i + 3],
+                "category": lines[i + 5],
+                "description": lines[i + 7],
+                "keywords": [lines[i + 4]]
+            }
+            parsed_results.append(result)
+            i += 15
+    else:
+        parsed_results = []
+
+    return render(request, "accounts/search_result.html", {
+        "results": parsed_results,
+        "query": "",
+        "page_range": range(1, 2),
+        "current_page": 1,
+    })
 
 
 def run_local_api_script(request):
+    import time
+    import os
+    from django.conf import settings
+    import subprocess
+
     script_path = os.path.join(settings.BASE_DIR, 'central_welfare_api.py')
 
+    # GET 요청에서 파라미터 추출
     age = request.GET.get('age', '')
     searchWrd = request.GET.get('searchWrd', '')
     lifeArray = request.GET.get('lifeArray', '')
     trgterIndvdlArray = request.GET.get('trgterIndvdlArray', '')
-    intrsThemaArray = request.GET.get('intrsThemaArray', '')
+    intrsThemaArray = request.GET.get('ThemaArray', '')  # keyword 버튼에서 전달됨
 
+    # API 호출 실행
     try:
         result = subprocess.run(
-            ['python', script_path, age, searchWrd, lifeArray, trgterIndvdlArray, intrsThemaArray],  # 예시 인자
+            ['python', script_path, age, searchWrd, lifeArray, trgterIndvdlArray, intrsThemaArray],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True
@@ -45,22 +78,38 @@ def run_local_api_script(request):
     except Exception as e:
         message = f"실행 중 오류: {str(e)}"
 
-    # 텍스트 파일 내용 읽기
+    # 결과 파일 경로
     result_path = os.path.join(settings.BASE_DIR, 'media', 'api_result.txt')
+    parsed_results = []
 
+    # 결과 파싱
     if os.path.exists(result_path):
         modified_time = time.ctime(os.path.getmtime(result_path))
         with open(result_path, 'r', encoding='utf-8') as f:
-            content = f.read()
+            lines = [line.strip() for line in f.readlines() if line.strip()]
+
+        i = 0
+        while i + 15 <= len(lines):
+            result = {
+                "title": lines[i + 3],
+                "category": lines[i + 5],
+                "description": lines[i + 7],
+                "keywords": [lines[i + 4]]
+               }
+            parsed_results.append(result)
+            i += 15  # 한 항목당 15줄 + 공백
+
+        content = "\n".join(lines)  # 디버깅용 텍스트
     else:
         modified_time = "파일이 존재하지 않음"
         content = "결과 파일이 없습니다."
 
+    # 결과 페이지로 렌더링
     return render(request, 'accounts/search_result.html', {
         'content': content,
         'message': message,
         'modified_time': modified_time,
-
+        'results': parsed_results,
     })
 
 
@@ -222,38 +271,6 @@ def team_programming(request):
 
 def project_info(request):
     return render(request, 'accounts/project_info.html')
-
-
-def search_result_mock(request):
-
-        result_path = os.path.join(settings.BASE_DIR, 'media', 'api_result.txt')
-        results = []
-
-        try:
-            with open(result_path, 'r', encoding='utf-8') as f:
-                lines = [line.strip() for line in f.readlines() if line.strip()]
-
-            i = 0
-            while i + 15 <= len(lines):
-                result = {
-                    "title": lines[i + 3],
-                    "category": lines[i + 5],
-                    "description": lines[i + 4],
-                    "keywords": [lines[i + 7]]  # 관심주제 + 생애주기 예시
-                }
-                results.append(result)
-                i += 15  # 한 서비스당 18줄 (일반 15줄 + 상세 3줄)
-        except Exception as e:
-            results = []
-            print("파싱 실패:", e)
-
-        return render(request, 'accounts/search_result.html', {
-            'results': results,
-            'query': "",
-            'page_range': range(1, 2),
-            'current_page': 1,
-            'message': '파싱 완료',
-        })
 
 
 def ai_recommend_result(request):
