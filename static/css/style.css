@@ -303,43 +303,44 @@ body {
     100% { background-position: 0% 50%; }
 }
 
+/* ---------------- 검색창 영역 ---------------- */
 .search-container {
   display: flex;
   justify-content: center;
-  margin: 30px 0;
+  margin: 25px 0;
 }
 
 .search-form {
   display: flex;
   align-items: center;
   width: 100%;
-  max-width: 600px;
+  max-width: 480px; /* 최대 너비를 줄여 더 슬림하게 */
   background: #fff;
   border-radius: 999px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-  padding: 10px 20px;
+  box-shadow: 0 4px 12px rgba(0, 64, 255, 0.08);
+  padding: 8px 15px; /* 내부 패딩을 줄여 전체적인 높이 감소 */
 }
 
 .search-input {
   flex: 1;
   border: none;
   outline: none;
-  font-size: 1rem;
-  padding: 12px 16px;
+  font-size: 0.9rem; /* 폰트 크기를 약간 줄여 슬림하게 */
+  padding: 8px 12px; /* 입력 필드 패딩을 줄여 높이 감소 */
   border-radius: 999px;
   background: transparent;
   font-family: 'Pretendard', sans-serif;
   color: #333;
-  margin-right: 14px;
+  margin-right: 10px; /* 마진도 살짝 줄여서 공간 확보 */
 }
 
 .search-btn {
   background: #f2f2f2;
   border: none;
-  font-size: 1.4rem;
+  font-size: 1.2rem; /* 아이콘 크기를 약간 줄여 전체적인 균형 맞춤 */
   cursor: pointer;
   color: #555;
-  padding: 10px 14px;
+  padding: 8px 12px; /* 버튼 패딩을 줄여 크기 감소 */
   border-radius: 50%;
   transition: all 0.2s ease;
 }
@@ -350,56 +351,109 @@ body {
   box-shadow: 0 2px 6px rgba(0, 55, 255, 0.2);
 }
 
+/*------키워드 검색-------*/
+/* ---------------- 키워드 버튼 ---------------- */
+.keyword-container {
+  background-color: transparent;
+  border-radius: 16px;
+  padding: 10px;
+  max-width: 95%;
+  margin: 0 auto;
+}
 
-/* ---------------- Suggestion ---------------- */
-/* 버튼 감싸는 영역 */
+.keyword-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding-top: 5px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.keyword-button {
+  background: #d8e9ff;
+  color: #0052cc;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: none;
+  flex-shrink: 0;
+  line-height: 1;
+
+}
+
+.keyword-button:hover {
+  background: #c5ddff;
+}
+
+/* 선택된 키워드 강조 */
+.keyword-button.selected {
+  background: #0052cc;
+  color: #ffffff;
+  box-shadow: 0 3px 8px rgba(0, 82, 204, 0.35);
+  transform: translateY(-1px);
+}
+
+.keyword-button.selected:hover {
+  background: #0042b5;
+  transform: translateY(-2px);
+}
+
+/* 감싸는 영역 */
 .suggestion-area {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 60px 0 40px 0;
+  margin: 20px 0 40px 0;
 }
 
 /* 추천 버튼 */
 .suggestion-button {
   display: inline-block;
   font-size: 1.2rem;
-  font-weight: 600;
+  font-weight: 700;
   background: linear-gradient(135deg, #002bdd, #6ea3ff);
   color: white;
   padding: 16px 40px;
   border-radius: 999px;
   border: none;
   cursor: pointer;
-  transition: transform 0.25s ease, box-shadow 0.3s ease, background 0.3s ease;
   text-decoration: none;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 16px rgba(0, 64, 255, 0.35); /* 💡 더 선명한 그림자 */
+  transition: transform 0.25s ease, box-shadow 0.4s ease, background 0.3s ease, filter 0.3s ease;
   z-index: 0;
+  filter: brightness(1.05); /* 💡 약간 빛나는 느낌 */
 }
 
 /* hover 시 효과 */
 .suggestion-button:hover {
-  transform: scale(1.04);
-  box-shadow: 0 0 20px rgba(0, 50, 255, 0.35);
+  transform: scale(1.05);
   background: linear-gradient(135deg, #001fc4, #5e9dff);
+  box-shadow: 0 0 30px rgba(0, 100, 255, 0.5); /* 더 강한 빛 */
+  filter: brightness(1.2); /* 💡 더 환하게 */
 }
 
-/* 클릭 시 퍼지는 물결 효과 */
+/* 클릭 시 물결 효과 */
 .suggestion-button::after {
   content: '';
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 250%; /* ✅ 더 크게 확장 */
+  width: 250%;
   height: 250%;
-  background: rgba(255, 255, 255, 0.25); /* ✅ 살짝 더 뚜렷하게 */
+  background: rgba(255, 255, 255, 0.3);
   transform: translate(-50%, -50%) scale(0);
   border-radius: 50%;
   opacity: 0;
   transition: transform 0.6s ease, opacity 0.6s ease;
-  z-index: 0; /* ✅ 버튼 텍스트 위로 올라오지 않도록 */
+  z-index: 0;
 }
 
 .suggestion-button:active::after {
@@ -407,30 +461,35 @@ body {
   opacity: 1;
 }
 
+.suggestion-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0)
+  );
+  transform: skewX(-25deg);
+  animation: shimmer 5s ease-in-out infinite;
+  z-index: 1;
+  pointer-events: none;
 
-/* ---------------- 해시태그 ---------------- */
-.hashtag-area {
-    text-align: center;
-    margin-bottom: 36px;
+  filter: blur(6px);
 }
 
-.hashtag {
-    background: #e0eaff;
-    color: #0037ff;
-    padding: 8px 16px;
-    border-radius: 999px;
-    margin: 6px;
-    display: inline-block;
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
 
-.hashtag:hover {
-    background: #d0dbff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 55, 255, 0.1);
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 120%;
+  }
 }
 
 /* ---------------- 섹션 ---------------- */

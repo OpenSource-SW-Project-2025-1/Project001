@@ -13,16 +13,43 @@
 </div>
 
 
+<div class="keyword-container">
+    <form id="keywordForm" method="get" action="/accounts/run-api/">
+        <input type="hidden" name="ThemaArray" id="ThemaInput">
+        <button type="submit" id="submitBtn" style="display: none;">Submit</button>
+    </form>
+  <div class="keyword-buttons">
+    <!-- 예시로 키워드 15개 -->
+      <div class="keyword-button" data-keyword="010">신체건강</div>
+      <div class="keyword-button" data-keyword="020">정신건강</div>
+      <div class="keyword-button" data-keyword="030">생활지원</div>
+      <div class="keyword-button" data-keyword="040">주거</div>
+      <div class="keyword-button" data-keyword="050">일자리</div>
+      <div class="keyword-button" data-keyword="060">문화▪여가</div>
+      <div class="keyword-button" data-keyword="070">안전▪위기</div>
+      <div class="keyword-button" data-keyword="080">임신▪출산</div>
+      <div class="keyword-button" data-keyword="090">보육</div>
+      <div class="keyword-button" data-keyword="100">교육</div>
+      <div class="keyword-button" data-keyword="110">입양▪위탁</div>
+      <div class="keyword-button" data-keyword="120">보호▪돌봄</div>
+      <div class="keyword-button" data-keyword="130">서민금융</div>
+      <div class="keyword-button" data-keyword="140">법률</div>
+      <div class="keyword-button" data-keyword="160">에너지</div>
+  </div>
+</div>
+<script>
+    document.querySelectorAll('.keyword-button').forEach(function(button) {
+      button.addEventListener('click', function() {
+        const intrsThemaArray = this.dataset.keyword;
+        document.getElementById('ThemaInput').value = intrsThemaArray;
+        document.getElementById('submitBtn').click();  // 자동 제출
+      });
+    });
+</script>
+
   <!-- Suggestion 버튼 -->
   <div class="suggestion-area">
       <a href="/recommend/" class="suggestion-button">✨ Suggestion</a>
-  </div>
-
-  <!-- 해시태그 -->
-  <div class="hashtag-area">
-    <span class="hashtag"># 집</span>
-    <span class="hashtag"># 생활비</span>
-    <span class="hashtag"># 취업</span>
   </div>
 
   <!-- New Benefits -->
