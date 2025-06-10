@@ -57,51 +57,51 @@
             <a href="/recommend/" class="suggestion-button">✨ Suggestion</a>
         </div>
 
-        <!-- New Benefits -->
-        <section class="section section-new">
-            <div class="section-header">
-                <h2 class="section-title">New Benefits</h2>
-                <a href="{% url 'search_result' %}" class="more-btn">more</a>
-            </div>
-            <div class="card-container">
-                {% for benefit in new_benefits %}
-                    <div class="card">
-                        <div class="card-header">
-                            <span class="tag">여성가족부</span>
-                            <span class="d-day">D - {{ benefit.d_day }}</span>
-                        </div>
-                        <div class="title">{{ benefit.title }}</div>
-                        <div class="desc">정책 내용 : {{ benefit.description }}</div>
-                        <div class="apply">신청 기간 : {{ benefit.period }}</div>
-                        <a href="{% url 'welfare_info' %}" class="detail-btn">+ 자세히보기</a>
-                        <div class="keywords">#신체건강 #임신.출산 #저소득</div>
-                    </div>
-                {% endfor %}
-            </div>
-        </section>
+  <!-- New Benefits -->
+<section class="section section-new">
+  <div class="section-header">
+    <h2 class="section-title">New Benefits</h2>
+    <a href="{% url 'search_result' %}" class="more-btn">more</a>
+  </div>
+  <div class="card-container">
+    {% for benefit in new_benefits %}
+    <div class="card">
+      <div class="card-header">
+        <span class="tag">여성가족부</span>
+        <!-- <span class="d-day">D - {{ benefit.d_day }}</span>  검색창 -->
+      </div>
+      <div class="title">{{ benefit.title }}</div>
+      <div class="desc">정책 내용 : {{ benefit.description }}</div>
+      <div class="apply">신청 기간 : {{ benefit.period }}</div>
+      <a href="{% url 'welfare_info' %}" class="detail-btn">+ 자세히보기</a>
+      <div class="keywords">#신체건강 #임신.출산 #저소득</div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
 
-        <!-- Popularity Benefits -->
-        <section class="section section-popular">
-            <div class="section-header">
-                <h2 class="section-title">Popularity Benefits</h2>
-                <a href="{% url 'search_result' %}" class="more-btn">more</a>
-            </div>
-            <div class="card-container">
-                {% for benefit in popular_benefits %}
-                    <div class="card">
-                        <div class="card-header">
-                            <span class="tag">여성가족부</span>
-                            <span class="d-day">D - {{ benefit.d_day }}</span>
-                        </div>
-                        <div class="title">{{ benefit.title }}</div>
-                        <div class="desc">정책 내용 : {{ benefit.description }}</div>
-                        <div class="apply">신청 기간 : {{ benefit.period }}</div>
-                        <a href="{% url 'welfare_info' %}" class="detail-btn">+ 자세히보기</a>
-                        <div class="keywords">#키워드 #키워드 #키워드</div>
-                    </div>
-                {% endfor %}
-            </div>
-        </section>
+<!-- Popularity Benefits -->
+<section class="section section-popular">
+  <div class="section-header">
+    <h2 class="section-title">Popularity Benefits</h2>
+    <a href="{% url 'search_result' %}" class="more-btn">more</a>
+  </div>
+  <div class="card-container">
+    {% for benefit in popular_benefits %}
+    <div class="card">
+      <div class="card-header">
+        <span class="tag">여성가족부</span>
+        <!-- <span class="d-day">D - {{ benefit.d_day }}</span>  -->
+      </div>
+      <div class="title">{{ benefit.title }}</div>
+      <div class="desc">정책 내용 : {{ benefit.description }}</div>
+      <div class="apply">신청 기간 : {{ benefit.period }}</div>
+      <a href="{% url 'welfare_info' %}" class="detail-btn">+ 자세히보기</a>
+      <div class="keywords">#키워드 #키워드 #키워드</div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
 
-    </main>
+</main>
 {% endblock %}
