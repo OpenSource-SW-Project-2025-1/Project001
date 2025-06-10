@@ -487,26 +487,6 @@ def main_page(request):
             "d_day": 5
         },
         {
-            "id": "WLF00004657",
-            "policy_name": "부모급여 지원",
-            "category": "보육",
-            "ministry_name": "보건복지부",
-            "division_name": "아동정책과",
-            "target_age": "영유아",
-            "online_application_available": "Y",
-            "contact_number": "129",
-            "summary": "영아기 집중돌봄을 두텁게 지원하여 출산 및 양육으로 인한 경제적 부담을 줄여드립니다.",
-            "detail_link": "https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00004657&wlfareInfoReldBztpCd=01",
-            "support_cycle": "월",
-            "offer_type": "현금지급",
-            "reg_date": "20220103",
-            "target_audience": "",
-            "keywords": "보육,출산,경제적부담",
-            "period": "상시",
-            "tag": "보건복지부",
-            "d_day": 20
-        },
-        {
             "id": "WLF00003253",
             "policy_name": "가정양육수당 지원사업",
             "category": "보육",
@@ -586,30 +566,10 @@ def main_page(request):
             "tag": "교육부",
             "d_day": 18
         },
-        {
-            "id": "WLF00001067",
-            "policy_name": "장애아보육료지원",
-            "category": "보육",
-            "ministry_name": "교육부",
-            "division_name": "영유아재정과",
-            "target_age": "영유아,아동",
-            "online_application_available": "Y",
-            "contact_number": "02-6222-6060",
-            "summary": "어린이집 이용 장애아동에 대한 보육료 지원을 통해 부모의 자녀양육 부담경감 및 원활한 경제활동을 지원합니다.",
-            "detail_link": "https://www.bokjiro.go.kr/ssis-tbu/twataa/wlfareInfo/moveTWAT52011M.do?wlfareInfoId=WLF00001067&wlfareInfoReldBztpCd=01",
-            "support_cycle": "월",
-            "offer_type": "전자바우처(바우처)",
-            "reg_date": "20210903",
-            "target_audience": "장애인",
-            "keywords": "장애아보육료,보육",
-            "period": "월",
-            "tag": "교육부",
-            "d_day": 22
-        },
     ]
 
-    new_benefits = all_main_benefits[:4]
-    popular_benefits = all_main_benefits[4:]
+    new_benefits = all_main_benefits[:3]
+    popular_benefits = all_main_benefits[3:]
 
     # welfare_info 뷰에서 사용할 수 있도록 모든 데이터를 세션에 저장
     request.session['search_results_data'] = all_main_benefits
