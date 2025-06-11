@@ -12,7 +12,7 @@ from django.conf import settings
 
 # API URL 및 서비스 키 정의
 base_list_url = "http://apis.data.go.kr/B554287/NationalWelfareInformationsV001/NationalWelfarelistV001"
-service_key = "gCmEPiRc14egUKw5e5RQmkosfnk8juawKYJX7Kq17eWfga83y/xbpF55nrXBtWFKjIJv1ZSd/7hz5r9bZOu0pw=="
+service_key = "7Wxezy6hlj7EpbeiX5fxllHrmN7RGRX7IJ1B9CM1C4v6OBCvke49adk/A7GOPjKudmn/p5PBZqRvVpfEtJHRfg=="
 
 params = {
     "serviceKey": service_key,  # 인증키
