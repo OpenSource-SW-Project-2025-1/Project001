@@ -1,0 +1,8 @@
+<h2>학생 성적 입력</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">저장</button>
+</form>
+<br>
+<a href="{% url 'student_list' %}">성적 목록 보기</a>

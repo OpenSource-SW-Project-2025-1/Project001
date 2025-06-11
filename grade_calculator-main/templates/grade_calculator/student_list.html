@@ -1,0 +1,25 @@
+<h2>학생 검색</h2>
+<form method="get">
+  학번: <input type="text" name="student_id" value="{{ query_id }}">
+  이름: <input type="text" name="name" value="{{ query_name }}">
+  <button type="submit">검색</button>
+</form>
+
+<h3>평균 80점 초과 학생 수: {{ over_80_count }}명</h3>
+
+<h2>학생 성적 목록</h2>
+<table border="1">
+  <tr>
+    <th>학번</th><th>이름</th><th>총점</th><th>평균</th><th>학점</th><th>등수</th>
+  </tr>
+  {% for s in students %}
+  <tr>
+    <td>{{ s.student.student_id }}</td>
+    <td>{{ s.student.name }}</td>
+    <td>{{ s.total }}</td>
+    <td>{{ s.avg|floatformat:2 }}</td>
+    <td>{{ s.grade }}</td>
+    <td>{{ s.rank }}</td>
+  </tr>
+  {% endfor %}
+</table>
