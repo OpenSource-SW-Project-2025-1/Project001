@@ -1,8 +1,7 @@
 from django import forms
+from .models import Student
 
-class StudentScoreForm(forms.Form):
-    student_id = forms.CharField(label='학번')
-    name = forms.CharField(label='이름')
-    english = forms.IntegerField(label='English')
-    c_language = forms.IntegerField(label='C Language')
-    python = forms.IntegerField(label='Python')
+class StudentScoreForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = ['student_id', 'name', 'en_grade', 'c_grade', 'py_grade']

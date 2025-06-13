@@ -1,32 +1,23 @@
 from django.shortcuts import render, redirect
-from .models import Student, Subject, Score
+from .models import Student
 from .forms import StudentScoreForm
 
 def input_student(request):
     if request.method == 'POST':
         form = StudentScoreForm(request.POST)
         if form.is_valid():
-            sid = form.cleaned_data['student_id']
-            name = form.cleaned_data['name']
-            scores = {
-                'English': form.cleaned_data['english'],
-                'C Language': form.cleaned_data['c_language'],
-                'Python': form.cleaned_data['python']
-            }
-
-            # 학생 생성 또는 불러오기
-            student, created = Student.objects.get_or_create(student_id=sid, defaults={'name': name})
-
-            # 과목과 점수 저장
-            for subject_name, value in scores.items():
-                subject, _ = Subject.objects.get_or_create(name=subject_name)
-                Score.objects.create(student=student, subject=subject, score=value)
-
-            return redirect('student_list')  # 입력 후 목록 페이지로 이동
-
+            form.save()
+            return redirect('student_list')  # ← 자동 이동
     else:
         form = StudentScoreForm()
-    return render(request, 'grade_calculator/input_form.html', {'form': form})
+    return render(request, 'grade_calculator/main.html', {'form': form})
+
+def calculate_grade(avg):
+    if avg >= 90: return 'A'
+    elif avg >= 80: return 'B'
+    elif avg >= 70: return 'C'
+    elif avg >= 60: return 'D'
+    else: return 'F'
 
 
 def student_list(request):
@@ -42,10 +33,17 @@ def student_list(request):
     student_data = []
 
     for student in students:
-        scores = Score.objects.filter(student=student)
-        total = sum(s.score for s in scores)
-        avg = total / scores.count() if scores.exists() else 0
+        try:
+            en = float(student.en_grade)
+            c = float(student.c_grade)
+            py = float(student.py_grade)
+        except ValueError:
+            en, c, py = 0, 0, 0  # 잘못된 입력 방지용
+
+        total = en + c + py
+        avg = total / 3
         grade = calculate_grade(avg)
+
         student_data.append({
             'student': student,
             'total': total,
@@ -66,11 +64,3 @@ def student_list(request):
         'query_id': query_id,
         'query_name': query_name,
     })
-
-
-def calculate_grade(avg):
-    if avg >= 90: return 'A'
-    elif avg >= 80: return 'B'
-    elif avg >= 70: return 'C'
-    elif avg >= 60: return 'D'
-    else: return 'F'

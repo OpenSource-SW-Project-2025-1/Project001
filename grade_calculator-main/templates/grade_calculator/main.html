@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>학점 계산기</title>
+</head>
+<body>
+
+</body>
+</html>
+
+<form method="POST" action="{% url 'input_student' %}">
+    {% csrf_token %}
+    <label>
+        <input type="text" id="student_id" name="student_id" placeholder="학번">
+        <input type="text" id="name" name="name" placeholder="이름">
+        <input type="text" id="en_grade" name="en_grade" placeholder="영어 점수">
+        <input type="text" id="c_grade" name="c_grade" placeholder="C 언어 점수">
+        <input type="text" id="py_grade" name="py_grade" placeholder="Python 점수">
+        <button type='submit'>학생 정보 입력</button>
+    </label>
+</form>
+
+<!-- 성적 결과 페이지로 이동 -->
+<button onclick="location.href='{% url 'student_list' %}'">성적 결과</button>
+

@@ -17,9 +17,11 @@
     <td>{{ s.student.student_id }}</td>
     <td>{{ s.student.name }}</td>
     <td>{{ s.total }}</td>
-    <td>{{ s.avg|floatformat:2 }}</td>
+    <td>{{ s.avg|floatformat2}}</td>
     <td>{{ s.grade }}</td>
     <td>{{ s.rank }}</td>
   </tr>
   {% endfor %}
 </table>
+
+<button onclick="location.href='{% url 'input_student' %}'">다시 입력하기</button>
